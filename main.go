@@ -46,6 +46,9 @@ func (g *Game) Draw(screen *ebiten.Image) {
 
 		// Dessiner l'image
 		op := &ebiten.DrawImageOptions{}
+		scaleX := 0.5
+		scaleY := 0.5
+		op.GeoM.Scale(scaleX, scaleY)
 		op.GeoM.Translate(float64(x), float64(y))
 		screen.DrawImage(g.images[i], op)
 
