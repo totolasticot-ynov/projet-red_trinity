@@ -1,4 +1,4 @@
-package projetred
+package models
 
 type Classe struct {
 	Nom            string
@@ -9,7 +9,7 @@ type Classe struct {
 	EquipementBase map[string]Equipment
 }
 
-// Classe Neo
+// Neo
 func InitNeo() Classe {
 	return Classe{
 		Nom:         "Neo",
@@ -28,7 +28,7 @@ func InitNeo() Classe {
 	}
 }
 
-// Classe Morpheus
+// Morpheus
 func InitMorpheus() Classe {
 	return Classe{
 		Nom:         "Morpheus",
@@ -45,7 +45,7 @@ func InitMorpheus() Classe {
 	}
 }
 
-// Classe Trinity
+// Trinity
 func InitTrinity() Classe {
 	return Classe{
 		Nom:         "Trinity",
@@ -62,7 +62,7 @@ func InitTrinity() Classe {
 	}
 }
 
-// Classe Agent Smith
+// Agent Smith
 func InitAgentSmith() Classe {
 	return Classe{
 		Nom:         "Agent Smith",
