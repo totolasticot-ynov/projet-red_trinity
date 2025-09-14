@@ -1,6 +1,6 @@
 package main
 
-var currentState = "menu" // valeur initiale
+var currentState = "menu"
 
 func SetState(newState string) {
 	currentState = newState
@@ -8,4 +8,8 @@ func SetState(newState string) {
 
 func GetState() string {
 	return currentState
+}
+
+func IsExiting() bool {
+	return currentState == "exit"
 }
