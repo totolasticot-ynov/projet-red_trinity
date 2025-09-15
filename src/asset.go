@@ -9,6 +9,7 @@ import (
 
 var (
 	bgMenu   *ebiten.Image
+	bgRect   image.Rectangle
 	playBtn  *ebiten.Image
 	playRect image.Rectangle
 	bgGame   *ebiten.Image
@@ -16,15 +17,12 @@ var (
 	backRect image.Rectangle
 	exitBtn  *ebiten.Image
 	exitRect image.Rectangle
-	bgRect   image.Rectangle
 )
 
 func init() {
 	// backgrounds
 	bgMenu, _, _ = ebitenutil.NewImageFromFile("../images/bg.png")
 	bgGame, _, _ = ebitenutil.NewImageFromFile("../images/dojo.png")
-
-	bgRect = image.Rect(250, 200, 250+playBtn.Bounds().Dx(), 400+playBtn.Bounds().Dy()) //position du bouton dojo
 
 	// boutons
 	playBtn, _, _ = ebitenutil.NewImageFromFile("../images/play.png")
@@ -35,4 +33,6 @@ func init() {
 
 	backBtn, _, _ = ebitenutil.NewImageFromFile("../images/back.png")
 	backRect = image.Rect(50, 50, 50+backBtn.Bounds().Dx(), 50+backBtn.Bounds().Dy()) //position du bouton back
+
+	bgRect = image.Rect(250, 200, 250+bgGame.Bounds().Dx(), 200+bgGame.Bounds().Dy()) //position du bouton dojo
 }
