@@ -23,6 +23,10 @@ func UpdateMenu() {
 			exitRect.Min.Y <= y && y <= exitRect.Max.Y {
 			os.Exit(0)
 		}
+		if bgRect.Min.X <= x && x <= bgRect.Max.X &&
+			bgRect.Min.Y <= y && y <= bgRect.Max.Y {
+			//action si clic sur le dojo
+		}
 	}
 }
 
@@ -33,6 +37,8 @@ func DrawMenu(screen *ebiten.Image) {
 	scaleY := 600 / float64(bgMenu.Bounds().Dy())
 	op.GeoM.Scale(scaleX, scaleY)
 	screen.DrawImage(bgMenu, op)
+
+	//musique
 
 	// créer une image temporaire pour le texte
 	textImg := ebiten.NewImage(200, 50) // taille approximative du texte
