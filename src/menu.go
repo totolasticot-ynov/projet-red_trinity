@@ -2,6 +2,7 @@ package main
 
 import (
 	"image/color"
+	"os"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/text"
@@ -20,7 +21,7 @@ func UpdateMenu() {
 		// si clic gauche dans exitRect: go exit
 		if exitRect.Min.X <= x && x <= exitRect.Max.X &&
 			exitRect.Min.Y <= y && y <= exitRect.Max.Y {
-			SetState("exit")
+			os.Exit(0)
 		}
 	}
 }
@@ -46,10 +47,10 @@ func DrawMenu(screen *ebiten.Image) {
 	opts1.GeoM.Translate(float64(playRect.Min.X), float64(playRect.Min.Y))
 	screen.DrawImage(playBtn, opts1)
 
-	// bouton retour
+	/* bouton retour
 	opts2 := &ebiten.DrawImageOptions{}
 	opts2.GeoM.Translate(float64(backRect.Min.X), float64(backRect.Min.Y))
-	screen.DrawImage(backBtn, opts2)
+	screen.DrawImage(backBtn, opts2)*/
 
 	// bouton exit
 	opts3 := &ebiten.DrawImageOptions{}
@@ -58,6 +59,7 @@ func DrawMenu(screen *ebiten.Image) {
 
 	// bouton dojo
 	opts4 := &ebiten.DrawImageOptions{}
+	opts4.GeoM.Scale(0.2, 0.2)
 	opts4.GeoM.Translate(float64(bgRect.Min.X), float64(bgRect.Min.Y))
 	screen.DrawImage(bgGame, opts4)
 }

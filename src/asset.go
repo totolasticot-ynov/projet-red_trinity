@@ -8,15 +8,17 @@ import (
 )
 
 var (
-	bgMenu   *ebiten.Image
-	bgRect   image.Rectangle
-	playBtn  *ebiten.Image
-	playRect image.Rectangle
-	bgGame   *ebiten.Image
-	backBtn  *ebiten.Image
-	backRect image.Rectangle
-	exitBtn  *ebiten.Image
-	exitRect image.Rectangle
+	bgMenu     *ebiten.Image
+	bgRect     image.Rectangle
+	playBtn    *ebiten.Image
+	playRect   image.Rectangle
+	bgGame     *ebiten.Image
+	backBtn    *ebiten.Image
+	backRect   image.Rectangle
+	exitBtn    *ebiten.Image
+	exitRect   image.Rectangle
+	neoplayer  *ebiten.Image
+	playerRect image.Rectangle
 )
 
 func init() {
@@ -34,5 +36,9 @@ func init() {
 	backBtn, _, _ = ebitenutil.NewImageFromFile("../images/back.png")
 	backRect = image.Rect(50, 50, 50+backBtn.Bounds().Dx(), 50+backBtn.Bounds().Dy()) //position du bouton back
 
-	bgRect = image.Rect(250, 200, 250+bgGame.Bounds().Dx(), 200+bgGame.Bounds().Dy()) //position du bouton dojo
+	bgRect = image.Rect(50, 200, 50+bgGame.Bounds().Dx(), 200+bgGame.Bounds().Dy()) //position du bouton dojo
+
+	// personnage
+	neoplayer, _, _ = ebitenutil.NewImageFromFile("../images/neo.png")
+	playerRect = image.Rect(300, 300, 300+neoplayer.Bounds().Dx(), 300+neoplayer.Bounds().Dy()) //position du perso
 }

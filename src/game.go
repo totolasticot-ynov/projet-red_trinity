@@ -28,4 +28,8 @@ func DrawGame(screen *ebiten.Image) {
 	opts := &ebiten.DrawImageOptions{}
 	opts.GeoM.Translate(float64(backRect.Min.X), float64(backRect.Min.Y))
 	screen.DrawImage(backBtn, opts)
+	// personnage
+	opts2 := &ebiten.DrawImageOptions{}
+	opts2.GeoM.Translate(float64(playerRect.Min.X), float64(playerRect.Min.Y))
+	screen.DrawImage(neoplayer, opts2)
 }
