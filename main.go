@@ -5,7 +5,7 @@ import (
 	"image/color"
 	"log"
 
-	"projetred/models"
+	"projetred/lucas/models"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
