@@ -8,21 +8,23 @@ import (
 )
 
 var (
-	bgMenu       *ebiten.Image
-	bgRect_dojo  image.Rectangle
-	playBtn      *ebiten.Image
-	playRect     image.Rectangle
-	bgGame_dojo  *ebiten.Image
-	backBtn      *ebiten.Image
-	backRect     image.Rectangle
-	exitBtn      *ebiten.Image
-	exitRect     image.Rectangle
-	neoplayer    *ebiten.Image
-	playerRect   image.Rectangle
-	bgGame_mall  *ebiten.Image
-	bgRect_mall  image.Rectangle
-	bgGame_place *ebiten.Image
-	bgRect_place image.Rectangle
+	bgMenu         *ebiten.Image
+	bgRect_dojo    image.Rectangle
+	playBtn        *ebiten.Image
+	playRect       image.Rectangle
+	bgGame_dojo    *ebiten.Image
+	backBtn        *ebiten.Image
+	backRect       image.Rectangle
+	exitBtn        *ebiten.Image
+	exitRect       image.Rectangle
+	neoplayer      *ebiten.Image
+	neo_playerRect image.Rectangle
+	bgGame_mall    *ebiten.Image
+	bgRect_mall    image.Rectangle
+	bgGame_place   *ebiten.Image
+	bgRect_place   image.Rectangle
+	morpheusplayer *ebiten.Image
+	morpheusRect   image.Rectangle
 )
 
 func init() {
@@ -50,5 +52,9 @@ func init() {
 
 	// personnage
 	neoplayer, _, _ = ebitenutil.NewImageFromFile("../images/neo.png")
-	playerRect = image.Rect(300, 300, 300+neoplayer.Bounds().Dx(), 300+neoplayer.Bounds().Dy()) //position du perso
+	neo_playerRect = image.Rect(300, 300, 300+neoplayer.Bounds().Dx(), 300+neoplayer.Bounds().Dy()) //position de neo
+
+	morpheusplayer, _, _ = ebitenutil.NewImageFromFile("../images/morpheus.png")
+	morpheusRect = image.Rect(600, 300, 600+morpheusplayer.Bounds().Dx(), 300+morpheusplayer.Bounds().Dy()) //position de morpheus
+
 }

@@ -12,8 +12,12 @@ func (g *Game) Update() error {
 	switch GetState() {
 	case "menu":
 		UpdateMenu()
-	case "game":
-		UpdateGame()
+	case "dojo":
+		UpdateGame_dojo()
+	case "mall":
+		UpdateGame_mall()
+	case "place":
+		UpdateGame_place()
 	}
 	return nil
 }
@@ -22,8 +26,6 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	switch GetState() {
 	case "menu":
 		DrawMenu(screen)
-	case "game":
-		DrawGame(screen)
 	case "dojo":
 		DrawGame_dojo(screen)
 	case "mall":

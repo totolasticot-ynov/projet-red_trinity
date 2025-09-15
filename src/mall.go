@@ -7,7 +7,6 @@ import (
 func UpdateGame_mall() {
 	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
 		x, y := ebiten.CursorPosition()
-		print(x, " ", y, "\n")
 		// bouton retour
 		if backRect.Min.X <= x && x <= backRect.Max.X &&
 			backRect.Min.Y <= y && y <= backRect.Max.Y {
@@ -28,8 +27,14 @@ func DrawGame_mall(screen *ebiten.Image) {
 	opts := &ebiten.DrawImageOptions{}
 	opts.GeoM.Translate(float64(backRect.Min.X), float64(backRect.Min.Y))
 	screen.DrawImage(backBtn, opts)
+
 	// personnage
 	opts2 := &ebiten.DrawImageOptions{}
-	opts2.GeoM.Translate(float64(playerRect.Min.X), float64(playerRect.Min.Y))
+	opts2.GeoM.Translate(float64(neo_playerRect.Min.X), float64(neo_playerRect.Min.Y))
 	screen.DrawImage(neoplayer, opts2)
+
+	// personnage 2
+	opts3 := &ebiten.DrawImageOptions{}
+	opts3.GeoM.Translate(float64(morpheusRect.Min.X), float64(morpheusRect.Min.Y))
+	screen.DrawImage(morpheusplayer, opts3)
 }
