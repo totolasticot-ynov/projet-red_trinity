@@ -28,16 +28,13 @@ func UpdateMenu() {
 		}
 
 		// choisir une arène
-		if 50 <= x && x <= 280 &&
-			200 <= y && y <= 350 {
+		if 50 <= x && x <= 280 && 200 <= y && y <= 350 {
 			selectedArena = "dojo"
 		}
-		if 300 <= x && x <= 530 &&
-			200 <= y && y <= 350 {
+		if 300 <= x && x <= 530 && 200 <= y && y <= 350 {
 			selectedArena = "mall"
 		}
-		if 550 <= x && x <= 775 &&
-			200 <= y && y <= 350 {
+		if 550 <= x && x <= 775 && 200 <= y && y <= 350 {
 			selectedArena = "place"
 		}
 	}
@@ -52,7 +49,7 @@ func DrawMenu(screen *ebiten.Image) {
 	screen.DrawImage(bgMenu, op)
 
 	// titre
-	text.Draw(screen, "MATRIX", basicfont.Face7x13, 275, 100, color.RGBA{108, 196, 12, 255})
+	text.Draw(screen, "MATRIX", basicfont.Face7x13, 400, 100, color.RGBA{108, 196, 12, 255})
 
 	// bouton play
 	opts1 := &ebiten.DrawImageOptions{}
