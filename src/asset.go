@@ -32,4 +32,5 @@ func init() {
 
 	backBtn, _, _ = ebitenutil.NewImageFromFile("../images/back.png")
 	backRect = image.Rect(50, 50, 50+backBtn.Bounds().Dx(), 50+backBtn.Bounds().Dy()) //position du bouton back
+
 }

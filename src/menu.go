@@ -36,10 +36,8 @@ func DrawMenu(screen *ebiten.Image) {
 	// créer une image temporaire pour le texte
 	textImg := ebiten.NewImage(200, 50) // taille approximative du texte
 	text.Draw(textImg, "MATRIX", basicfont.Face7x13, 0, 13, color.RGBA{108, 196, 12, 255})
-
-	// scaler le texte
 	optsText := &ebiten.DrawImageOptions{}
-	optsText.GeoM.Scale(5, 5)         // agrandit 4×
+	optsText.GeoM.Scale(5, 5)         // agrandit 5×
 	optsText.GeoM.Translate(275, 100) // position du titre
 	screen.DrawImage(textImg, optsText)
 
