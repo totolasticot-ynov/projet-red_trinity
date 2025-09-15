@@ -55,4 +55,9 @@ func DrawMenu(screen *ebiten.Image) {
 	opts3 := &ebiten.DrawImageOptions{}
 	opts3.GeoM.Translate(float64(exitRect.Min.X), float64(exitRect.Min.Y))
 	screen.DrawImage(exitBtn, opts3)
+
+	// bouton dojo
+	opts4 := &ebiten.DrawImageOptions{}
+	opts4.GeoM.Translate(float64(bgRect.Min.X), float64(bgRect.Min.Y))
+	screen.DrawImage(bgGame, opts4)
 }
