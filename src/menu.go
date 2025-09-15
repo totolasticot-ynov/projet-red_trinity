@@ -23,8 +23,8 @@ func UpdateMenu() {
 			exitRect.Min.Y <= y && y <= exitRect.Max.Y {
 			os.Exit(0)
 		}
-		if bgRect.Min.X <= x && x <= bgRect.Max.X &&
-			bgRect.Min.Y <= y && y <= bgRect.Max.Y {
+		if bgRect_dojo.Min.X <= x && x <= bgRect_dojo.Max.X &&
+			bgRect_dojo.Min.Y <= y && y <= bgRect_dojo.Max.Y {
 			//action si clic sur le dojo
 		}
 	}
@@ -65,7 +65,14 @@ func DrawMenu(screen *ebiten.Image) {
 
 	// bouton dojo
 	opts4 := &ebiten.DrawImageOptions{}
-	opts4.GeoM.Scale(0.2, 0.2)
-	opts4.GeoM.Translate(float64(bgRect.Min.X), float64(bgRect.Min.Y))
-	screen.DrawImage(bgGame, opts4)
+	opts4.GeoM.Scale(0.15, 0.15)
+
+	opts4.GeoM.Translate(float64(bgRect_dojo.Min.X), float64(bgRect_dojo.Min.Y))
+	screen.DrawImage(bgGame_dojo, opts4)
+
+	opts4.GeoM.Translate(float64(bgRect_mall.Min.X+200), float64(bgRect_mall.Min.Y-200))
+	screen.DrawImage(bgGame_mall, opts4)
+
+	opts4.GeoM.Translate(float64(bgRect_place.Min.X+200), float64(bgRect_place.Min.Y-200))
+	screen.DrawImage(bgGame_place, opts4)
 }

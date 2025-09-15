@@ -19,10 +19,10 @@ func UpdateGame() {
 func DrawGame(screen *ebiten.Image) {
 	// background jeu
 	op := &ebiten.DrawImageOptions{}
-	scaleX := 800 / float64(bgGame.Bounds().Dx())
-	scaleY := 600 / float64(bgGame.Bounds().Dy())
+	scaleX := 800 / float64(bgGame_dojo.Bounds().Dx())
+	scaleY := 600 / float64(bgGame_dojo.Bounds().Dy())
 	op.GeoM.Scale(scaleX, scaleY)
-	screen.DrawImage(bgGame, op)
+	screen.DrawImage(bgGame_dojo, op)
 
 	// bouton retour
 	opts := &ebiten.DrawImageOptions{}
