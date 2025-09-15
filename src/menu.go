@@ -23,6 +23,10 @@ func UpdateMenu() {
 			exitRect.Min.Y <= y && y <= exitRect.Max.Y {
 			os.Exit(0)
 		}
+		if bgRect.Min.X <= x && x <= bgRect.Max.X &&
+			bgRect.Min.Y <= y && y <= bgRect.Max.Y {
+			// action si clic sur le dojo (à définir)
+		}
 	}
 }
 
@@ -59,7 +63,7 @@ func DrawMenu(screen *ebiten.Image) {
 
 	// bouton dojo
 	opts4 := &ebiten.DrawImageOptions{}
-	opts4.GeoM.Scale(0.2, 0.2)
+	opts4.GeoM.Scale(0.1, 0.1)
 	opts4.GeoM.Translate(float64(bgRect.Min.X), float64(bgRect.Min.Y))
 	screen.DrawImage(bgGame, opts4)
 }
