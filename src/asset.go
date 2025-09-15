@@ -8,23 +8,29 @@ import (
 )
 
 var (
-	bgMenu     *ebiten.Image
-	bgRect     image.Rectangle
-	playBtn    *ebiten.Image
-	playRect   image.Rectangle
-	bgGame     *ebiten.Image
-	backBtn    *ebiten.Image
-	backRect   image.Rectangle
-	exitBtn    *ebiten.Image
-	exitRect   image.Rectangle
-	neoplayer  *ebiten.Image
-	playerRect image.Rectangle
+	bgMenu       *ebiten.Image
+	bgRect_dojo  image.Rectangle
+	playBtn      *ebiten.Image
+	playRect     image.Rectangle
+	bgGame_dojo  *ebiten.Image
+	backBtn      *ebiten.Image
+	backRect     image.Rectangle
+	exitBtn      *ebiten.Image
+	exitRect     image.Rectangle
+	neoplayer    *ebiten.Image
+	playerRect   image.Rectangle
+	bgGame_mall  *ebiten.Image
+	bgRect_mall  image.Rectangle
+	bgGame_place *ebiten.Image
+	bgRect_place image.Rectangle
 )
 
 func init() {
 	// backgrounds
 	bgMenu, _, _ = ebitenutil.NewImageFromFile("../images/bg.png")
-	bgGame, _, _ = ebitenutil.NewImageFromFile("../images/dojo.png")
+	bgGame_dojo, _, _ = ebitenutil.NewImageFromFile("../images/level1.png")
+	bgGame_mall, _, _ = ebitenutil.NewImageFromFile("../images/level2.png")
+	bgGame_place, _, _ = ebitenutil.NewImageFromFile("../images/level3.png")
 
 	// boutons
 	playBtn, _, _ = ebitenutil.NewImageFromFile("../images/play.png")
@@ -36,7 +42,11 @@ func init() {
 	backBtn, _, _ = ebitenutil.NewImageFromFile("../images/back.png")
 	backRect = image.Rect(50, 50, 50+backBtn.Bounds().Dx(), 50+backBtn.Bounds().Dy()) //position du bouton back
 
-	bgRect = image.Rect(50, 200, 50+bgGame.Bounds().Dx(), 200+bgGame.Bounds().Dy()) //position du bouton dojo
+	bgRect_dojo = image.Rect(50, 200, 50+bgGame_dojo.Bounds().Dx(), 200+bgGame_dojo.Bounds().Dy()) //position du bouton dojo
+
+	bgRect_mall = image.Rect(50, 200, 50+bgGame_mall.Bounds().Dx(), 200+bgGame_mall.Bounds().Dy()) //position du bouton mall
+
+	bgRect_place = image.Rect(50, 200, 50+bgGame_place.Bounds().Dx(), 200+bgGame_place.Bounds().Dy()) //position du bouton place
 
 	// personnage
 	neoplayer, _, _ = ebitenutil.NewImageFromFile("../images/neo.png")

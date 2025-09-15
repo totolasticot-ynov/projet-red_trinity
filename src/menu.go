@@ -23,9 +23,15 @@ func UpdateMenu() {
 			exitRect.Min.Y <= y && y <= exitRect.Max.Y {
 			os.Exit(0)
 		}
+<<<<<<< HEAD
 		if bgRect.Min.X <= x && x <= bgRect.Max.X &&
 			bgRect.Min.Y <= y && y <= bgRect.Max.Y {
 			// action si clic sur le dojo (à définir)
+=======
+		if bgRect_dojo.Min.X <= x && x <= bgRect_dojo.Max.X &&
+			bgRect_dojo.Min.Y <= y && y <= bgRect_dojo.Max.Y {
+			//action si clic sur le dojo
+>>>>>>> 12f4ab4d592ff3702c55f68c4b3146d92abb7e87
 		}
 	}
 }
@@ -37,6 +43,8 @@ func DrawMenu(screen *ebiten.Image) {
 	scaleY := 600 / float64(bgMenu.Bounds().Dy())
 	op.GeoM.Scale(scaleX, scaleY)
 	screen.DrawImage(bgMenu, op)
+
+	//musique
 
 	// créer une image temporaire pour le texte
 	textImg := ebiten.NewImage(200, 50) // taille approximative du texte
@@ -63,7 +71,20 @@ func DrawMenu(screen *ebiten.Image) {
 
 	// bouton dojo
 	opts4 := &ebiten.DrawImageOptions{}
+<<<<<<< HEAD
 	opts4.GeoM.Scale(0.1, 0.1)
 	opts4.GeoM.Translate(float64(bgRect.Min.X), float64(bgRect.Min.Y))
 	screen.DrawImage(bgGame, opts4)
+=======
+	opts4.GeoM.Scale(0.15, 0.15)
+
+	opts4.GeoM.Translate(float64(bgRect_dojo.Min.X), float64(bgRect_dojo.Min.Y))
+	screen.DrawImage(bgGame_dojo, opts4)
+
+	opts4.GeoM.Translate(float64(bgRect_mall.Min.X+200), float64(bgRect_mall.Min.Y-200))
+	screen.DrawImage(bgGame_mall, opts4)
+
+	opts4.GeoM.Translate(float64(bgRect_place.Min.X+200), float64(bgRect_place.Min.Y-200))
+	screen.DrawImage(bgGame_place, opts4)
+>>>>>>> 12f4ab4d592ff3702c55f68c4b3146d92abb7e87
 }
