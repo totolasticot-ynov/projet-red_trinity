@@ -16,12 +16,15 @@ var (
 	backRect image.Rectangle
 	exitBtn  *ebiten.Image
 	exitRect image.Rectangle
+	bgRect   image.Rectangle
 )
 
 func init() {
 	// backgrounds
 	bgMenu, _, _ = ebitenutil.NewImageFromFile("../images/bg.png")
 	bgGame, _, _ = ebitenutil.NewImageFromFile("../images/dojo.png")
+
+	bgRect = image.Rect(250, 200, 250+playBtn.Bounds().Dx(), 400+playBtn.Bounds().Dy()) //position du bouton dojo
 
 	// boutons
 	playBtn, _, _ = ebitenutil.NewImageFromFile("../images/play.png")
