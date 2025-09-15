@@ -9,7 +9,3 @@ func SetState(newState string) {
 func GetState() string {
 	return currentState
 }
-
-func IsExiting() bool {
-	return currentState == "exit"
-}

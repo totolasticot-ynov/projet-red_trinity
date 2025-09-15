@@ -24,6 +24,12 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		DrawMenu(screen)
 	case "game":
 		DrawGame(screen)
+	case "dojo":
+		DrawGame_dojo(screen)
+	case "mall":
+		DrawGame_mall(screen)
+	case "place":
+		DrawGame_place(screen)
 	}
 }
 

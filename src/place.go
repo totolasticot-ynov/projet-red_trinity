@@ -4,7 +4,7 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
-func UpdateGame() {
+func UpdateGame_place() {
 	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
 		x, y := ebiten.CursorPosition()
 
@@ -15,27 +15,14 @@ func UpdateGame() {
 		}
 	}
 }
-func selectBackground() *ebiten.Image {
-	switch GetState() {
-	case "dojo":
-		return bgGame_dojo
-	case "mall":
-		return bgGame_mall
-	case "place":
-		return bgGame_place
-	default:
-		return bgGame_dojo
-	}
-}
 
-func DrawGame(screen *ebiten.Image) {
+func DrawGame_place(screen *ebiten.Image) {
 	// background jeu
 	op := &ebiten.DrawImageOptions{}
-	scaleX := 800 / float64(selectBackground().Bounds().Dx())
-	scaleY := 600 / float64(selectBackground().Bounds().Dy())
-	print(selectBackground().Bounds().Dx())
+	scaleX := 800 / float64(bgGame_place.Bounds().Dx())
+	scaleY := 600 / float64(bgGame_place.Bounds().Dy())
 	op.GeoM.Scale(scaleX, scaleY)
-	screen.DrawImage(selectBackground(), op)
+	screen.DrawImage(bgGame_place, op)
 
 	// bouton retour
 	opts := &ebiten.DrawImageOptions{}

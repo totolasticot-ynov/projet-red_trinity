@@ -9,70 +9,78 @@ import (
 	"golang.org/x/image/font/basicfont"
 )
 
+var selectedArena string = ""
+
 func UpdateMenu() {
 	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
-		x, y := ebiten.CursorPosition() //capture position souris
+		x, y := ebiten.CursorPosition()
 
-		// si clic gauche dans playRect: go game
+		// bouton play
 		if playRect.Min.X <= x && x <= playRect.Max.X &&
-			playRect.Min.Y <= y && y <= playRect.Max.Y {
-			SetState("game")
+			playRect.Min.Y <= y && y <= playRect.Max.Y && selectedArena != "" {
+			SetState(selectedArena)
 		}
-		// si clic gauche dans exitRect: go exit
+
+		// bouton exit
 		if exitRect.Min.X <= x && x <= exitRect.Max.X &&
 			exitRect.Min.Y <= y && y <= exitRect.Max.Y {
 			os.Exit(0)
 		}
-		if bgRect_dojo.Min.X <= x && x <= bgRect_dojo.Max.X &&
-			bgRect_dojo.Min.Y <= y && y <= bgRect_dojo.Max.Y {
-			//action si clic sur le dojo
+
+		// choisir une arène
+		if 50 <= x && x <= 280 &&
+			200 <= y && y <= 350 {
+			selectedArena = "dojo"
+		}
+		if 300 <= x && x <= 530 &&
+			200 <= y && y <= 350 {
+			selectedArena = "mall"
+		}
+		if 550 <= x && x <= 775 &&
+			200 <= y && y <= 350 {
+			selectedArena = "place"
 		}
 	}
 }
 
 func DrawMenu(screen *ebiten.Image) {
-	// background menu
+	// fond du menu
 	op := &ebiten.DrawImageOptions{}
 	scaleX := 800 / float64(bgMenu.Bounds().Dx())
 	scaleY := 600 / float64(bgMenu.Bounds().Dy())
 	op.GeoM.Scale(scaleX, scaleY)
 	screen.DrawImage(bgMenu, op)
 
-	//musique
-
-	// créer une image temporaire pour le texte
-	textImg := ebiten.NewImage(200, 50) // taille approximative du texte
-	text.Draw(textImg, "MATRIX", basicfont.Face7x13, 0, 13, color.RGBA{108, 196, 12, 255})
-	optsText := &ebiten.DrawImageOptions{}
-	optsText.GeoM.Scale(5, 5)         // agrandit 5×
-	optsText.GeoM.Translate(275, 100) // position du titre
-	screen.DrawImage(textImg, optsText)
+	// titre
+	text.Draw(screen, "MATRIX", basicfont.Face7x13, 275, 100, color.RGBA{108, 196, 12, 255})
 
 	// bouton play
 	opts1 := &ebiten.DrawImageOptions{}
 	opts1.GeoM.Translate(float64(playRect.Min.X), float64(playRect.Min.Y))
 	screen.DrawImage(playBtn, opts1)
 
-	/* bouton retour
-	opts2 := &ebiten.DrawImageOptions{}
-	opts2.GeoM.Translate(float64(backRect.Min.X), float64(backRect.Min.Y))
-	screen.DrawImage(backBtn, opts2)*/
-
 	// bouton exit
-	opts3 := &ebiten.DrawImageOptions{}
-	opts3.GeoM.Translate(float64(exitRect.Min.X), float64(exitRect.Min.Y))
-	screen.DrawImage(exitBtn, opts3)
+	opts2 := &ebiten.DrawImageOptions{}
+	opts2.GeoM.Translate(float64(exitRect.Min.X), float64(exitRect.Min.Y))
+	screen.DrawImage(exitBtn, opts2)
 
-	// bouton dojo
-	opts4 := &ebiten.DrawImageOptions{}
-	opts4.GeoM.Scale(0.15, 0.15)
+	opts_icon := &ebiten.DrawImageOptions{}
+	opts_icon.GeoM.Scale(0.15, 0.15)
 
-	opts4.GeoM.Translate(float64(bgRect_dojo.Min.X), float64(bgRect_dojo.Min.Y))
-	screen.DrawImage(bgGame_dojo, opts4)
+	// dojo
+	opts_icon.GeoM.Translate(float64(bgRect_dojo.Min.X), float64(bgRect_dojo.Min.Y))
+	screen.DrawImage(bgGame_dojo, opts_icon)
 
-	opts4.GeoM.Translate(float64(bgRect_mall.Min.X+200), float64(bgRect_mall.Min.Y-200))
-	screen.DrawImage(bgGame_mall, opts4)
+	// mall
+	opts_icon.GeoM.Translate(float64(bgRect_mall.Min.X+200), float64(bgRect_mall.Min.Y-200))
+	screen.DrawImage(bgGame_mall, opts_icon)
 
-	opts4.GeoM.Translate(float64(bgRect_place.Min.X+200), float64(bgRect_place.Min.Y-200))
-	screen.DrawImage(bgGame_place, opts4)
+	// place
+	opts_icon.GeoM.Translate(float64(bgRect_place.Min.X+200), float64(bgRect_place.Min.Y-200))
+	screen.DrawImage(bgGame_place, opts_icon)
+
+	// affiche l'arène choisie
+	if selectedArena != "" {
+		text.Draw(screen, "Arena: "+selectedArena, basicfont.Face7x13, 300, 550, color.White)
+	}
 }
