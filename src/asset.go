@@ -31,6 +31,18 @@ var (
 	morpheusRect   image.Rectangle
 	audioCtx       *audio.Context
 	menuPlayer     *audio.Player
+	fightplay      *ebiten.Image
+	fightRect      image.Rectangle
+	boxeBtn        *ebiten.Image
+	boxeRect       image.Rectangle
+	judoBtn        *ebiten.Image
+	judoRect       image.Rectangle
+	jujutsuBtn     *ebiten.Image
+	jujutsuRect    image.Rectangle
+	karateBtn      *ebiten.Image
+	karateRect     image.Rectangle
+	lutteBtn       *ebiten.Image
+	lutteRect      image.Rectangle
 )
 
 func init() {
@@ -50,6 +62,9 @@ func init() {
 	backBtn, _, _ = ebitenutil.NewImageFromFile("../images/back.png")
 	backRect = image.Rect(50, 50, 50+backBtn.Bounds().Dx(), 50+backBtn.Bounds().Dy()) //position du bouton back
 
+	fightplay, _, _ = ebitenutil.NewImageFromFile("../images/fight.png")
+	fightRect = image.Rect(250, 150, 250+fightplay.Bounds().Dx(), 150+fightplay.Bounds().Dy()) //position du bouton fight
+
 	bgRect_dojo = image.Rect(50, 200, 50+bgGame_dojo.Bounds().Dx(), 200+bgGame_dojo.Bounds().Dy()) //position du bouton dojo
 
 	bgRect_mall = image.Rect(50, 200, 50+bgGame_mall.Bounds().Dx(), 200+bgGame_mall.Bounds().Dy()) //position du bouton mall
@@ -58,7 +73,7 @@ func init() {
 
 	// personnage
 	neoplayer, _, _ = ebitenutil.NewImageFromFile("../images/neo.png")
-	neo_playerRect = image.Rect(300, 300, 300+neoplayer.Bounds().Dx(), 300+neoplayer.Bounds().Dy()) //position de neo
+	neo_playerRect = image.Rect(50, 300, 50+neoplayer.Bounds().Dx(), 300+neoplayer.Bounds().Dy()) //position de neo
 
 	morpheusplayer, _, _ = ebitenutil.NewImageFromFile("../images/morpheus.png")
 	morpheusRect = image.Rect(600, 300, 600+morpheusplayer.Bounds().Dx(), 300+morpheusplayer.Bounds().Dy()) //position de morpheus
@@ -66,6 +81,8 @@ func init() {
 	// audio
 	audioCtx = audio.NewContext(44100)
 
+	// technique de combat
+	boxeBtn, _, _ = ebitenutil.NewImageFromFile("../images/art martiaux/boxe.png")
 }
 
 // === AUDIO ===

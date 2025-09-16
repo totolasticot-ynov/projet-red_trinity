@@ -1,8 +1,6 @@
 package main
 
 import (
-	"log"
-
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
@@ -27,11 +25,13 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	case "menu":
 		DrawMenu(screen)
 	case "dojo":
-		DrawGame_dojo(screen)
+		DrawGame_dojo_before(screen)
 	case "mall":
 		DrawGame_mall(screen)
 	case "place":
 		DrawGame_place(screen)
+	case "combat":
+		DrawGame_dojo_after(screen)
 	}
 }
 
@@ -43,7 +43,8 @@ func main() {
 	ebiten.SetWindowSize(800, 600)
 	ebiten.SetWindowTitle("Projet Matrix - Menu")
 
-	if err := ebiten.RunGame(&Game{}); err != nil {
-		log.Fatal(err)
+	game := &Game{}
+	if err := ebiten.RunGame(game); err != nil {
+		panic(err)
 	}
 }
