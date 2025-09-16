@@ -2,22 +2,69 @@ package main
 
 import (
 	"image/color"
+	"log"
 	"os"
 
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/audio"
+	"github.com/hajimehoshi/ebiten/v2/audio/mp3"
 	"github.com/hajimehoshi/ebiten/v2/text"
 	"golang.org/x/image/font/basicfont"
 )
 
 var selectedArena string = ""
 
+// === AUDIO ===
+var audioCtx *audio.Context
+var menuPlayer *audio.Player
+
+func init() {
+	audioCtx = audio.NewContext(44100)
+}
+
+// Joue la musique du menu (en boucle)
+func playMenuMusic() {
+	if menuPlayer != nil && menuPlayer.IsPlaying() {
+		return // déjà en train de jouer
+	}
+
+	f, err := os.Open("../musiques/musique du menu.mp3") // ton fichier mp3
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	stream, err := mp3.Decode(audioCtx, f)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	loop := audio.NewInfiniteLoop(stream, stream.Length())
+
+	menuPlayer, err = audio.NewPlayer(audioCtx, loop)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	menuPlayer.Play()
+}
+
+// === MENU ===
 func UpdateMenu() {
+	// démarre la musique si pas déjà lancée
+	playMenuMusic()
+
 	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
 		x, y := ebiten.CursorPosition()
 
 		// bouton play
 		if playRect.Min.X <= x && x <= playRect.Max.X &&
 			playRect.Min.Y <= y && y <= playRect.Max.Y && selectedArena != "" {
+
+			// stoppe la musique du menu
+			if menuPlayer != nil && menuPlayer.IsPlaying() {
+				menuPlayer.Pause()
+			}
+
 			SetState(selectedArena)
 		}
 
