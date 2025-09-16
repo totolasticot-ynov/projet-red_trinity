@@ -83,6 +83,19 @@ func init() {
 
 	// technique de combat
 	boxeBtn, _, _ = ebitenutil.NewImageFromFile("../images/art martiaux/boxe.png")
+	boxeRect = image.Rect(50, 150, 50+boxeBtn.Bounds().Dx(), 150+boxeBtn.Bounds().Dy()) //position du bouton boxe
+
+	judoBtn, _, _ = ebitenutil.NewImageFromFile("../images/art martiaux/judo.png")
+	judoRect = image.Rect(200, 150, 200+judoBtn.Bounds().Dx(), 150+judoBtn.Bounds().Dy()) //position du bouton judo
+
+	jujutsuBtn, _, _ = ebitenutil.NewImageFromFile("../images/art martiaux/jujutsu.png")
+	jujutsuRect = image.Rect(350, 150, 350+jujutsuBtn.Bounds().Dx(), 150+jujutsuBtn.Bounds().Dy()) //position du bouton jujutsu
+
+	karateBtn, _, _ = ebitenutil.NewImageFromFile("../images/art martiaux/karate.png")
+	karateRect = image.Rect(500, 150, 500+karateBtn.Bounds().Dx(), 150+karateBtn.Bounds().Dy()) //position du bouton karate
+
+	lutteBtn, _, _ = ebitenutil.NewImageFromFile("../images/art martiaux/lutte.png")
+	lutteRect = image.Rect(650, 150, 650+lutteBtn.Bounds().Dx(), 150+lutteBtn.Bounds().Dy()) //position du bouton lutte
 }
 
 // === AUDIO ===
