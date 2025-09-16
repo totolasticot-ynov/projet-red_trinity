@@ -41,7 +41,7 @@ func UpdateMenu() {
 }
 
 func DrawMenu(screen *ebiten.Image) {
-	// fond du menu
+	// background menu
 	op := &ebiten.DrawImageOptions{}
 	scaleX := 800 / float64(bgMenu.Bounds().Dx())
 	scaleY := 600 / float64(bgMenu.Bounds().Dy())
