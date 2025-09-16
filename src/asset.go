@@ -47,22 +47,22 @@ var (
 
 func init() {
 	// backgrounds
-	bgMenu, _, _ = ebitenutil.NewImageFromFile("../images/bg.png")
-	bgGame_dojo, _, _ = ebitenutil.NewImageFromFile("../images/level1.png")
-	bgGame_mall, _, _ = ebitenutil.NewImageFromFile("../images/level2.png")
-	bgGame_place, _, _ = ebitenutil.NewImageFromFile("../images/level3.png")
+	bgMenu, _, _ = ebitenutil.NewImageFromFile("../background/images/bg.png")
+	bgGame_dojo, _, _ = ebitenutil.NewImageFromFile("../background/images/level1.png")
+	bgGame_mall, _, _ = ebitenutil.NewImageFromFile("../background/images/level2.png")
+	bgGame_place, _, _ = ebitenutil.NewImageFromFile("../background/images/level3.png")
 
 	// boutons
-	playBtn, _, _ = ebitenutil.NewImageFromFile("../images/play.png")
+	playBtn, _, _ = ebitenutil.NewImageFromFile("../background/images/play.png")
 	playRect = image.Rect(250, 400, 500+playBtn.Bounds().Dx(), 400+playBtn.Bounds().Dy()) //position du bouton play
 
-	exitBtn, _, _ = ebitenutil.NewImageFromFile("../images/exit.png")
+	exitBtn, _, _ = ebitenutil.NewImageFromFile("../background/images/exit.png")
 	exitRect = image.Rect(500, 400, 500+exitBtn.Bounds().Dx(), 400+exitBtn.Bounds().Dy()) //position du bouton exit
 
-	backBtn, _, _ = ebitenutil.NewImageFromFile("../images/back.png")
+	backBtn, _, _ = ebitenutil.NewImageFromFile("../background/images/back.png")
 	backRect = image.Rect(50, 50, 50+backBtn.Bounds().Dx(), 50+backBtn.Bounds().Dy()) //position du bouton back
 
-	fightplay, _, _ = ebitenutil.NewImageFromFile("../images/fight.png")
+	fightplay, _, _ = ebitenutil.NewImageFromFile("../background/images/fight.png")
 	fightRect = image.Rect(250, 150, 250+fightplay.Bounds().Dx(), 150+fightplay.Bounds().Dy()) //position du bouton fight
 
 	bgRect_dojo = image.Rect(50, 200, 50+bgGame_dojo.Bounds().Dx(), 200+bgGame_dojo.Bounds().Dy()) //position du bouton dojo
@@ -72,29 +72,29 @@ func init() {
 	bgRect_place = image.Rect(50, 200, 50+bgGame_place.Bounds().Dx(), 200+bgGame_place.Bounds().Dy()) //position du bouton place
 
 	// personnage
-	neoplayer, _, _ = ebitenutil.NewImageFromFile("../images/neo.png")
+	neoplayer, _, _ = ebitenutil.NewImageFromFile("../background/images/neo.png")
 	neo_playerRect = image.Rect(50, 300, 50+neoplayer.Bounds().Dx(), 300+neoplayer.Bounds().Dy()) //position de neo
 
-	morpheusplayer, _, _ = ebitenutil.NewImageFromFile("../images/morpheus.png")
+	morpheusplayer, _, _ = ebitenutil.NewImageFromFile("../background/images/morpheus.png")
 	morpheusRect = image.Rect(600, 300, 600+morpheusplayer.Bounds().Dx(), 300+morpheusplayer.Bounds().Dy()) //position de morpheus
 
 	// audio
 	audioCtx = audio.NewContext(44100)
 
 	// technique de combat
-	boxeBtn, _, _ = ebitenutil.NewImageFromFile("../images/art martiaux/boxe.png")
+	boxeBtn, _, _ = ebitenutil.NewImageFromFile("../background/images/art martiaux/boxe.png")
 	boxeRect = image.Rect(50, 150, 50+boxeBtn.Bounds().Dx(), 150+boxeBtn.Bounds().Dy()) //position du bouton boxe
 
-	judoBtn, _, _ = ebitenutil.NewImageFromFile("../images/art martiaux/judo.png")
+	judoBtn, _, _ = ebitenutil.NewImageFromFile("../background/images/art martiaux/judo.png")
 	judoRect = image.Rect(200, 150, 200+judoBtn.Bounds().Dx(), 150+judoBtn.Bounds().Dy()) //position du bouton judo
 
-	jujutsuBtn, _, _ = ebitenutil.NewImageFromFile("../images/art martiaux/jujutsu.png")
+	jujutsuBtn, _, _ = ebitenutil.NewImageFromFile("../background/images/art martiaux/jujutsu.png")
 	jujutsuRect = image.Rect(350, 150, 350+jujutsuBtn.Bounds().Dx(), 150+jujutsuBtn.Bounds().Dy()) //position du bouton jujutsu
 
-	karateBtn, _, _ = ebitenutil.NewImageFromFile("../images/art martiaux/karate.png")
+	karateBtn, _, _ = ebitenutil.NewImageFromFile("../background/images/art martiaux/karate.png")
 	karateRect = image.Rect(500, 150, 500+karateBtn.Bounds().Dx(), 150+karateBtn.Bounds().Dy()) //position du bouton karate
 
-	lutteBtn, _, _ = ebitenutil.NewImageFromFile("../images/art martiaux/lutte.png")
+	lutteBtn, _, _ = ebitenutil.NewImageFromFile("../background/images/art martiaux/lutte.png")
 	lutteRect = image.Rect(650, 150, 650+lutteBtn.Bounds().Dx(), 150+lutteBtn.Bounds().Dy()) //position du bouton lutte
 }
 
