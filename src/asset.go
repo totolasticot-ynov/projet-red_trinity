@@ -3,6 +3,7 @@ package main //creation des images
 import (
 	"image"
 
+	"fmt"
 	"os"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -69,11 +70,11 @@ func init() {
 	fightplay, _, _ = ebitenutil.NewImageFromFile("../images/asset/fight.png")
 	fightRect = image.Rect(250, 150, 250+fightplay.Bounds().Dx(), 150+fightplay.Bounds().Dy()) //position du bouton fight
 
-	inventaireOffBtn, _, _ = ebitenutil.NewImageFromFile(("../images/asset/inventaire_off"))
-	inventaireOffRect = image.Rect(100, 500, 100+fightplay.Bounds().Dx(), 500+fightplay.Bounds().Dy()) //position du bouton inventaire off
+	inventaireOffBtn, _, _ = ebitenutil.NewImageFromFile("../images/asset/inventaire_off.png")
+	inventaireOffRect = image.Rect(100, 100, 100+inventaireOffBtn.Bounds().Dx(), 100+inventaireOffBtn.Bounds().Dy())
 
-	inventaireOffBtn, _, _ = ebitenutil.NewImageFromFile(("../images/asset/inventaire_on"))
-	inventaireOnRect = image.Rect(100, 500, 100+fightplay.Bounds().Dx(), 500+fightplay.Bounds().Dy()) //position du bouton inventaire off
+	inventaireOnBtn, _, _ = ebitenutil.NewImageFromFile("../images/asset/inventaire_on.png")
+	inventaireOnRect = image.Rect(100, 100, 100+inventaireOnBtn.Bounds().Dx(), 100+inventaireOnBtn.Bounds().Dy())
 
 	bgRect_dojo = image.Rect(50, 200, 50+bgGame_dojo.Bounds().Dx(), 200+bgGame_dojo.Bounds().Dy()) //position du bouton dojo
 
@@ -106,6 +107,9 @@ func init() {
 
 	lutteBtn, _, _ = ebitenutil.NewImageFromFile("../images/art martiaux/lutte.png")
 	lutteRect = image.Rect(650, 150, 650+lutteBtn.Bounds().Dx(), 150+lutteBtn.Bounds().Dy()) //position du bouton lutte
+
+	fmt.Println("InventaireOffBtn:", inventaireOffBtn, inventaireOffBtn.Bounds())
+
 }
 
 // === AUDIO ===
