@@ -3,7 +3,11 @@ package main //creation des images
 import (
 	"image"
 
+	"os"
+
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/audio"
+	"github.com/hajimehoshi/ebiten/v2/audio/mp3"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 )
 
@@ -25,6 +29,8 @@ var (
 	bgRect_place   image.Rectangle
 	morpheusplayer *ebiten.Image
 	morpheusRect   image.Rectangle
+	audioCtx       *audio.Context
+	menuPlayer     *audio.Player
 )
 
 func init() {
@@ -57,4 +63,19 @@ func init() {
 	morpheusplayer, _, _ = ebitenutil.NewImageFromFile("../images/morpheus.png")
 	morpheusRect = image.Rect(600, 300, 600+morpheusplayer.Bounds().Dx(), 300+morpheusplayer.Bounds().Dy()) //position de morpheus
 
+	// audio
+	audioCtx = audio.NewContext(44100)
+
+}
+
+// === AUDIO ===
+func playMenuMusic() {
+	if menuPlayer != nil && menuPlayer.IsPlaying() {
+		return // La musique est déjà en cours de lecture
+	}
+	f, _ := os.Open("../musiques/musique du menu.mp3") // ton fichier mp3
+	stream, _ := mp3.Decode(audioCtx, f)
+	loop := audio.NewInfiniteLoop(stream, stream.Length())
+	menuPlayer, _ = audio.NewPlayer(audioCtx, loop)
+	menuPlayer.Play()
 }
