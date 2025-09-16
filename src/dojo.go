@@ -1,7 +1,11 @@
 package main
 
 import (
+	"image/color"
+
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/text"
+	"golang.org/x/image/font/basicfont"
 )
 
 func UpdateGame_dojo() {
@@ -17,6 +21,15 @@ func UpdateGame_dojo() {
 }
 
 func DrawGame_dojo(screen *ebiten.Image) {
+
+	//titre dojo
+	var enter string = "welcome to the dojo"
+	optitre := &ebiten.DrawImageOptions{}
+	optitre.GeoM.Scale(200, 50)
+	for i := 0; i < len(enter); i++ {
+		text.Draw(screen, enter[:i+1], basicfont.Face7x13, 400, 100, color.RGBA{108, 196, 12, 255})
+	}
+
 	// background jeu
 	op := &ebiten.DrawImageOptions{}
 	scaleX := 800 / float64(bgGame_dojo.Bounds().Dx())
