@@ -71,6 +71,21 @@ func DrawGame_dojo_after(screen *ebiten.Image) {
 	} else {
 		opts.GeoM.Translate(float64(inventaireOnRect.Min.X), float64(inventaireOnRect.Min.Y))
 		screen.DrawImage(inventaireOnBtn, opts)
+
+		opts.GeoM.Translate(float64(boxeRect.Min.X), float64(boxeRect.Min.Y))
+		screen.DrawImage(boxeBtn, opts)
+
+		opts.GeoM.Translate(float64(judoRect.Min.X), float64(judoRect.Min.Y))
+		screen.DrawImage(judoBtn, opts)
+
+		opts.GeoM.Translate(float64(jujutsuRect.Min.X), float64(jujutsuRect.Min.Y))
+		screen.DrawImage(jujutsuBtn, opts)
+
+		opts.GeoM.Translate(float64(karateRect.Min.X), float64(karateRect.Min.Y))
+		screen.DrawImage(karateBtn, opts)
+
+		opts.GeoM.Translate(float64(lutteRect.Min.X), float64(lutteRect.Min.Y))
+		screen.DrawImage(lutteBtn, opts)
 	}
 
 }
