@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/hajimehoshi/ebiten/v2"
+
 	"github.com/hajimehoshi/ebiten/v2/text"
 	"golang.org/x/image/font/basicfont"
 )
@@ -12,12 +13,20 @@ import (
 var selectedArena string = ""
 
 func UpdateMenu() {
+	playMenuMusic() // Joue la musique du menu
+
 	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
 		x, y := ebiten.CursorPosition()
 
 		// bouton play
 		if playRect.Min.X <= x && x <= playRect.Max.X &&
 			playRect.Min.Y <= y && y <= playRect.Max.Y && selectedArena != "" {
+
+			// stoppe la musique du menu
+			if menuPlayer != nil && menuPlayer.IsPlaying() {
+				menuPlayer.Pause()
+			}
+
 			SetState(selectedArena)
 		}
 
