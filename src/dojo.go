@@ -4,6 +4,8 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
+var inventaire bool = false
+
 func UpdateGame_dojo() {
 	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
 		x, y := ebiten.CursorPosition()
@@ -16,7 +18,11 @@ func UpdateGame_dojo() {
 		// bouton fight
 		if fightRect.Min.X <= x && x <= fightRect.Max.X &&
 			fightRect.Min.Y <= y && y <= fightRect.Max.Y {
-			SetState("combat") // va au combat
+			SetState("combat")
+		}
+		if inventaireOffRect.Min.X <= x && x <= inventaireOffRect.Max.X &&
+			inventaireOffRect.Min.Y <= y && y <= inventaireOffRect.Max.Y {
+			inventaire = true
 		}
 	}
 }
@@ -48,15 +54,23 @@ func DrawGame_dojo_after(screen *ebiten.Image) {
 	op.GeoM.Scale(scaleX, scaleY)
 	screen.DrawImage(bgGame_dojo, op)
 
-	// Images si elles existent
+	// Personnage
+	opts := &ebiten.DrawImageOptions{}
+
 	if neoplayer != nil {
-		opts := &ebiten.DrawImageOptions{}
 		opts.GeoM.Translate(float64(neo_playerRect.Min.X), float64(neo_playerRect.Min.Y))
 		screen.DrawImage(neoplayer, opts)
 	}
 	if morpheusplayer != nil {
-		opts := &ebiten.DrawImageOptions{}
 		opts.GeoM.Translate(float64(morpheusRect.Min.X), float64(morpheusRect.Min.Y))
 		screen.DrawImage(morpheusplayer, opts)
 	}
+	if !inventaire {
+		opts.GeoM.Translate(float64(inventaireOffRect.Min.X), float64(inventaireOffRect.Min.Y))
+		screen.DrawImage(inventaireOffBtn, opts)
+	} else {
+		opts.GeoM.Translate(float64(inventaireOnRect.Min.X), float64(inventaireOnRect.Min.Y))
+		screen.DrawImage(inventaireOnBtn, opts)
+	}
+
 }

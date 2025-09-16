@@ -29,7 +29,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	case "mall":
 		DrawGame_mall(screen)
 	case "place":
-		DrawGame_place(screen)
+		DrawGame_place_after(screen)
 	case "combat":
 		DrawGame_dojo_after(screen)
 	}
