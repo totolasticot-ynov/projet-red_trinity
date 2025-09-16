@@ -13,10 +13,15 @@ func UpdateGame_place() {
 			backRect.Min.Y <= y && y <= backRect.Max.Y {
 			SetState("menu")
 		}
+		// bouton fight
+		if fightRect.Min.X <= x && x <= fightRect.Max.X &&
+			fightRect.Min.Y <= y && y <= fightRect.Max.Y {
+			SetState("combat") // va au combat
+		}
 	}
 }
 
-func DrawGame_place(screen *ebiten.Image) {
+func DrawGame_place_before(screen *ebiten.Image) {
 	// background jeu
 	op := &ebiten.DrawImageOptions{}
 	scaleX := 800 / float64(bgGame_place.Bounds().Dx())
@@ -29,13 +34,29 @@ func DrawGame_place(screen *ebiten.Image) {
 	opts.GeoM.Translate(float64(backRect.Min.X), float64(backRect.Min.Y))
 	screen.DrawImage(backBtn, opts)
 
-	// personnage
-	opts2 := &ebiten.DrawImageOptions{}
-	opts2.GeoM.Translate(float64(neo_playerRect.Min.X), float64(neo_playerRect.Min.Y))
-	screen.DrawImage(neoplayer, opts2)
+	// bouton fight
+	opts1 := &ebiten.DrawImageOptions{}
+	opts1.GeoM.Translate(float64(fightRect.Min.X), float64(fightRect.Min.Y))
+	screen.DrawImage(fightplay, opts1)
+}
 
-	// personnage 2
-	opts3 := &ebiten.DrawImageOptions{}
-	opts3.GeoM.Translate(float64(morpheusRect.Min.X), float64(morpheusRect.Min.Y))
-	screen.DrawImage(morpheusplayer, opts3)
+func DrawGame_place_after(screen *ebiten.Image) {
+
+	op := &ebiten.DrawImageOptions{}
+	scaleX := 800 / float64(bgGame_place.Bounds().Dx())
+	scaleY := 600 / float64(bgGame_place.Bounds().Dy())
+	op.GeoM.Scale(scaleX, scaleY)
+	screen.DrawImage(bgGame_place, op)
+
+	// Images si elles existent
+	if neoplayer != nil {
+		opts := &ebiten.DrawImageOptions{}
+		opts.GeoM.Translate(float64(neo_playerRect.Min.X), float64(neo_playerRect.Min.Y))
+		screen.DrawImage(neoplayer, opts)
+	}
+	if morpheusplayer != nil {
+		opts := &ebiten.DrawImageOptions{}
+		opts.GeoM.Translate(float64(morpheusRect.Min.X), float64(morpheusRect.Min.Y))
+		screen.DrawImage(morpheusplayer, opts)
+	}
 }
