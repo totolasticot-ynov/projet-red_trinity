@@ -56,6 +56,11 @@ var (
 	pilredRect        image.Rectangle
 	pilblueBtn        *ebiten.Image
 	pilblueRect       image.Rectangle
+	round1            *ebiten.Image
+	round2            *ebiten.Image
+	round3            *ebiten.Image
+	round4            *ebiten.Image
+	round5            *ebiten.Image
 )
 
 func init() {
@@ -64,6 +69,11 @@ func init() {
 	bgGame_dojo, _, _ = ebitenutil.NewImageFromFile("../images/background/level1.png")
 	bgGame_mall, _, _ = ebitenutil.NewImageFromFile("../images/background/level2.png")
 	bgGame_place, _, _ = ebitenutil.NewImageFromFile("../images/background/level3.png")
+	round1, _, _ := ebitenutil.NewImageFromFile("../images/round/ROUND1.png")
+	round2, _, _ := ebitenutil.NewImageFromFile("../images/round/ROUND2.png")
+	round3, _, _ := ebitenutil.NewImageFromFile("../images/round/ROUND3.png")
+	round4, _, _ := ebitenutil.NewImageFromFile("../images/round/ROUND4.png")
+	round5, _, _ := ebitenutil.NewImageFromFile("../images/round/ROUND5.png")
 
 	// boutons
 	playBtn, _, _ = ebitenutil.NewImageFromFile("../images/asset/play.png")
