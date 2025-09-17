@@ -50,6 +50,8 @@ var (
 	oracleplayer      *ebiten.Image
 	oracleRect        image.Rectangle
 	level1Player      *audio.Player
+	dollarBtn         *ebiten.Image
+	dollarRect        image.Rectangle
 )
 
 func init() {
@@ -77,6 +79,9 @@ func init() {
 
 	inventaireOnBtn, _, _ = ebitenutil.NewImageFromFile("../images/asset/inventaire_on.png")
 	inventaireOnRect = image.Rect(100, 300, 100+inventaireOnBtn.Bounds().Dx(), 300+inventaireOnBtn.Bounds().Dy())
+
+	dollarBtn, _, _ = ebitenutil.NewImageFromFile("../images/asset/dollar.png")
+	dollarRect = image.Rect(550, 300, 550+dollarBtn.Bounds().Dx(), 300+dollarBtn.Bounds().Dy())
 
 	bgRect_dojo = image.Rect(50, 200, 50+bgGame_dojo.Bounds().Dx(), 200+bgGame_dojo.Bounds().Dy()) //position du bouton dojo
 
@@ -131,6 +136,17 @@ func playlevel1Music() {
 		return // La musique est déjà en cours de lecture
 	}
 	f, _ := os.Open("../musiques/musiquelevel1.mp3") // ton fichier mp3
+	stream, _ := mp3.Decode(audioCtx, f)
+	loop := audio.NewInfiniteLoop(stream, stream.Length())
+	level1Player, _ = audio.NewPlayer(audioCtx, loop)
+	level1Player.Play()
+}
+
+func playlevel2Music() {
+	if level1Player != nil && level1Player.IsPlaying() {
+		return // La musique est déjà en cours de lecture
+	}
+	f, _ := os.Open("../musiques/musiquelevel2.mp3") // ton fichier mp3
 	stream, _ := mp3.Decode(audioCtx, f)
 	loop := audio.NewInfiniteLoop(stream, stream.Length())
 	level1Player, _ = audio.NewPlayer(audioCtx, loop)
