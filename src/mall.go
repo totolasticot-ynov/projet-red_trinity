@@ -54,26 +54,6 @@ func DrawGame_mall_before(screen *ebiten.Image) {
 
 func DrawGame_mall_after(screen *ebiten.Image) {
 	playlevel2Music()
-	// inventaire
-	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
-		x, y := ebiten.CursorPosition()
-		if inventaireOffRect.Min.X <= x && x <= inventaireOffRect.Max.X &&
-			inventaireOffRect.Min.Y <= y && y <= inventaireOffRect.Max.Y {
-			if !inventaireClicked { // détecte le tout premier clic
-				inventaire = !inventaire
-				inventaireClicked = true
-			}
-		}
-	} else {
-		inventaireClicked = false // reset quand le clic est relâché
-	}
-	if bgGame_mall != nil {
-		op := &ebiten.DrawImageOptions{}
-		scaleX := 800 / float64(bgGame_mall.Bounds().Dx())
-		scaleY := 600 / float64(bgGame_mall.Bounds().Dy())
-		op.GeoM.Scale(scaleX, scaleY)
-		screen.DrawImage(bgGame_mall, op)
-	}
 
 	if neoplayer != nil {
 		optneo := &ebiten.DrawImageOptions{}
