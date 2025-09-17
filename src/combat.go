@@ -10,22 +10,29 @@ import (
 )
 
 var (
-	inventaire       bool
-	mouseDown        bool
-	arts             = []string{"Boxe", "Judo", "Jujutsu", "Karate", "Lutte"}
-	combatResult     string
-	currentRound     int  = 1
-	gameFinished     bool = false
-	playerChoice     string
-	adversaireChoice string
-	resultImg        *ebiten.Image
-	resultimg_red    *ebiten.Image
-	vert             = color.RGBA{0, 255, 0, 255}
-	rouge            = color.RGBA{255, 0, 0, 255}
-	toi              bool
-	enemie           bool
-	couleur_toi      color.RGBA
-	couleur_enemie   color.RGBA
+	inventaire         bool
+	mouseDown          bool
+	arts               = []string{"Boxe", "Judo", "Jujutsu", "Karate", "Lutte"}
+	combatResult       string
+	currentRound       int  = 1
+	gameFinished       bool = false
+	playerChoice       string
+	adversaireChoice   string
+	resultImg          *ebiten.Image
+	resultimg_red      *ebiten.Image
+	vert               = color.RGBA{0, 255, 0, 255}
+	rouge              = color.RGBA{255, 0, 0, 255}
+	toi                bool
+	enemie             bool
+	couleur_toi        color.RGBA
+	couleur_enemie     color.RGBA
+	score_toi          int
+	local_score_toi    *ebiten.Image
+	local_score_enemie *ebiten.Image
+	score_enemie       int
+	mall               bool = false
+	place              bool = false
+	argent             int
 )
 
 func choixAdversaire() string {
@@ -98,10 +105,13 @@ func resoudreCombat(joueur string, adversaire string) string {
 
 	if (adversaireIndex == (joueurIndex+1)%5) || (adversaireIndex == (joueurIndex+2)%5) {
 		toi = true
+		score_toi++
+		argent += 10
 		return fmt.Sprintf("Round %d - Vous gagnez ! %s bat %s.", currentRound, joueur, adversaire)
 	}
 	toi = false
 	enemie = false
+	score_enemie++
 	return fmt.Sprintf("Round %d - Vous perdez... %s bat %s.", currentRound, adversaire, joueur)
 }
 

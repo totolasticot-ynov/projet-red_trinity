@@ -36,10 +36,10 @@ func UpdateMenu() {
 		if 50 <= x && x <= 280 && 200 <= y && y <= 350 {
 			selectedArena = "dojo"
 		}
-		if 300 <= x && x <= 530 && 200 <= y && y <= 350 {
+		if 300 <= x && x <= 530 && 200 <= y && y <= 350 && mall {
 			selectedArena = "mall"
 		}
-		if 550 <= x && x <= 775 && 200 <= y && y <= 350 {
+		if 550 <= x && x <= 775 && 200 <= y && y <= 350 && place {
 			selectedArena = "place"
 		}
 	}
@@ -76,10 +76,24 @@ func DrawMenu(screen *ebiten.Image) {
 	// mall
 	opts_icon.GeoM.Translate(float64(bgRect_mall.Min.X+200), float64(bgRect_mall.Min.Y-200))
 	screen.DrawImage(bgGame_mall, opts_icon)
+	if !mall {
+		// dessine un cadenas si le niveau n'est pas débloqué
+		cadenasOpts := &ebiten.DrawImageOptions{}
+		cadenasOpts.GeoM.Scale(0.5, 0.5)
+		cadenasOpts.GeoM.Translate(float64(bgRect_mall.Min.X+212), float64(bgRect_mall.Min.Y-25))
+		screen.DrawImage(cadena, cadenasOpts)
+	}
 
 	// place
 	opts_icon.GeoM.Translate(float64(bgRect_place.Min.X+200), float64(bgRect_place.Min.Y-200))
 	screen.DrawImage(bgGame_place, opts_icon)
+	if !place {
+		// dessine un cadenas si le niveau n'est pas débloqué
+		cadenasOpts := &ebiten.DrawImageOptions{}
+		cadenasOpts.GeoM.Scale(0.5, 0.5)
+		cadenasOpts.GeoM.Translate(float64(bgRect_place.Min.X+450), float64(bgRect_place.Min.Y-25))
+		screen.DrawImage(cadena, cadenasOpts)
+	}
 
 	// affiche l'arène choisie
 	if selectedArena != "" {

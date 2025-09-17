@@ -1,8 +1,8 @@
 package main
 
 import (
-	"fmt"
 	"image/color"
+	"strconv"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/text"
@@ -76,15 +76,12 @@ func DrawGame_dojo_before(screen *ebiten.Image) {
 		screen.DrawImage(pilblueBtn, optpilblue)
 	}
 
-	text.Draw(screen, "la moula", basicfont.Face7x13, 590, 327, color.White)
+	text.Draw(screen, "argent: "+strconv.Itoa(argent), basicfont.Face7x13, 590, 327, color.White)
+
 }
 
 func DrawGame_dojo_after(screen *ebiten.Image) {
 	playlevel1Music()
-
-	// Affichage du round actuel
-	roundText := fmt.Sprintf("Round %d/5", currentRound)
-	text.Draw(screen, roundText, basicfont.Face7x13, 350, 30, color.White)
 
 	pressed := ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft)
 
@@ -150,6 +147,47 @@ func DrawGame_dojo_after(screen *ebiten.Image) {
 	DrawInventaire(screen)
 	DrawRounds(screen)
 
+	switch score_toi {
+	case 0:
+		local_score_toi = num0
+	case 1:
+		local_score_toi = num1
+	case 2:
+		local_score_toi = num2
+	case 3:
+		local_score_toi = num3
+	case 4:
+		local_score_toi = num4
+	case 5:
+		local_score_toi = num5
+	}
+
+	optscore_toi := &ebiten.DrawImageOptions{}
+	optscore_toi.GeoM.Scale(0.1, 0.1)
+	optscore_toi.GeoM.Translate(200, 40)
+	drawRoundedRect(screen, 200, 40, 50, 50, 10, color.RGBA{255, 255, 255, 255}, "")
+	screen.DrawImage(local_score_toi, optscore_toi)
+
+	switch score_enemie {
+	case 0:
+		local_score_enemie = num0
+	case 1:
+		local_score_enemie = num1
+	case 2:
+		local_score_enemie = num2
+	case 3:
+		local_score_enemie = num3
+	case 4:
+		local_score_enemie = num4
+	case 5:
+		local_score_enemie = num5
+	}
+	optscore_enemie := &ebiten.DrawImageOptions{}
+	optscore_enemie.GeoM.Scale(0.1, 0.1)
+	optscore_enemie.GeoM.Translate(550, 40)
+	drawRoundedRect(screen, 550, 40, 50, 50, 10, color.RGBA{255, 255, 255, 255}, "")
+	screen.DrawImage(local_score_enemie, optscore_enemie)
+
 	if combatResult != "" {
 		if toi {
 			couleur_toi = vert
@@ -157,16 +195,14 @@ func DrawGame_dojo_after(screen *ebiten.Image) {
 		} else if enemie {
 			couleur_toi = rouge
 			couleur_enemie = vert
-		} else { // égalité
-			couleur_toi = color.RGBA{200, 200, 0, 255}
-			couleur_enemie = color.RGBA{200, 200, 0, 255}
+		} else {
+			couleur_toi = color.RGBA{255, 255, 0, 255} // égalité jaune
+			couleur_enemie = color.RGBA{255, 255, 0, 255}
 		}
+
 		drawRoundedRect(screen, 250, 300, 100, 100, 20, couleur_toi, "")
 		// Carré rouge
 		drawRoundedRect(screen, 500, 300, 100, 100, 20, couleur_enemie, "")
-
-		// Affichage du choix du joueur dans le carré vert
-		text.Draw(screen, combatResult, basicfont.Face7x13, 275, 500, color.Black)
 
 		// Optionnel : dessiner l'image du choix
 		optresult := &ebiten.DrawImageOptions{}
@@ -179,5 +215,33 @@ func DrawGame_dojo_after(screen *ebiten.Image) {
 		optresult_red.GeoM.Scale(0.2, 0.2)
 		optresult_red.GeoM.Translate(500, 300) // carré rouge
 		screen.DrawImage(resultimg_red, optresult_red)
+	}
+	if gameFinished {
+		// Dessin du bouton menu
+		if menuBtn != nil {
+			optmenu := &ebiten.DrawImageOptions{}
+			optmenu.GeoM.Scale(0.5, 0.5)
+			optmenu.GeoM.Translate(float64(menuRect.Min.X), float64(menuRect.Min.Y))
+			screen.DrawImage(menuBtn, optmenu)
+		}
+
+		// Détection du clic sur le bouton menu
+		if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
+			x, y := ebiten.CursorPosition()
+			if menuRect.Min.X <= x && x <= menuRect.Max.X &&
+				menuRect.Min.Y <= y && y <= menuRect.Max.Y {
+				SetState("menu") // retour au menu principal
+				if score_toi > score_enemie {
+					mall = true
+				}
+				score_toi = 0
+				score_enemie = 0
+				currentRound = 0
+				gameFinished = false
+				combatResult = ""
+				toi = false
+				enemie = false
+			}
+		}
 	}
 }

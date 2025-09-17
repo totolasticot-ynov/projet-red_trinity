@@ -12,66 +12,37 @@ import (
 )
 
 var (
-	bgMenu            *ebiten.Image
-	bgRect_dojo       image.Rectangle
-	playBtn           *ebiten.Image
-	playRect          image.Rectangle
-	bgGame_dojo       *ebiten.Image
-	backBtn           *ebiten.Image
-	backRect          image.Rectangle
-	exitBtn           *ebiten.Image
-	exitRect          image.Rectangle
-	neoplayer         *ebiten.Image
-	neo_playerRect    image.Rectangle
-	bgGame_mall       *ebiten.Image
-	bgRect_mall       image.Rectangle
-	bgGame_place      *ebiten.Image
-	bgRect_place      image.Rectangle
-	morpheusplayer    *ebiten.Image
-	morpheusRect      image.Rectangle
-	audioCtx          *audio.Context
-	menuPlayer        *audio.Player
-	fightplay         *ebiten.Image
-	fightRect         image.Rectangle
-	boxeBtn           *ebiten.Image
-	boxeRect          image.Rectangle
-	judoBtn           *ebiten.Image
-	judoRect          image.Rectangle
-	jujutsuBtn        *ebiten.Image
-	jujutsuRect       image.Rectangle
-	karateBtn         *ebiten.Image
-	karateRect        image.Rectangle
-	lutteBtn          *ebiten.Image
-	lutteRect         image.Rectangle
-	inventaireOffBtn  *ebiten.Image
-	inventaireOffRect image.Rectangle
-	inventaireOnBtn   *ebiten.Image
-	inventaireOnRect  image.Rectangle
-	oracleplayer      *ebiten.Image
-	oracleRect        image.Rectangle
-	level1Player      *audio.Player
-	level2Player      *audio.Player
-	dollarBtn         *ebiten.Image
-	dollarRect        image.Rectangle
-	pilredBtn         *ebiten.Image
-	pilredRect        image.Rectangle
-	pilblueBtn        *ebiten.Image
-	pilblueRect       image.Rectangle
-	round1            *ebiten.Image
-	round2            *ebiten.Image
-	round3            *ebiten.Image
-	round4            *ebiten.Image
-	round5            *ebiten.Image
-	num0              *ebiten.Image
-	num1              *ebiten.Image
-	num2              *ebiten.Image
-	num3              *ebiten.Image
-	num4              *ebiten.Image
-	num5              *ebiten.Image
+	// Backgrounds
+	bgMenu, bgGame_dojo, bgGame_mall, bgGame_place *ebiten.Image
+	round1, round2, round3, round4, round5         *ebiten.Image
+	bgRect_dojo, bgRect_mall, bgRect_place         image.Rectangle
+
+	// Personnages
+	neoplayer, morpheusplayer, oracleplayer, agentplayer, trinityplayer *ebiten.Image
+	neo_playerRect, morpheusRect, oracleRect, agentRect, trinityRect    image.Rectangle
+
+	// Boutons principaux
+	playBtn, exitBtn, backBtn, fightplay, menuBtn     *ebiten.Image
+	playRect, exitRect, backRect, fightRect, menuRect image.Rectangle
+
+	// Boutons inventaire / items
+	inventaireOffBtn, inventaireOnBtn, dollarBtn, pilredBtn, pilblueBtn, cadena *ebiten.Image
+	inventaireOffRect, inventaireOnRect, dollarRect, pilredRect, pilblueRect    image.Rectangle
+
+	// Techniques de combat
+	boxeBtn, judoBtn, jujutsuBtn, karateBtn, lutteBtn      *ebiten.Image
+	boxeRect, judoRect, jujutsuRect, karateRect, lutteRect image.Rectangle
+
+	// Chiffres
+	num0, num1, num2, num3, num4, num5 *ebiten.Image
+
+	// Audio
+	audioCtx                                             *audio.Context
+	menuPlayer, level1Player, level2Player, level3Player *audio.Player
 )
 
 func init() {
-	// backgrounds
+	// Backgrounds
 	bgMenu, _, _ = ebitenutil.NewImageFromFile("../images/background/bg.png")
 	bgGame_dojo, _, _ = ebitenutil.NewImageFromFile("../images/background/level1.png")
 	bgGame_mall, _, _ = ebitenutil.NewImageFromFile("../images/background/level2.png")
@@ -81,20 +52,43 @@ func init() {
 	round3, _, _ = ebitenutil.NewImageFromFile("../images/round/ROUND3.png")
 	round4, _, _ = ebitenutil.NewImageFromFile("../images/round/ROUND4.png")
 	round5, _, _ = ebitenutil.NewImageFromFile("../images/round/ROUND5.png")
+	bgRect_dojo = image.Rect(50, 200, 50+bgGame_dojo.Bounds().Dx(), 200+bgGame_dojo.Bounds().Dy())    //position du bouton dojo
+	bgRect_mall = image.Rect(50, 200, 50+bgGame_mall.Bounds().Dx(), 200+bgGame_mall.Bounds().Dy())    //position du bouton mall
+	bgRect_place = image.Rect(50, 200, 50+bgGame_place.Bounds().Dx(), 200+bgGame_place.Bounds().Dy()) //position du bouton place
 
-	// boutons
+	// Personnages
+	neoplayer, _, _ = ebitenutil.NewImageFromFile("../images/personnages/neo.png")
+	neo_playerRect = image.Rect(50, 300, 50+neoplayer.Bounds().Dx(), 300+neoplayer.Bounds().Dy())
+
+	morpheusplayer, _, _ = ebitenutil.NewImageFromFile("../images/personnages/morpheus.png")
+	morpheusRect = image.Rect(600, 300, 600+morpheusplayer.Bounds().Dx(), 300+morpheusplayer.Bounds().Dy())
+
+	oracleplayer, _, _ = ebitenutil.NewImageFromFile("../images/personnages/oracle.png")
+	oracleRect = image.Rect(200, 300, 200+oracleplayer.Bounds().Dx(), 300+oracleplayer.Bounds().Dy())
+
+	agentplayer, _, _ = ebitenutil.NewImageFromFile("../images/personnages/agentsmith.png")
+	agentRect = image.Rect(550, 300, 550+agentplayer.Bounds().Dx(), 300+agentplayer.Bounds().Dy())
+
+	trinityplayer, _, _ = ebitenutil.NewImageFromFile("../images/personnages/trinity.png")
+	trinityRect = image.Rect(650, 300, 650+trinityplayer.Bounds().Dx(), 300+trinityplayer.Bounds().Dy())
+
+	// Boutons principaux
 	playBtn, _, _ = ebitenutil.NewImageFromFile("../images/asset/play.png")
-	playRect = image.Rect(250, 400, 500+playBtn.Bounds().Dx(), 400+playBtn.Bounds().Dy()) //position du bouton play
+	playRect = image.Rect(250, 400, 250+playBtn.Bounds().Dx(), 400+playBtn.Bounds().Dy())
 
 	exitBtn, _, _ = ebitenutil.NewImageFromFile("../images/asset/exit.png")
-	exitRect = image.Rect(500, 400, 500+exitBtn.Bounds().Dx(), 400+exitBtn.Bounds().Dy()) //position du bouton exit
+	exitRect = image.Rect(500, 400, 500+exitBtn.Bounds().Dx(), 400+exitBtn.Bounds().Dy())
 
 	backBtn, _, _ = ebitenutil.NewImageFromFile("../images/asset/back.png")
-	backRect = image.Rect(50, 50, 50+backBtn.Bounds().Dx(), 50+backBtn.Bounds().Dy()) //position du bouton back
+	backRect = image.Rect(50, 50, 50+backBtn.Bounds().Dx(), 50+backBtn.Bounds().Dy())
 
 	fightplay, _, _ = ebitenutil.NewImageFromFile("../images/asset/fight.png")
-	fightRect = image.Rect(250, 150, 250+fightplay.Bounds().Dx(), 150+fightplay.Bounds().Dy()) //position du bouton fight
+	fightRect = image.Rect(250, 150, 250+fightplay.Bounds().Dx(), 150+fightplay.Bounds().Dy())
 
+	menuBtn, _, _ = ebitenutil.NewImageFromFile("../images/asset/menu.png")
+	menuRect = image.Rect(275, 50, 275+menuBtn.Bounds().Dx(), 50+menuBtn.Bounds().Dy())
+
+	// Boutons inventaire / items
 	inventaireOffBtn, _, _ = ebitenutil.NewImageFromFile("../images/asset/inventaire_off.png")
 	inventaireOffRect = image.Rect(100, 300, 100+inventaireOffBtn.Bounds().Dx(), 300+inventaireOffBtn.Bounds().Dy())
 
@@ -108,56 +102,51 @@ func init() {
 	pilredRect = image.Rect(425, 350, 425+pilredBtn.Bounds().Dx(), 350+pilredBtn.Bounds().Dy())
 
 	pilblueBtn, _, _ = ebitenutil.NewImageFromFile("../images/potion (pillule)/pilule_bleue.png")
-	pilblueRect = image.Rect(575, 350, 575+pilblueBtn.Bounds().Dx(), 550+pilblueBtn.Bounds().Dy())
+	pilblueRect = image.Rect(575, 350, 575+pilblueBtn.Bounds().Dx(), 350+pilblueBtn.Bounds().Dy())
 
-	bgRect_dojo = image.Rect(50, 200, 50+bgGame_dojo.Bounds().Dx(), 200+bgGame_dojo.Bounds().Dy()) //position du bouton dojo
+	cadena, _, _ = ebitenutil.NewImageFromFile("../images/asset/cadena.png")
 
-	bgRect_mall = image.Rect(50, 200, 50+bgGame_mall.Bounds().Dx(), 200+bgGame_mall.Bounds().Dy()) //position du bouton mall
-
-	bgRect_place = image.Rect(50, 200, 50+bgGame_place.Bounds().Dx(), 200+bgGame_place.Bounds().Dy()) //position du bouton place
-
-	// personnage
-	neoplayer, _, _ = ebitenutil.NewImageFromFile("../images/personnages/neo.png")
-	neo_playerRect = image.Rect(50, 300, 50+neoplayer.Bounds().Dx(), 300+neoplayer.Bounds().Dy()) //position de neo
-
-	morpheusplayer, _, _ = ebitenutil.NewImageFromFile("../images/personnages/morpheus.png")
-	morpheusRect = image.Rect(600, 300, 600+morpheusplayer.Bounds().Dx(), 300+morpheusplayer.Bounds().Dy()) //position de morpheus
-
-	oracleplayer, _, _ = ebitenutil.NewImageFromFile("../images/personnages/oracle.png")
-	oracleRect = image.Rect(200, 300, 200+oracleplayer.Bounds().Dx(), 300+oracleplayer.Bounds().Dy()) //position de l'oracle
-
-	// audio
-	audioCtx = audio.NewContext(44100)
-
-	// technique de combat
+	// Techniques de combat
 	boxeBtn, _, _ = ebitenutil.NewImageFromFile("../images/art martiaux/boxe.png")
-	boxeRect = image.Rect(175, 125, 175+boxeBtn.Bounds().Dx(), 125+boxeBtn.Bounds().Dy()) //position du bouton boxe
+	boxeRect = image.Rect(175, 125, 175+boxeBtn.Bounds().Dx(), 125+boxeBtn.Bounds().Dy())
 
 	judoBtn, _, _ = ebitenutil.NewImageFromFile("../images/art martiaux/judo.png")
-	judoRect = image.Rect(0, 80, 0+judoBtn.Bounds().Dx(), 80+judoBtn.Bounds().Dy()) //position du bouton judo*/
+	judoRect = image.Rect(0, 80, 0+judoBtn.Bounds().Dx(), 80+judoBtn.Bounds().Dy())
 
 	jujutsuBtn, _, _ = ebitenutil.NewImageFromFile("../images/art martiaux/jujutsu.png")
-	jujutsuRect = image.Rect(0, 75, 0+jujutsuBtn.Bounds().Dx(), 75+jujutsuBtn.Bounds().Dy()) //position du bouton jujutsu
+	jujutsuRect = image.Rect(0, 75, 0+jujutsuBtn.Bounds().Dx(), 75+jujutsuBtn.Bounds().Dy())
 
 	karateBtn, _, _ = ebitenutil.NewImageFromFile("../images/art martiaux/karate.png")
-	karateRect = image.Rect(0, 95, 0+karateBtn.Bounds().Dx(), 95+karateBtn.Bounds().Dy()) //position du bouton karate
+	karateRect = image.Rect(0, 95, 0+karateBtn.Bounds().Dx(), 95+karateBtn.Bounds().Dy())
 
 	lutteBtn, _, _ = ebitenutil.NewImageFromFile("../images/art martiaux/lutte.png")
-	lutteRect = image.Rect(0, 80, 0+lutteBtn.Bounds().Dx(), 80+lutteBtn.Bounds().Dy()) //position du bouton lutte
+	lutteRect = image.Rect(0, 80, 0+lutteBtn.Bounds().Dx(), 80+lutteBtn.Bounds().Dy())
 
-	/*numero
-	num0, _, _ := ebitenutil.NewImageFromFile("../images/chiffres/0.png")
-	num1, _, _ := ebitenutil.NewImageFromFile("../images/chiffres/1.png")
-	num2, _, _ := ebitenutil.NewImageFromFile("../images/chiffres/2.png")
-	num3, _, _ := ebitenutil.NewImageFromFile("../images/chiffres/3.png")
-	num4, _, _ := ebitenutil.NewImageFromFile("../images/chiffres/4.png")
-	num5, _, _ := ebitenutil.NewImageFromFile("../images/chiffres/5.png")*/
+	// Chiffres
+	num0, _, _ = ebitenutil.NewImageFromFile("../images/chiffres/0.png")
+	num1, _, _ = ebitenutil.NewImageFromFile("../images/chiffres/1.png")
+	num2, _, _ = ebitenutil.NewImageFromFile("../images/chiffres/2.png")
+	num3, _, _ = ebitenutil.NewImageFromFile("../images/chiffres/3.png")
+	num4, _, _ = ebitenutil.NewImageFromFile("../images/chiffres/4.png")
+	num5, _, _ = ebitenutil.NewImageFromFile("../images/chiffres/5.png")
+
+	// Audio
+	audioCtx = audio.NewContext(44100)
 }
 
 // === AUDIO ===
 func playMenuMusic() {
 	if menuPlayer != nil && menuPlayer.IsPlaying() {
 		return // La musique est déjà en cours de lecture
+	}
+	if level1Player != nil && level1Player.IsPlaying() {
+		level1Player.Pause() // Arrêter la musique du niveau 1 si elle est en cours de lecture
+	}
+	if level2Player != nil && level2Player.IsPlaying() {
+		level2Player.Pause() // Arrêter la musique du niveau 2 si elle est en cours de lecture
+	}
+	if level3Player != nil && level3Player.IsPlaying() {
+		level3Player.Pause() // Arrêter la musique du niveau 3 si elle est en cours de lecture
 	}
 	f, _ := os.Open("../musiques/musique du menu.mp3") // ton fichier mp3
 	stream, _ := mp3.Decode(audioCtx, f)
@@ -170,6 +159,15 @@ func playlevel1Music() {
 	if level1Player != nil && level1Player.IsPlaying() {
 		return // La musique est déjà en cours de lecture
 	}
+	if menuPlayer != nil && menuPlayer.IsPlaying() {
+		menuPlayer.Pause() // Arrêter la musique du menu si elle est en cours de lecture
+	}
+	if level2Player != nil && level2Player.IsPlaying() {
+		level2Player.Pause() // Arrêter la musique du niveau 2 si elle est en cours de lecture
+	}
+	if level3Player != nil && level3Player.IsPlaying() {
+		level3Player.Pause() // Arrêter la musique du niveau 3 si elle est en cours de lecture
+	}
 	f, _ := os.Open("../musiques/musiquelevel1.mp3") // ton fichier mp3
 	stream, _ := mp3.Decode(audioCtx, f)
 	loop := audio.NewInfiniteLoop(stream, stream.Length())
@@ -181,9 +179,53 @@ func playlevel2Music() {
 	if level2Player != nil && level2Player.IsPlaying() {
 		return // La musique est déjà en cours de lecture
 	}
+	if level1Player != nil && level1Player.IsPlaying() {
+		level1Player.Pause() // Arrêter la musique du niveau 1 si elle est en cours de lecture
+	}
+	if level3Player != nil && level3Player.IsPlaying() {
+		level3Player.Pause() // Arrêter la musique du niveau 3 si elle est en cours de lecture
+	}
+	if menuPlayer != nil && menuPlayer.IsPlaying() {
+		menuPlayer.Pause() // Arrêter la musique du menu si elle est en cours de lecture
+	}
 	f, _ := os.Open("../musiques/musiquelevel2.mp3") // ton fichier mp3
 	stream, _ := mp3.Decode(audioCtx, f)
 	loop := audio.NewInfiniteLoop(stream, stream.Length())
 	level2Player, _ = audio.NewPlayer(audioCtx, loop)
 	level2Player.Play()
+}
+
+func playlevel3Music() {
+	if level3Player != nil && level3Player.IsPlaying() {
+		return // La musique est déjà en cours de lecture
+	}
+	if level1Player != nil && level1Player.IsPlaying() {
+		level1Player.Pause() // Arrêter la musique du niveau 1 si elle est en cours de lecture
+	}
+	if level2Player != nil && level2Player.IsPlaying() {
+		level2Player.Pause() // Arrêter la musique du niveau 2 si elle est en cours de lecture
+	}
+	if menuPlayer != nil && menuPlayer.IsPlaying() {
+		menuPlayer.Pause() // Arrêter la musique du menu si elle est en cours de lecture
+	}
+	f, _ := os.Open("../musiques/musiquelevel3.mp3") // ton fichier mp3
+	stream, _ := mp3.Decode(audioCtx, f)
+	loop := audio.NewInfiniteLoop(stream, stream.Length())
+	level2Player, _ = audio.NewPlayer(audioCtx, loop)
+	level2Player.Play()
+}
+
+func stopAllMusic() {
+	if menuPlayer != nil && menuPlayer.IsPlaying() {
+		menuPlayer.Pause()
+	}
+	if level1Player != nil && level1Player.IsPlaying() {
+		level1Player.Pause()
+	}
+	if level2Player != nil && level2Player.IsPlaying() {
+		level2Player.Pause()
+	}
+	if level3Player != nil && level3Player.IsPlaying() {
+		level3Player.Pause()
+	}
 }
