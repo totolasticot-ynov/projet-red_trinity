@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 )
 
 var (
@@ -27,8 +26,6 @@ var (
 	enemie           bool
 	couleur_toi      color.RGBA
 	couleur_enemie   color.RGBA
-	score_toi        int
-	score_enemie     int
 )
 
 func choixAdversaire() string {
@@ -80,8 +77,6 @@ func resoudreCombat(joueur string, adversaire string) string {
 	if joueur == adversaire {
 		toi = false
 		enemie = false
-		couleur_toi = color.RGBA{200, 200, 0, 255} // jaune pour égalité
-		couleur_enemie = color.RGBA{200, 200, 0, 255}
 		return fmt.Sprintf("Round %d - Égalité ! Vous avez tous les deux choisi %s.", currentRound, joueur)
 	}
 
@@ -97,22 +92,16 @@ func resoudreCombat(joueur string, adversaire string) string {
 		}
 	}
 
-	if adversaireIndex == (joueurIndex+1)%5 || adversaireIndex == (joueurIndex+2)%5 {
-		// joueur gagne
-		toi = true
-		enemie = false
-		couleur_toi = vert
-		couleur_enemie = rouge
-		score_toi++ // ✅ ajoute un point au joueur
-		return fmt.Sprintf("Round %d - Vous gagnez ! %s bat %s.", currentRound, joueur, adversaire)
+	if joueurIndex == -1 || adversaireIndex == -1 {
+		return fmt.Sprintf("Round %d - Erreur dans le choix.", currentRound)
 	}
 
-	// sinon joueur perd
+	if (adversaireIndex == (joueurIndex+1)%5) || (adversaireIndex == (joueurIndex+2)%5) {
+		toi = true
+		return fmt.Sprintf("Round %d - Vous gagnez ! %s bat %s.", currentRound, joueur, adversaire)
+	}
 	toi = false
-	enemie = true
-	couleur_toi = rouge
-	couleur_enemie = vert
-	score_enemie++ // ✅ ajoute un point à l'adversaire
+	enemie = false
 	return fmt.Sprintf("Round %d - Vous perdez... %s bat %s.", currentRound, adversaire, joueur)
 }
 
@@ -179,28 +168,4 @@ func DrawRounds(screen *ebiten.Image) {
 		opt.GeoM.Translate(100, 30)
 		screen.DrawImage(roundImg, opt)
 	}
-}
-
-func DrawScore(screen *ebiten.Image) {
-	// Scores en haut à droite
-	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("Score Vous: %d", score_toi), 400, 30)
-	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("Score Ennemi: %d", score_enemie), 400, 50)
-
-	// Message final
-	if gameFinished {
-		if score_toi > score_enemie {
-			ebitenutil.DebugPrintAt(screen, "🏆 Vous remportez le combat !", 350, 80)
-		} else if score_enemie > score_toi {
-			ebitenutil.DebugPrintAt(screen, "❌ L'ennemi remporte le combat...", 350, 80)
-		} else {
-			ebitenutil.DebugPrintAt(screen, "🤝 Match nul !", 350, 80)
-		}
-	}
-}
-
-// ---- Fonction Draw principale ----
-func (g *Game) Draw(screen *ebiten.Image) {
-	DrawInventaire(screen)
-	DrawRounds(screen)
-	DrawScore(screen)
 }

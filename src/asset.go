@@ -62,6 +62,7 @@ var (
 	round3            *ebiten.Image
 	round4            *ebiten.Image
 	round5            *ebiten.Image
+	num0              *ebiten.Image
 	num1              *ebiten.Image
 	num2              *ebiten.Image
 	num3              *ebiten.Image
@@ -144,12 +145,13 @@ func init() {
 	lutteBtn, _, _ = ebitenutil.NewImageFromFile("../images/art martiaux/lutte.png")
 	lutteRect = image.Rect(0, 80, 0+lutteBtn.Bounds().Dx(), 80+lutteBtn.Bounds().Dy()) //position du bouton lutte
 
-	//numero
+	/*numero
+	num0, _, _ := ebitenutil.NewImageFromFile("../images/chiffres/0.png")
 	num1, _, _ := ebitenutil.NewImageFromFile("../images/chiffres/1.png")
 	num2, _, _ := ebitenutil.NewImageFromFile("../images/chiffres/2.png")
 	num3, _, _ := ebitenutil.NewImageFromFile("../images/chiffres/3.png")
 	num4, _, _ := ebitenutil.NewImageFromFile("../images/chiffres/4.png")
-	num5, _, _ := ebitenutil.NewImageFromFile("../images/chiffres/5.png")
+	num5, _, _ := ebitenutil.NewImageFromFile("../images/chiffres/5.png")*/
 }
 
 // === AUDIO ===
