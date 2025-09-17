@@ -151,10 +151,19 @@ func DrawGame_dojo_after(screen *ebiten.Image) {
 	DrawRounds(screen)
 
 	if combatResult != "" {
-		// Carré vert
-		drawRoundedRect(screen, 250, 300, 100, 100, 20, color.RGBA{0, 255, 0, 255}, "")
+		if toi {
+			couleur_toi = vert
+			couleur_enemie = rouge
+		} else if enemie {
+			couleur_toi = rouge
+			couleur_enemie = vert
+		} else { // égalité
+			couleur_toi = color.RGBA{200, 200, 0, 255}
+			couleur_enemie = color.RGBA{200, 200, 0, 255}
+		}
+		drawRoundedRect(screen, 250, 300, 100, 100, 20, couleur_toi, "")
 		// Carré rouge
-		drawRoundedRect(screen, 500, 300, 100, 100, 20, color.RGBA{255, 0, 0, 255}, "")
+		drawRoundedRect(screen, 500, 300, 100, 100, 20, couleur_enemie, "")
 
 		// Affichage du choix du joueur dans le carré vert
 		text.Draw(screen, combatResult, basicfont.Face7x13, 275, 500, color.Black)

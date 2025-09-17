@@ -20,6 +20,12 @@ var (
 	adversaireChoice string
 	resultImg        *ebiten.Image
 	resultimg_red    *ebiten.Image
+	vert             = color.RGBA{0, 255, 0, 255}
+	rouge            = color.RGBA{255, 0, 0, 255}
+	toi              bool
+	enemie           bool
+	couleur_toi      color.RGBA
+	couleur_enemie   color.RGBA
 )
 
 func choixAdversaire() string {
@@ -31,11 +37,20 @@ func lancerCombat(choix string) {
 	if gameFinished {
 		return
 	}
+
+	// reset couleurs à chaque round
+	toi = false
+	enemie = false
+	couleur_toi = color.RGBA{0, 0, 0, 0}
+	couleur_enemie = color.RGBA{0, 0, 0, 0}
+
 	if choix == "miss" {
 		combatResult = fmt.Sprintf("Round %d - Vous avez manqué votre attaque !", currentRound)
 	}
+
 	playerChoice = choix
 	adversaireChoice = choixAdversaire()
+
 	switch adversaireChoice {
 	case "Boxe":
 		resultimg_red = boxeBtn
@@ -48,6 +63,7 @@ func lancerCombat(choix string) {
 	case "Lutte":
 		resultimg_red = lutteBtn
 	}
+
 	combatResult = resoudreCombat(playerChoice, adversaireChoice)
 
 	currentRound++
@@ -59,6 +75,10 @@ func lancerCombat(choix string) {
 
 func resoudreCombat(joueur string, adversaire string) string {
 	if joueur == adversaire {
+		toi = false
+		enemie = false
+		couleur_toi = color.RGBA{200, 200, 0, 255} // jaune pour égalité
+		couleur_enemie = color.RGBA{200, 200, 0, 255}
 		return fmt.Sprintf("Round %d - Égalité ! Vous avez tous les deux choisi %s.", currentRound, joueur)
 	}
 
@@ -78,10 +98,22 @@ func resoudreCombat(joueur string, adversaire string) string {
 		return fmt.Sprintf("Round %d - Erreur dans le choix.", currentRound)
 	}
 
-	if (adversaireIndex == (joueurIndex+1)%5) || (adversaireIndex == (joueurIndex+2)%5) {
+	// logique chifoumi à 5 branches :
+	// chaque élément bat les deux suivants (mod 5)
+	if adversaireIndex == (joueurIndex+1)%5 || adversaireIndex == (joueurIndex+2)%5 {
+		// joueur gagne
+		toi = true
+		enemie = false
+		couleur_toi = vert
+		couleur_enemie = rouge
 		return fmt.Sprintf("Round %d - Vous gagnez ! %s bat %s.", currentRound, joueur, adversaire)
 	}
 
+	// sinon joueur perd
+	toi = false
+	enemie = true
+	couleur_toi = rouge
+	couleur_enemie = vert
 	return fmt.Sprintf("Round %d - Vous perdez... %s bat %s.", currentRound, adversaire, joueur)
 }
 

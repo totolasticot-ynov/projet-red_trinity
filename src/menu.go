@@ -13,16 +13,14 @@ import (
 var selectedArena string = ""
 
 func UpdateMenu() {
-	playMenuMusic() // Joue la musique du menu
+	playMenuMusic()
 
 	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
 		x, y := ebiten.CursorPosition()
 
-		// bouton play
 		if playRect.Min.X <= x && x <= playRect.Max.X &&
 			playRect.Min.Y <= y && y <= playRect.Max.Y && selectedArena != "" {
 
-			// stoppe la musique du menu
 			if menuPlayer != nil && menuPlayer.IsPlaying() {
 				menuPlayer.Pause()
 			}
@@ -30,13 +28,11 @@ func UpdateMenu() {
 			SetState(selectedArena)
 		}
 
-		// bouton exit
 		if exitRect.Min.X <= x && x <= exitRect.Max.X &&
 			exitRect.Min.Y <= y && y <= exitRect.Max.Y {
 			os.Exit(0)
 		}
 
-		// choisir une arène
 		if 50 <= x && x <= 280 && 200 <= y && y <= 350 {
 			selectedArena = "dojo"
 		}
