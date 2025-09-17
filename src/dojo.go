@@ -15,10 +15,17 @@ var inventaire bool
 var mouseDown bool // détecte la transition appuyé -> relâché
 var arts = []string{"Boxe", "Judo", "Jujutsu", "Karate", "Lutte"}
 var combatResult string // texte du dernier combat
+var combatstate bool
 
 func choixAdversaire() string {
 	rand.Seed(time.Now().UnixNano())
 	return arts[rand.Intn(len(arts))]
+}
+
+func lancerCombat(choix string) {
+	adv := choixAdversaire()
+	combatResult = resoudreCombat(choix, adv)
+	combatstate = false // reset pour pouvoir afficher une fois
 }
 
 func resoudreCombat(joueur string, adversaire string) string {
@@ -49,11 +56,6 @@ func resoudreCombat(joueur string, adversaire string) string {
 	}
 
 	return fmt.Sprintf("Vous perdez... %s bat %s.", adversaire, joueur)
-}
-
-func lancerCombat(choix string) {
-	adv := choixAdversaire()
-	combatResult = resoudreCombat(choix, adv)
 }
 
 // -----------------------------
@@ -232,7 +234,8 @@ func DrawGame_dojo_after(screen *ebiten.Image) {
 	}
 
 	// affichage du résultat (utilise basicfont.Face7x13)
-	if combatResult != "" {
+	if combatResult != "" && !combatstate {
 		fmt.Print(combatResult + "\n")
+		combatstate = true // affiché une seule fois
 	}
 }
