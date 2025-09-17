@@ -1,15 +1,65 @@
 package main
 
 import (
+	"fmt"
 	"image/color"
+	"math/rand"
+	"time"
 
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
 var inventaire bool
-var inventaireClicked bool
+var mouseDown bool // détecte la transition appuyé -> relâché
+var arts = []string{"Boxe", "Judo", "Jujutsu", "Karate", "Lutte"}
+var combatResult string // texte du dernier combat
+
+func choixAdversaire() string {
+	rand.Seed(time.Now().UnixNano())
+	return arts[rand.Intn(len(arts))]
+}
+
+func resoudreCombat(joueur string, adversaire string) string {
+	if joueur == adversaire {
+		return fmt.Sprintf("Égalité ! Vous avez tous les deux choisi %s.", joueur)
+	}
+
+	// Règle circulaire (chifoumi à 5 coups)
+	joueurIndex := -1
+	adversaireIndex := -1
+
+	for i, v := range arts {
+		if v == joueur {
+			joueurIndex = i
+		}
+		if v == adversaire {
+			adversaireIndex = i
+		}
+	}
+
+	if joueurIndex == -1 || adversaireIndex == -1 {
+		return "Erreur dans le choix."
+	}
+
+	// Le joueur bat les deux suivants
+	if (adversaireIndex == (joueurIndex+1)%5) || (adversaireIndex == (joueurIndex+2)%5) {
+		return fmt.Sprintf("Vous gagnez ! %s bat %s.", joueur, adversaire)
+	}
+
+	return fmt.Sprintf("Vous perdez... %s bat %s.", adversaire, joueur)
+}
+
+func lancerCombat(choix string) {
+	adv := choixAdversaire()
+	combatResult = resoudreCombat(choix, adv)
+}
+
+// -----------------------------
+// Logique de jeu
+// -----------------------------
 
 func UpdateGame_dojo() {
+	// Ici on ne gère que les boutons de changement d'état (menu/combat)
 	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
 		x, y := ebiten.CursorPosition()
 
@@ -27,7 +77,6 @@ func UpdateGame_dojo() {
 }
 
 func DrawGame_dojo_before(screen *ebiten.Image) {
-
 	playlevel1Music()
 	op := &ebiten.DrawImageOptions{}
 	scaleX := 800 / float64(bgGame_dojo.Bounds().Dx())
@@ -46,12 +95,14 @@ func DrawGame_dojo_before(screen *ebiten.Image) {
 		optfight.GeoM.Translate(float64(fightRect.Min.X), float64(fightRect.Min.Y))
 		screen.DrawImage(fightplay, optfight)
 	}
+
 	if oracleplayer != nil {
 		optoracle := &ebiten.DrawImageOptions{}
 		optoracle.GeoM.Scale(0.5, 0.5)
 		optoracle.GeoM.Translate(float64(oracleRect.Min.X), float64(oracleRect.Min.Y))
 		screen.DrawImage(oracleplayer, optoracle)
 	}
+
 	drawRoundedRect(screen, 400, 300, 300, 200, 20, color.RGBA{0, 0, 0, 255}, "boutique combat")
 
 	if dollarBtn != nil {
@@ -64,19 +115,45 @@ func DrawGame_dojo_before(screen *ebiten.Image) {
 
 func DrawGame_dojo_after(screen *ebiten.Image) {
 	playlevel1Music()
-	// inventaire
-	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
+
+	pressed := ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft)
+
+	// Détection d'un nouveau clic (edge: non-press -> press)
+	if pressed && !mouseDown {
+		// nouveau clic détecté : traiter l'événement une fois
 		x, y := ebiten.CursorPosition()
+
+		// Toggle inventaire si on clique sur le bouton d'inventaire
 		if inventaireOffRect.Min.X <= x && x <= inventaireOffRect.Max.X &&
 			inventaireOffRect.Min.Y <= y && y <= inventaireOffRect.Max.Y {
-			if !inventaireClicked { // détecte le tout premier clic
-				inventaire = !inventaire
-				inventaireClicked = true
+			inventaire = !inventaire
+		} else if inventaire { // si inventaire ouvert, regarder les items
+			// Chaque bouton lance un combat correspondant
+			if boxeRect.Min.X <= x && x <= boxeRect.Max.X &&
+				boxeRect.Min.Y <= y && y <= boxeRect.Max.Y {
+				lancerCombat("Boxe")
+			} else if judoRect.Min.X <= x && x <= judoRect.Max.X &&
+				judoRect.Min.Y <= y && y <= judoRect.Max.Y {
+				lancerCombat("Judo")
+			} else if jujutsuRect.Min.X <= x && x <= jujutsuRect.Max.X &&
+				jujutsuRect.Min.Y <= y && y <= jujutsuRect.Max.Y {
+				lancerCombat("Jujutsu")
+			} else if karateRect.Min.X <= x && x <= karateRect.Max.X &&
+				karateRect.Min.Y <= y && y <= karateRect.Max.Y {
+				lancerCombat("Karate")
+			} else if lutteRect.Min.X <= x && x <= lutteRect.Max.X &&
+				lutteRect.Min.Y <= y && y <= lutteRect.Max.Y {
+				lancerCombat("Lutte")
 			}
 		}
-	} else {
-		inventaireClicked = false // reset quand le clic est relâché
+
+		mouseDown = true
+	} else if !pressed {
+		// relâchement : autorise le prochain clic
+		mouseDown = false
 	}
+
+	// fond
 	if bgGame_dojo != nil {
 		op := &ebiten.DrawImageOptions{}
 		scaleX := 800 / float64(bgGame_dojo.Bounds().Dx())
@@ -85,6 +162,7 @@ func DrawGame_dojo_after(screen *ebiten.Image) {
 		screen.DrawImage(bgGame_dojo, op)
 	}
 
+	// persos
 	if neoplayer != nil {
 		optneo := &ebiten.DrawImageOptions{}
 		optneo.GeoM.Scale(0.5, 0.5)
@@ -97,8 +175,9 @@ func DrawGame_dojo_after(screen *ebiten.Image) {
 		optmor.GeoM.Translate(float64(morpheusRect.Min.X), float64(morpheusRect.Min.Y))
 		screen.DrawImage(morpheusplayer, optmor)
 	}
-	optinventaire := &ebiten.DrawImageOptions{}
 
+	// inventaire (visuel)
+	optinventaire := &ebiten.DrawImageOptions{}
 	if !inventaire {
 		if inventaireOffBtn != nil {
 			optinventaire.GeoM.Translate(float64(inventaireOffRect.Min.X), float64(inventaireOffRect.Min.Y))
@@ -132,5 +211,10 @@ func DrawGame_dojo_after(screen *ebiten.Image) {
 			opts.GeoM.Translate(float64(lutteRect.Min.X), float64(lutteRect.Min.Y))
 			screen.DrawImage(lutteBtn, opts)
 		}
+	}
+
+	// affichage du résultat (utilise basicfont.Face7x13)
+	if combatResult != "" {
+		fmt.Print(combatResult + "\n")
 	}
 }
