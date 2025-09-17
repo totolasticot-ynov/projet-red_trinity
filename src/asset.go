@@ -52,6 +52,10 @@ var (
 	level1Player      *audio.Player
 	dollarBtn         *ebiten.Image
 	dollarRect        image.Rectangle
+	pilredBtn         *ebiten.Image
+	pilredRect        image.Rectangle
+	pilblueBtn        *ebiten.Image
+	pilblueRect       image.Rectangle
 )
 
 func init() {
@@ -81,7 +85,13 @@ func init() {
 	inventaireOnRect = image.Rect(100, 300, 100+inventaireOnBtn.Bounds().Dx(), 300+inventaireOnBtn.Bounds().Dy())
 
 	dollarBtn, _, _ = ebitenutil.NewImageFromFile("../images/asset/dollar.png")
-	dollarRect = image.Rect(550, 300, 550+dollarBtn.Bounds().Dx(), 300+dollarBtn.Bounds().Dy())
+	dollarRect = image.Rect(650, 300, 650+dollarBtn.Bounds().Dx(), 300+dollarBtn.Bounds().Dy())
+
+	pilredBtn, _, _ = ebitenutil.NewImageFromFile("../images/potion (pillule)/pilule_rouge.png")
+	pilredRect = image.Rect(425, 350, 425+pilredBtn.Bounds().Dx(), 350+pilredBtn.Bounds().Dy())
+
+	pilblueBtn, _, _ = ebitenutil.NewImageFromFile("../images/potion (pillule)/pilule_bleue.png")
+	pilblueRect = image.Rect(575, 350, 575+pilblueBtn.Bounds().Dx(), 550+pilblueBtn.Bounds().Dy())
 
 	bgRect_dojo = image.Rect(50, 200, 50+bgGame_dojo.Bounds().Dx(), 200+bgGame_dojo.Bounds().Dy()) //position du bouton dojo
 
@@ -104,19 +114,19 @@ func init() {
 
 	// technique de combat
 	boxeBtn, _, _ = ebitenutil.NewImageFromFile("../images/art martiaux/boxe.png")
-	boxeRect = image.Rect(50, 150, 50+boxeBtn.Bounds().Dx(), 150+boxeBtn.Bounds().Dy()) //position du bouton boxe
+	boxeRect = image.Rect(175, 125, 175+boxeBtn.Bounds().Dx(), 125+boxeBtn.Bounds().Dy()) //position du bouton boxe
 
 	judoBtn, _, _ = ebitenutil.NewImageFromFile("../images/art martiaux/judo.png")
-	judoRect = image.Rect(50, 200, 50+judoBtn.Bounds().Dx(), 200+judoBtn.Bounds().Dy()) //position du bouton judo
+	judoRect = image.Rect(0, 80, 0+judoBtn.Bounds().Dx(), 80+judoBtn.Bounds().Dy()) //position du bouton judo*/
 
 	jujutsuBtn, _, _ = ebitenutil.NewImageFromFile("../images/art martiaux/jujutsu.png")
-	jujutsuRect = image.Rect(50, 250, 50+jujutsuBtn.Bounds().Dx(), 250+jujutsuBtn.Bounds().Dy()) //position du bouton jujutsu
+	jujutsuRect = image.Rect(0, 75, 0+jujutsuBtn.Bounds().Dx(), 75+jujutsuBtn.Bounds().Dy()) //position du bouton jujutsu
 
 	karateBtn, _, _ = ebitenutil.NewImageFromFile("../images/art martiaux/karate.png")
-	karateRect = image.Rect(50, 300, 50+karateBtn.Bounds().Dx(), 300+karateBtn.Bounds().Dy()) //position du bouton karate
+	karateRect = image.Rect(0, 95, 0+karateBtn.Bounds().Dx(), 95+karateBtn.Bounds().Dy()) //position du bouton karate
 
 	lutteBtn, _, _ = ebitenutil.NewImageFromFile("../images/art martiaux/lutte.png")
-	lutteRect = image.Rect(50, 350, 50+lutteBtn.Bounds().Dx(), 350+lutteBtn.Bounds().Dy()) //position du bouton lutte
+	lutteRect = image.Rect(0, 80, 0+lutteBtn.Bounds().Dx(), 80+lutteBtn.Bounds().Dy()) //position du bouton lutte
 }
 
 // === AUDIO ===

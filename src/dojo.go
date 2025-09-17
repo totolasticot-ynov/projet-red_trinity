@@ -4,6 +4,8 @@ import (
 	"image/color"
 
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/text"
+	"golang.org/x/image/font/basicfont"
 )
 
 var inventaire bool
@@ -60,6 +62,20 @@ func DrawGame_dojo_before(screen *ebiten.Image) {
 		optdollar.GeoM.Translate(float64(dollarRect.Min.X), float64(dollarRect.Min.Y))
 		screen.DrawImage(dollarBtn, optdollar)
 	}
+	if pilredBtn != nil {
+
+		optpilred := &ebiten.DrawImageOptions{}
+		optpilred.GeoM.Scale(0.2, 0.2)
+		optpilred.GeoM.Translate(float64(pilredRect.Min.X), float64(pilredRect.Min.Y))
+		screen.DrawImage(pilredBtn, optpilred)
+	}
+	if pilblueBtn != nil {
+		optpilblue := &ebiten.DrawImageOptions{}
+		optpilblue.GeoM.Scale(0.2, 0.2)
+		optpilblue.GeoM.Translate(float64(pilblueRect.Min.X), float64(pilblueRect.Min.Y))
+		screen.DrawImage(pilblueBtn, optpilblue)
+	}
+	text.Draw(screen, "la moula", basicfont.Face7x13, 590, 327, color.White)
 }
 
 func DrawGame_dojo_after(screen *ebiten.Image) {
@@ -110,7 +126,9 @@ func DrawGame_dojo_after(screen *ebiten.Image) {
 			screen.DrawImage(inventaireOnBtn, optinventaire)
 		}
 		opts := &ebiten.DrawImageOptions{}
-		opts.GeoM.Scale(0.5, 0.5)
+		opts.GeoM.Scale(0.15, 0.15)
+
+		drawRoundedRect(screen, 150, 100, 100, 450, 20, color.RGBA{255, 255, 255, 255}, "")
 
 		if boxeBtn != nil {
 			opts.GeoM.Translate(float64(boxeRect.Min.X), float64(boxeRect.Min.Y))
