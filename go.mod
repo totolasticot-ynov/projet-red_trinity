@@ -1,6 +1,6 @@
 module projetred
 
-go 1.25.0
+go 1.25
 
 require (
 	github.com/hajimehoshi/ebiten/v2 v2.8.8

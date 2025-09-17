@@ -97,6 +97,6 @@ func DrawMenu(screen *ebiten.Image) {
 
 	// affiche l'arène choisie
 	if selectedArena != "" {
-		text.Draw(screen, "Arena: "+selectedArena, basicfont.Face7x13, 300, 550, color.White)
+		text.Draw(screen, "Arena: "+selectedArena, basicfont.Face7x13, 375, 430, color.White)
 	}
 }
