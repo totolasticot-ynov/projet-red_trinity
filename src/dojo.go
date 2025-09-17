@@ -16,6 +16,11 @@ var mouseDown bool // détecte la transition appuyé -> relâché
 var arts = []string{"Boxe", "Judo", "Jujutsu", "Karate", "Lutte"}
 var combatResult string // texte du dernier combat
 var combatstate bool
+var round1game bool
+var round2game bool
+var round3game bool
+var round4game bool
+var round5game bool
 
 func choixAdversaire() string {
 	rand.Seed(time.Now().UnixNano())
@@ -133,6 +138,37 @@ func DrawGame_dojo_before(screen *ebiten.Image) {
 
 func DrawGame_dojo_after(screen *ebiten.Image) {
 	playlevel1Music()
+	if round1game {
+		if round1 != nil {
+			optround1 := &ebiten.DrawImageOptions{}
+			optround1.GeoM.Translate(250, 10)
+			screen.DrawImage(round1, optround1)
+		}
+	} else if round2game {
+		if round2 != nil {
+			optround2 := &ebiten.DrawImageOptions{}
+			optround2.GeoM.Translate(250, 10)
+			screen.DrawImage(round2, optround2)
+		}
+	} else if round3game {
+		if round3 != nil {
+			optround3 := &ebiten.DrawImageOptions{}
+			optround3.GeoM.Translate(250, 10)
+			screen.DrawImage(round3, optround3)
+		}
+	} else if round4game {
+		if round4 != nil {
+			optround4 := &ebiten.DrawImageOptions{}
+			optround4.GeoM.Translate(250, 10)
+			screen.DrawImage(round4, optround4)
+		}
+	} else if round5game {
+		if round5 != nil {
+			optround5 := &ebiten.DrawImageOptions{}
+			optround5.GeoM.Translate(250, 10)
+			screen.DrawImage(round5, optround5)
+		}
+	}
 
 	pressed := ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft)
 
@@ -236,6 +272,26 @@ func DrawGame_dojo_after(screen *ebiten.Image) {
 	// affichage du résultat (utilise basicfont.Face7x13)
 	if combatResult != "" && !combatstate {
 		fmt.Print(combatResult + "\n")
+		text.Draw(screen, combatResult, basicfont.Face7x13, 300, 550, color.White)
 		combatstate = true // affiché une seule fois
+		if combatstate {
+			if round1game {
+				round1game = false
+				round2game = true
+			} else if round2game {
+				round2game = false
+				round3game = true
+			} else if round3game {
+				round3game = false
+				round4game = true
+			} else if round4game {
+				round4game = false
+				round5game = true
+			} else if round5game {
+				round5game = false
+			} else if !round1game && !round2game && !round3game && !round4game && !round5game {
+				round1game = true
+			}
+		}
 	}
 }
