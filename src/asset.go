@@ -62,6 +62,11 @@ var (
 	round3            *ebiten.Image
 	round4            *ebiten.Image
 	round5            *ebiten.Image
+	num1              *ebiten.Image
+	num2              *ebiten.Image
+	num3              *ebiten.Image
+	num4              *ebiten.Image
+	num5              *ebiten.Image
 )
 
 func init() {
@@ -138,11 +143,17 @@ func init() {
 
 	lutteBtn, _, _ = ebitenutil.NewImageFromFile("../images/art martiaux/lutte.png")
 	lutteRect = image.Rect(0, 80, 0+lutteBtn.Bounds().Dx(), 80+lutteBtn.Bounds().Dy()) //position du bouton lutte
+
+	//numero
+	num1, _, _ := ebitenutil.NewImageFromFile("../images/chiffres/1.png")
+	num2, _, _ := ebitenutil.NewImageFromFile("../images/chiffres/2.png")
+	num3, _, _ := ebitenutil.NewImageFromFile("../images/chiffres/3.png")
+	num4, _, _ := ebitenutil.NewImageFromFile("../images/chiffres/4.png")
+	num5, _, _ := ebitenutil.NewImageFromFile("../images/chiffres/5.png")
 }
 
 // === AUDIO ===
 func playMenuMusic() {
-	//stopAllMusic()
 	if menuPlayer != nil && menuPlayer.IsPlaying() {
 		return // La musique est déjà en cours de lecture
 	}
@@ -154,7 +165,6 @@ func playMenuMusic() {
 }
 
 func playlevel1Music() {
-	stopAllMusic()
 	if level1Player != nil && level1Player.IsPlaying() {
 		return // La musique est déjà en cours de lecture
 	}
@@ -166,7 +176,6 @@ func playlevel1Music() {
 }
 
 func playlevel2Music() {
-	stopAllMusic()
 	if level2Player != nil && level2Player.IsPlaying() {
 		return // La musique est déjà en cours de lecture
 	}
@@ -175,19 +184,4 @@ func playlevel2Music() {
 	loop := audio.NewInfiniteLoop(stream, stream.Length())
 	level2Player, _ = audio.NewPlayer(audioCtx, loop)
 	level2Player.Play()
-}
-
-func stopAllMusic() {
-	if menuPlayer != nil {
-		menuPlayer.Pause()
-		menuPlayer = nil
-	}
-	if level1Player != nil {
-		level1Player.Pause()
-		level1Player = nil
-	}
-	if level2Player != nil {
-		level2Player.Pause()
-		level2Player = nil
-	}
 }
