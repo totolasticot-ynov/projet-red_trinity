@@ -3,90 +3,31 @@ package main
 import (
 	"fmt"
 	"image/color"
-	"math/rand"
-	"time"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/text"
 	"golang.org/x/image/font/basicfont"
 )
 
-var inventaire bool
-var mouseDown bool // détecte la transition appuyé -> relâché
-var arts = []string{"Boxe", "Judo", "Jujutsu", "Karate", "Lutte"}
-var combatResult string // texte du dernier combat
-var combatstate bool
-var round1game bool
-var round2game bool
-var round3game bool
-var round4game bool
-var round5game bool
-
-func choixAdversaire() string {
-	rand.Seed(time.Now().UnixNano())
-	return arts[rand.Intn(len(arts))]
-}
-
-func lancerCombat(choix string) {
-	adv := choixAdversaire()
-	combatResult = resoudreCombat(choix, adv)
-	combatstate = false // reset pour pouvoir afficher une fois
-}
-
-func resoudreCombat(joueur string, adversaire string) string {
-	if joueur == adversaire {
-		return fmt.Sprintf("Égalité ! Vous avez tous les deux choisi %s.", joueur)
-	}
-
-	// Règle circulaire (chifoumi à 5 coups)
-	joueurIndex := -1
-	adversaireIndex := -1
-
-	for i, v := range arts {
-		if v == joueur {
-			joueurIndex = i
-		}
-		if v == adversaire {
-			adversaireIndex = i
-		}
-	}
-
-	if joueurIndex == -1 || adversaireIndex == -1 {
-		return "Erreur dans le choix."
-	}
-
-	// Le joueur bat les deux suivants
-	if (adversaireIndex == (joueurIndex+1)%5) || (adversaireIndex == (joueurIndex+2)%5) {
-		return fmt.Sprintf("Vous gagnez ! %s bat %s.", joueur, adversaire)
-	}
-
-	return fmt.Sprintf("Vous perdez... %s bat %s.", adversaire, joueur)
-}
-
-// -----------------------------
-// Logique de jeu
-// -----------------------------
-
 func UpdateGame_dojo() {
-	// Ici on ne gère que les boutons de changement d'état (menu/combat)
 	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
 		x, y := ebiten.CursorPosition()
 
-		// bouton retour
 		if backRect.Min.X <= x && x <= backRect.Max.X &&
 			backRect.Min.Y <= y && y <= backRect.Max.Y {
 			SetState("menu")
 		}
-		// bouton fight
+
 		if fightRect.Min.X <= x && x <= fightRect.Max.X &&
 			fightRect.Min.Y <= y && y <= fightRect.Max.Y {
-			SetState("combat")
+			SetState("boutique_dojo")
 		}
 	}
 }
 
 func DrawGame_dojo_before(screen *ebiten.Image) {
 	playlevel1Music()
+
 	op := &ebiten.DrawImageOptions{}
 	scaleX := 800 / float64(bgGame_dojo.Bounds().Dx())
 	scaleY := 600 / float64(bgGame_dojo.Bounds().Dy())
@@ -120,69 +61,40 @@ func DrawGame_dojo_before(screen *ebiten.Image) {
 		optdollar.GeoM.Translate(float64(dollarRect.Min.X), float64(dollarRect.Min.Y))
 		screen.DrawImage(dollarBtn, optdollar)
 	}
-	if pilredBtn != nil {
 
+	if pilredBtn != nil {
 		optpilred := &ebiten.DrawImageOptions{}
 		optpilred.GeoM.Scale(0.2, 0.2)
 		optpilred.GeoM.Translate(float64(pilredRect.Min.X), float64(pilredRect.Min.Y))
 		screen.DrawImage(pilredBtn, optpilred)
 	}
+
 	if pilblueBtn != nil {
 		optpilblue := &ebiten.DrawImageOptions{}
 		optpilblue.GeoM.Scale(0.2, 0.2)
 		optpilblue.GeoM.Translate(float64(pilblueRect.Min.X), float64(pilblueRect.Min.Y))
 		screen.DrawImage(pilblueBtn, optpilblue)
 	}
+
 	text.Draw(screen, "la moula", basicfont.Face7x13, 590, 327, color.White)
 }
 
 func DrawGame_dojo_after(screen *ebiten.Image) {
 	playlevel1Music()
-	if round1game {
-		if round1 != nil {
-			optround1 := &ebiten.DrawImageOptions{}
-			optround1.GeoM.Translate(250, 10)
-			screen.DrawImage(round1, optround1)
-		}
-	} else if round2game {
-		if round2 != nil {
-			optround2 := &ebiten.DrawImageOptions{}
-			optround2.GeoM.Translate(250, 10)
-			screen.DrawImage(round2, optround2)
-		}
-	} else if round3game {
-		if round3 != nil {
-			optround3 := &ebiten.DrawImageOptions{}
-			optround3.GeoM.Translate(250, 10)
-			screen.DrawImage(round3, optround3)
-		}
-	} else if round4game {
-		if round4 != nil {
-			optround4 := &ebiten.DrawImageOptions{}
-			optround4.GeoM.Translate(250, 10)
-			screen.DrawImage(round4, optround4)
-		}
-	} else if round5game {
-		if round5 != nil {
-			optround5 := &ebiten.DrawImageOptions{}
-			optround5.GeoM.Translate(250, 10)
-			screen.DrawImage(round5, optround5)
-		}
-	}
+
+	// Affichage du round actuel
+	roundText := fmt.Sprintf("Round %d/5", currentRound)
+	text.Draw(screen, roundText, basicfont.Face7x13, 350, 30, color.White)
 
 	pressed := ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft)
 
-	// Détection d'un nouveau clic (edge: non-press -> press)
-	if pressed && !mouseDown {
-		// nouveau clic détecté : traiter l'événement une fois
+	if pressed && !mouseDown && !gameFinished {
 		x, y := ebiten.CursorPosition()
 
-		// Toggle inventaire si on clique sur le bouton d'inventaire
 		if inventaireOffRect.Min.X <= x && x <= inventaireOffRect.Max.X &&
 			inventaireOffRect.Min.Y <= y && y <= inventaireOffRect.Max.Y {
 			inventaire = !inventaire
-		} else if inventaire { // si inventaire ouvert, regarder les items
-			// Chaque bouton lance un combat correspondant
+		} else if inventaire {
 			if boxeRect.Min.X <= x && x <= boxeRect.Max.X &&
 				boxeRect.Min.Y <= y && y <= boxeRect.Max.Y {
 				lancerCombat("Boxe")
@@ -198,16 +110,16 @@ func DrawGame_dojo_after(screen *ebiten.Image) {
 			} else if lutteRect.Min.X <= x && x <= lutteRect.Max.X &&
 				lutteRect.Min.Y <= y && y <= lutteRect.Max.Y {
 				lancerCombat("Lutte")
+			} else {
+				lancerCombat("miss")
 			}
 		}
 
 		mouseDown = true
 	} else if !pressed {
-		// relâchement : autorise le prochain clic
 		mouseDown = false
 	}
 
-	// fond
 	if bgGame_dojo != nil {
 		op := &ebiten.DrawImageOptions{}
 		scaleX := 800 / float64(bgGame_dojo.Bounds().Dx())
@@ -216,13 +128,13 @@ func DrawGame_dojo_after(screen *ebiten.Image) {
 		screen.DrawImage(bgGame_dojo, op)
 	}
 
-	// persos
 	if neoplayer != nil {
 		optneo := &ebiten.DrawImageOptions{}
 		optneo.GeoM.Scale(0.5, 0.5)
 		optneo.GeoM.Translate(float64(neo_playerRect.Min.X), float64(neo_playerRect.Min.Y))
 		screen.DrawImage(neoplayer, optneo)
 	}
+
 	if morpheusplayer != nil {
 		optmor := &ebiten.DrawImageOptions{}
 		optmor.GeoM.Scale(0.5, 0.5)
@@ -230,68 +142,12 @@ func DrawGame_dojo_after(screen *ebiten.Image) {
 		screen.DrawImage(morpheusplayer, optmor)
 	}
 
-	// inventaire (visuel)
-	optinventaire := &ebiten.DrawImageOptions{}
-	if !inventaire {
-		if inventaireOffBtn != nil {
-			optinventaire.GeoM.Translate(float64(inventaireOffRect.Min.X), float64(inventaireOffRect.Min.Y))
-			screen.DrawImage(inventaireOffBtn, optinventaire)
-		}
-	} else {
-		if inventaireOnBtn != nil {
-			optinventaire.GeoM.Translate(float64(inventaireOnRect.Min.X), float64(inventaireOnRect.Min.Y))
-			screen.DrawImage(inventaireOnBtn, optinventaire)
-		}
-		opts := &ebiten.DrawImageOptions{}
-		opts.GeoM.Scale(0.15, 0.15)
+	DrawInventaire(screen)
+	DrawRounds(screen)
 
-		drawRoundedRect(screen, 150, 100, 100, 450, 20, color.RGBA{255, 255, 255, 255}, "")
-
-		if boxeBtn != nil {
-			opts.GeoM.Translate(float64(boxeRect.Min.X), float64(boxeRect.Min.Y))
-			screen.DrawImage(boxeBtn, opts)
-		}
-		if judoBtn != nil {
-			opts.GeoM.Translate(float64(judoRect.Min.X), float64(judoRect.Min.Y))
-			screen.DrawImage(judoBtn, opts)
-		}
-		if jujutsuBtn != nil {
-			opts.GeoM.Translate(float64(jujutsuRect.Min.X), float64(jujutsuRect.Min.Y))
-			screen.DrawImage(jujutsuBtn, opts)
-		}
-		if karateBtn != nil {
-			opts.GeoM.Translate(float64(karateRect.Min.X), float64(karateRect.Min.Y))
-			screen.DrawImage(karateBtn, opts)
-		}
-		if lutteBtn != nil {
-			opts.GeoM.Translate(float64(lutteRect.Min.X), float64(lutteRect.Min.Y))
-			screen.DrawImage(lutteBtn, opts)
-		}
-	}
-
-	// affichage du résultat (utilise basicfont.Face7x13)
-	if combatResult != "" && !combatstate {
-		fmt.Print(combatResult + "\n")
+	if combatResult != "" {
+		drawRoundedRect(screen, 250, 300, 100, 100, 20, color.RGBA{0, 255, 0, 255}, "")
+		drawRoundedRect(screen, 500, 300, 100, 100, 20, color.RGBA{255, 0, 0, 255}, "")
 		text.Draw(screen, combatResult, basicfont.Face7x13, 300, 550, color.White)
-		combatstate = true // affiché une seule fois
-		if combatstate {
-			if round1game {
-				round1game = false
-				round2game = true
-			} else if round2game {
-				round2game = false
-				round3game = true
-			} else if round3game {
-				round3game = false
-				round4game = true
-			} else if round4game {
-				round4game = false
-				round5game = true
-			} else if round5game {
-				round5game = false
-			} else if !round1game && !round2game && !round3game && !round4game && !round5game {
-				round1game = true
-			}
-		}
 	}
 }
