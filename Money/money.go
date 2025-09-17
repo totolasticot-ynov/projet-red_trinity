@@ -17,7 +17,7 @@ func NewCharacter(name string, class string) money {
 	return money{
 		Name:   name,
 		Class:  class,
-		Health: 40,  //  40/100 points de vie au départ
+		Health: 100, //  100 points de vie au départ
 		Gold:   100, // Le joueur commence avec 100 $
 	}
 }
