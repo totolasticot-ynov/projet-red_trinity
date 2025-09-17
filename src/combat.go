@@ -18,6 +18,8 @@ var (
 	gameFinished     bool = false
 	playerChoice     string
 	adversaireChoice string
+	resultImg        *ebiten.Image
+	resultimg_red    *ebiten.Image
 )
 
 func choixAdversaire() string {
@@ -30,10 +32,22 @@ func lancerCombat(choix string) {
 		return
 	}
 	if choix == "miss" {
-		//
+		combatResult = fmt.Sprintf("Round %d - Vous avez manqué votre attaque !", currentRound)
 	}
 	playerChoice = choix
 	adversaireChoice = choixAdversaire()
+	switch adversaireChoice {
+	case "Boxe":
+		resultimg_red = boxeBtn
+	case "Judo":
+		resultimg_red = judoBtn
+	case "Jujutsu":
+		resultimg_red = jujutsuBtn
+	case "Karate":
+		resultimg_red = karateBtn
+	case "Lutte":
+		resultimg_red = lutteBtn
+	}
 	combatResult = resoudreCombat(playerChoice, adversaireChoice)
 
 	currentRound++

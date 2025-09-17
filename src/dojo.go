@@ -95,20 +95,25 @@ func DrawGame_dojo_after(screen *ebiten.Image) {
 			inventaireOffRect.Min.Y <= y && y <= inventaireOffRect.Max.Y {
 			inventaire = !inventaire
 		} else if inventaire {
-			if boxeRect.Min.X <= x && x <= boxeRect.Max.X &&
-				boxeRect.Min.Y <= y && y <= boxeRect.Max.Y {
+			if 180 <= x && x <= 260 &&
+				130 <= y && y <= 200 {
+				resultImg = boxeBtn
 				lancerCombat("Boxe")
-			} else if judoRect.Min.X <= x && x <= judoRect.Max.X &&
-				judoRect.Min.Y <= y && y <= judoRect.Max.Y {
+			} else if 180 <= x && x <= 230 &&
+				210 <= y && y <= 270 {
+				resultImg = judoBtn
 				lancerCombat("Judo")
-			} else if jujutsuRect.Min.X <= x && x <= jujutsuRect.Max.X &&
-				jujutsuRect.Min.Y <= y && y <= jujutsuRect.Max.Y {
+			} else if 180 <= x && x <= 260 &&
+				290 <= y && y <= 350 {
+				resultImg = jujutsuBtn
 				lancerCombat("Jujutsu")
-			} else if karateRect.Min.X <= x && x <= karateRect.Max.X &&
-				karateRect.Min.Y <= y && y <= karateRect.Max.Y {
+			} else if 180 <= x && x <= 260 &&
+				380 <= y && y <= 440 {
+				resultImg = karateBtn
 				lancerCombat("Karate")
-			} else if lutteRect.Min.X <= x && x <= lutteRect.Max.X &&
-				lutteRect.Min.Y <= y && y <= lutteRect.Max.Y {
+			} else if 180 <= x && x <= 260 &&
+				470 <= y && y <= 530 {
+				resultImg = lutteBtn
 				lancerCombat("Lutte")
 			} else {
 				lancerCombat("miss")
@@ -146,8 +151,24 @@ func DrawGame_dojo_after(screen *ebiten.Image) {
 	DrawRounds(screen)
 
 	if combatResult != "" {
+		// Carré vert
 		drawRoundedRect(screen, 250, 300, 100, 100, 20, color.RGBA{0, 255, 0, 255}, "")
+		// Carré rouge
 		drawRoundedRect(screen, 500, 300, 100, 100, 20, color.RGBA{255, 0, 0, 255}, "")
-		text.Draw(screen, combatResult, basicfont.Face7x13, 300, 550, color.White)
+
+		// Affichage du choix du joueur dans le carré vert
+		text.Draw(screen, combatResult, basicfont.Face7x13, 275, 500, color.Black)
+
+		// Optionnel : dessiner l'image du choix
+		optresult := &ebiten.DrawImageOptions{}
+		optresult.GeoM.Scale(0.2, 0.2)
+		optresult.GeoM.Translate(250, 300) // carré rouge
+		screen.DrawImage(resultImg, optresult)
+
+		// Affichage du choix de l'adversaire dans le carré rouge
+		optresult_red := &ebiten.DrawImageOptions{}
+		optresult_red.GeoM.Scale(0.2, 0.2)
+		optresult_red.GeoM.Translate(500, 300) // carré rouge
+		screen.DrawImage(resultimg_red, optresult_red)
 	}
 }

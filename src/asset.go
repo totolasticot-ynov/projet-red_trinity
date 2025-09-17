@@ -142,7 +142,7 @@ func init() {
 
 // === AUDIO ===
 func playMenuMusic() {
-	stopAllMusic()
+	//stopAllMusic()
 	if menuPlayer != nil && menuPlayer.IsPlaying() {
 		return // La musique est déjà en cours de lecture
 	}
@@ -167,14 +167,14 @@ func playlevel1Music() {
 
 func playlevel2Music() {
 	stopAllMusic()
-	if level1Player != nil && level1Player.IsPlaying() {
+	if level2Player != nil && level2Player.IsPlaying() {
 		return // La musique est déjà en cours de lecture
 	}
 	f, _ := os.Open("../musiques/musiquelevel2.mp3") // ton fichier mp3
 	stream, _ := mp3.Decode(audioCtx, f)
 	loop := audio.NewInfiniteLoop(stream, stream.Length())
-	level1Player, _ = audio.NewPlayer(audioCtx, loop)
-	level1Player.Play()
+	level2Player, _ = audio.NewPlayer(audioCtx, loop)
+	level2Player.Play()
 }
 
 func stopAllMusic() {
