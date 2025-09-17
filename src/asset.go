@@ -50,6 +50,7 @@ var (
 	oracleplayer      *ebiten.Image
 	oracleRect        image.Rectangle
 	level1Player      *audio.Player
+	level2Player      *audio.Player
 	dollarBtn         *ebiten.Image
 	dollarRect        image.Rectangle
 	pilredBtn         *ebiten.Image
@@ -141,6 +142,7 @@ func init() {
 
 // === AUDIO ===
 func playMenuMusic() {
+	stopAllMusic()
 	if menuPlayer != nil && menuPlayer.IsPlaying() {
 		return // La musique est déjà en cours de lecture
 	}
@@ -152,6 +154,7 @@ func playMenuMusic() {
 }
 
 func playlevel1Music() {
+	stopAllMusic()
 	if level1Player != nil && level1Player.IsPlaying() {
 		return // La musique est déjà en cours de lecture
 	}
@@ -163,6 +166,7 @@ func playlevel1Music() {
 }
 
 func playlevel2Music() {
+	stopAllMusic()
 	if level1Player != nil && level1Player.IsPlaying() {
 		return // La musique est déjà en cours de lecture
 	}
@@ -171,4 +175,19 @@ func playlevel2Music() {
 	loop := audio.NewInfiniteLoop(stream, stream.Length())
 	level1Player, _ = audio.NewPlayer(audioCtx, loop)
 	level1Player.Play()
+}
+
+func stopAllMusic() {
+	if menuPlayer != nil {
+		menuPlayer.Pause()
+		menuPlayer = nil
+	}
+	if level1Player != nil {
+		level1Player.Pause()
+		level1Player = nil
+	}
+	if level2Player != nil {
+		level2Player.Pause()
+		level2Player = nil
+	}
 }
