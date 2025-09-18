@@ -22,8 +22,6 @@ var (
 	resultimg_red      *ebiten.Image
 	vert               = color.RGBA{0, 255, 0, 255}
 	rouge              = color.RGBA{255, 0, 0, 255}
-	toi                bool
-	enemie             bool
 	couleur_toi        color.RGBA
 	couleur_enemie     color.RGBA
 	score_toi          int
@@ -58,8 +56,6 @@ func lancerCombat(choix string) {
 	}
 
 	// reset couleurs à chaque round
-	toi = false
-	enemie = false
 	couleur_toi = color.RGBA{0, 0, 0, 0}
 	couleur_enemie = color.RGBA{0, 0, 0, 0}
 
@@ -94,8 +90,6 @@ func lancerCombat(choix string) {
 
 func resoudreCombat(joueur string, adversaire string) string {
 	if joueur == adversaire {
-		toi = false
-		enemie = false
 		return fmt.Sprintf("Round %d - Égalité ! Vous avez tous les deux choisi %s.", currentRound, joueur)
 	}
 
@@ -116,13 +110,10 @@ func resoudreCombat(joueur string, adversaire string) string {
 	}
 
 	if (adversaireIndex == (joueurIndex+1)%5) || (adversaireIndex == (joueurIndex+2)%5) {
-		toi = true
 		score_toi++
 		argent += 10
 		return fmt.Sprintf("Round %d - Vous gagnez ! %s bat %s.", currentRound, joueur, adversaire)
 	}
-	toi = false
-	enemie = false
 	score_enemie++
 	return fmt.Sprintf("Round %d - Vous perdez... %s bat %s.", currentRound, adversaire, joueur)
 }

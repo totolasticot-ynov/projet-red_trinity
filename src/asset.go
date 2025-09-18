@@ -26,8 +26,8 @@ var (
 	playRect, exitRect, backRect, fightRect, menuRect image.Rectangle
 
 	// Boutons inventaire / items
-	inventaireOffBtn, inventaireOnBtn, pilredBtn, pilblueBtn, cadena, forgeBtn, plus, egal *ebiten.Image
-	inventaireOffRect, inventaireOnRect, pilredRect, pilblueRect, forgeRect                image.Rectangle
+	inventaireOffBtn, inventaireOnBtn, pilredBtn, pilblueBtn, cadena, forgeBtn *ebiten.Image
+	inventaireOffRect, inventaireOnRect, pilredRect, pilblueRect, forgeRect    image.Rectangle
 
 	// Techniques de combat
 	boxeBtn, judoBtn, jujutsuBtn, karateBtn, lutteBtn, casqueAC, lutteAC, kimonoAC, pantAC *ebiten.Image
@@ -37,8 +37,8 @@ var (
 	num0, num1, num2, num3, num4, num5 *ebiten.Image
 
 	// Audio
-	audioCtx                                                                                                 *audio.Context
-	menuPlayer, level1Player, level2Player, level3Player, level4Player, level5Player, ringplayer, ringStream *audio.Player
+	audioCtx                                                                                     *audio.Context
+	menuPlayer, level1Player, level2Player, level3Player, level4Player, level5Player, ringplayer *audio.Player
 )
 
 func init() {

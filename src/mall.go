@@ -319,8 +319,6 @@ func DrawGame_mall_after(screen *ebiten.Image) {
 				currentRound = 0
 				gameFinished = false
 				combatResult = ""
-				toi = false
-				enemie = false
 				// Réinitialiser les pilules pour le prochain combat
 				pilredUsed = false
 				pilblueUsed = false
