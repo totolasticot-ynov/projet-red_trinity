@@ -17,7 +17,6 @@ func UpdateMenu() {
 
 	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
 		x, y := ebiten.CursorPosition()
-		print(x, " ", y, "\n")
 
 		if playRect.Min.X <= x && x <= playRect.Max.X &&
 			playRect.Min.Y <= y && y <= playRect.Max.Y && selectedArena != "" {

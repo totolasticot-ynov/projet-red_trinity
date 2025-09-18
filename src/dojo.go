@@ -9,6 +9,14 @@ import (
 	"golang.org/x/image/font/basicfont"
 )
 
+// Variables globales pour les pilules
+var (
+	pilredOwned  = false // Possède la pilule rouge
+	pilblueOwned = false // Possède la pilule bleue
+	pilredUsed   = false // Pilule rouge utilisée
+	pilblueUsed  = false // Pilule bleue utilisée
+)
+
 func UpdateGame_dojo() {
 	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
 		x, y := ebiten.CursorPosition()
@@ -22,13 +30,26 @@ func UpdateGame_dojo() {
 			fightRect.Min.Y <= y && y <= fightRect.Max.Y {
 			SetState("boutique_dojo")
 		}
+
+		// Achat des pilules dans la boutique (avant le combat)
 		if pilredRect.Min.X <= x && x <= pilredRect.Max.X &&
 			pilredRect.Min.Y <= y && y <= pilredRect.Max.Y {
-			pilred = true
+			// Achat pilule rouge si pas encore possédée et assez d'argent
+			if !pilredOwned && argent >= 30 {
+				argent -= 30
+				pilredOwned = true
+				pilredUsed = false // Réinitialise pour utilisation
+			}
 		}
+
 		if pilblueRect.Min.X <= x && x <= pilblueRect.Max.X &&
 			pilblueRect.Min.Y <= y && y <= pilblueRect.Max.Y {
-			pilblue = true
+			// Achat pilule bleue si pas encore possédée et assez d'argent
+			if !pilblueOwned && argent >= 30 {
+				argent -= 30
+				pilblueOwned = true
+				pilblueUsed = false // Réinitialise pour utilisation
+			}
 		}
 	}
 }
@@ -62,8 +83,9 @@ func DrawGame_dojo_before(screen *ebiten.Image) {
 	}
 
 	drawRoundedRect(screen, 400, 300, 300, 200, 20, color.RGBA{0, 0, 0, 255}, "boutique combat")
-	text.Draw(screen, "x   +1 win", basicfont.Face7x13, 450, 450, color.White)
-	text.Draw(screen, "x   -1 loose", basicfont.Face7x13, 550, 450, color.White)
+	text.Draw(screen, "Pilule rouge: +1 win", basicfont.Face7x13, 450, 380, color.White)
+	text.Draw(screen, "Pilule bleue: -1 ennemi", basicfont.Face7x13, 450, 400, color.White)
+	text.Draw(screen, "Prix: 30 pieces chaque", basicfont.Face7x13, 450, 420, color.White)
 
 	if dollarBtn != nil {
 		optdollar := &ebiten.DrawImageOptions{}
@@ -72,22 +94,40 @@ func DrawGame_dojo_before(screen *ebiten.Image) {
 		screen.DrawImage(dollarBtn, optdollar)
 	}
 
+	// Affichage des pilules avec indication si déjà possédées
 	if pilredBtn != nil {
 		optpilred := &ebiten.DrawImageOptions{}
 		optpilred.GeoM.Scale(0.2, 0.2)
 		optpilred.GeoM.Translate(float64(pilredRect.Min.X), float64(pilredRect.Min.Y))
+
+		// Assombrir si déjà possédée
+		if pilredOwned {
+			optpilred.ColorM.Scale(0.5, 0.5, 0.5, 1.0)
+		}
 		screen.DrawImage(pilredBtn, optpilred)
+
+		if pilredOwned {
+			text.Draw(screen, "POSSEDEE", basicfont.Face7x13, pilredRect.Min.X+20, pilredRect.Min.Y+50, vert)
+		}
 	}
 
 	if pilblueBtn != nil {
 		optpilblue := &ebiten.DrawImageOptions{}
 		optpilblue.GeoM.Scale(0.2, 0.2)
 		optpilblue.GeoM.Translate(float64(pilblueRect.Min.X), float64(pilblueRect.Min.Y))
+
+		// Assombrir si déjà possédée
+		if pilblueOwned {
+			optpilblue.ColorM.Scale(0.5, 0.5, 0.5, 1.0)
+		}
 		screen.DrawImage(pilblueBtn, optpilblue)
+
+		if pilblueOwned {
+			text.Draw(screen, "POSSEDEE", basicfont.Face7x13, pilblueRect.Min.X+20, pilblueRect.Min.Y+50, vert)
+		}
 	}
 
 	text.Draw(screen, "argent: "+strconv.Itoa(argent), basicfont.Face7x13, 590, 327, color.White)
-
 }
 
 func DrawGame_dojo_after(screen *ebiten.Image) {
@@ -97,20 +137,24 @@ func DrawGame_dojo_after(screen *ebiten.Image) {
 
 	if pressed && !mouseDown && !gameFinished {
 		x, y := ebiten.CursorPosition()
-		print(x, " ", y, "\n")
 
-		if pilredRect.Min.X <= x && x <= pilredRect.Max.X &&
-			pilredRect.Min.Y <= y && y <= pilredRect.Max.Y {
+		// Utilisation de la pilule rouge (+1 pour le joueur)
+		if pilredOwned && 50 <= x && x <= 90 &&
+			200 <= y && y <= 240 {
 			if score_toi < 5 {
 				score_toi++
+				pilredUsed = true   // Marque comme utilisée
+				pilredOwned = false // Retire de l'inventaire, il faudra la racheter
 			}
 		}
 
-		// -1 pour l’ennemi si clic sur pilblue
-		if pilblueRect.Min.X <= x && x <= pilblueRect.Max.X &&
-			pilblueRect.Min.Y <= y && y <= pilblueRect.Max.Y {
+		// Utilisation de la pilule bleue (-1 pour l'ennemi)
+		if pilblueOwned && 50 <= x && x <= 90 &&
+			100 <= y && y <= 140 {
 			if score_enemie > 0 {
 				score_enemie--
+				pilblueUsed = true   // Marque comme utilisée
+				pilblueOwned = false // Retire de l'inventaire, il faudra la racheter
 			}
 		}
 
@@ -142,8 +186,6 @@ func DrawGame_dojo_after(screen *ebiten.Image) {
 				if !lutte {
 					lancerCombat("Lutte")
 				}
-			} else {
-				lancerCombat("miss")
 			}
 		}
 		mouseDown = true
@@ -197,7 +239,8 @@ func DrawGame_dojo_after(screen *ebiten.Image) {
 	drawRoundedRect(screen, 200, 40, 50, 50, 10, color.RGBA{255, 255, 255, 255}, "")
 	screen.DrawImage(local_score_toi, optscore_toi)
 
-	if pilred {
+	// Affichage de la pilule rouge si possédée et pas encore utilisée
+	if pilredOwned && !pilredUsed {
 		if pilredBtn != nil {
 			optpilred := &ebiten.DrawImageOptions{}
 			optpilred.GeoM.Scale(0.2, 0.2)
@@ -206,7 +249,8 @@ func DrawGame_dojo_after(screen *ebiten.Image) {
 		}
 	}
 
-	if pilblue {
+	// Affichage de la pilule bleue si possédée et pas encore utilisée
+	if pilblueOwned && !pilblueUsed {
 		if pilblueBtn != nil {
 			optpilblue := &ebiten.DrawImageOptions{}
 			optpilblue.GeoM.Scale(0.2, 0.2)
@@ -236,14 +280,17 @@ func DrawGame_dojo_after(screen *ebiten.Image) {
 	screen.DrawImage(local_score_enemie, optscore_enemie)
 
 	if combatResult != "" {
-		if toi {
+		if score_toi > score_enemie {
+			// Le joueur gagne
 			couleur_toi = vert
 			couleur_enemie = rouge
-		} else if enemie {
+		} else if score_enemie > score_toi {
+			// L'ennemi gagne
 			couleur_toi = rouge
 			couleur_enemie = vert
 		} else {
-			couleur_toi = color.RGBA{255, 255, 0, 255} // égalité jaune
+			// Égalité
+			couleur_toi = color.RGBA{255, 255, 0, 255}
 			couleur_enemie = color.RGBA{255, 255, 0, 255}
 		}
 
@@ -288,6 +335,9 @@ func DrawGame_dojo_after(screen *ebiten.Image) {
 				combatResult = ""
 				toi = false
 				enemie = false
+				// Réinitialiser les pilules pour le prochain combat
+				pilredUsed = false
+				pilblueUsed = false
 			}
 		}
 	}

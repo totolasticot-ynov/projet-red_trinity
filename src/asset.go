@@ -103,10 +103,10 @@ func init() {
 	dollarRect = image.Rect(650, 300, 650+dollarBtn.Bounds().Dx(), 300+dollarBtn.Bounds().Dy())
 
 	pilredBtn, _, _ = ebitenutil.NewImageFromFile("../images/potion (pillule)/pilule_rouge.png")
-	pilredRect = image.Rect(425, 350, 425+pilredBtn.Bounds().Dx(), 350+pilredBtn.Bounds().Dy())
+	pilredRect = image.Rect(425, 410, 425+pilredBtn.Bounds().Dx(), 410+pilredBtn.Bounds().Dy())
 
 	pilblueBtn, _, _ = ebitenutil.NewImageFromFile("../images/potion (pillule)/pilule_bleue.png")
-	pilblueRect = image.Rect(575, 350, 575+pilblueBtn.Bounds().Dx(), 350+pilblueBtn.Bounds().Dy())
+	pilblueRect = image.Rect(575, 410, 575+pilblueBtn.Bounds().Dx(), 410+pilblueBtn.Bounds().Dy())
 
 	cadena, _, _ = ebitenutil.NewImageFromFile("../images/asset/cadena.png")
 
