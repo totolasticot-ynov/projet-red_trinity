@@ -107,6 +107,7 @@ func DrawGame_dojo_before(screen *ebiten.Image) {
 		screen.DrawImage(pilredBtn, optpilred)
 
 		if pilredOwned {
+			playringMusic()
 			text.Draw(screen, "POSSEDEE", basicfont.Face7x13, pilredRect.Min.X+20, pilredRect.Min.Y+50, vert)
 		}
 	}
@@ -123,6 +124,7 @@ func DrawGame_dojo_before(screen *ebiten.Image) {
 		screen.DrawImage(pilblueBtn, optpilblue)
 
 		if pilblueOwned {
+			playringMusic()
 			text.Draw(screen, "POSSEDEE", basicfont.Face7x13, pilblueRect.Min.X+20, pilblueRect.Min.Y+50, vert)
 		}
 	}
@@ -137,13 +139,12 @@ func DrawGame_dojo_after(screen *ebiten.Image) {
 
 	if pressed && !mouseDown && !gameFinished {
 		x, y := ebiten.CursorPosition()
-		print(x, " ", y, "\n")
 		// Utilisation de la pilule rouge (+1 pour le joueur)
 		if pilredOwned && 70 <= x && x <= 120 &&
 			220 <= y && y <= 270 {
 			if score_toi < 5 {
+				playringMusic()
 				score_toi++
-				print("pilred")
 				pilredUsed = true   // Marque comme utilisée
 				pilredOwned = false // Retire de l'inventaire, il faudra la racheter
 			}
@@ -153,6 +154,7 @@ func DrawGame_dojo_after(screen *ebiten.Image) {
 		if pilblueOwned && 70 <= x && x <= 120 &&
 			100 <= y && y <= 180 {
 			if score_enemie > 0 {
+				playringMusic()
 				score_enemie--
 				pilblueUsed = true   // Marque comme utilisée
 				pilblueOwned = false // Retire de l'inventaire, il faudra la racheter
