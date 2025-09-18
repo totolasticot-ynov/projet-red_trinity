@@ -37,8 +37,8 @@ var (
 	num0, num1, num2, num3, num4, num5 *ebiten.Image
 
 	// Audio
-	audioCtx                                                                         *audio.Context
-	menuPlayer, level1Player, level2Player, level3Player, level4Player, level5Player *audio.Player
+	audioCtx                                                                                     *audio.Context
+	menuPlayer, level1Player, level2Player, level3Player, level4Player, level5Player, ringplayer *audio.Player
 )
 
 func init() {
@@ -230,9 +230,12 @@ func playlevel5Music() {
 }
 
 func playringMusic() {
+	if ringplayer != nil && ringplayer.IsPlaying() {
+		ringplayer.Close()
+	}
 	f, _ := os.Open("../musiques/ding.mp3") // ton fichier mp3
 	stream, _ := mp3.Decode(audioCtx, f)
 	loop := audio.NewInfiniteLoop(stream, stream.Length())
-	level2Player, _ = audio.NewPlayer(audioCtx, loop)
-	level2Player.Play()
+	ringplayer, _ = audio.NewPlayer(audioCtx, loop)
+	ringplayer.Play()
 }

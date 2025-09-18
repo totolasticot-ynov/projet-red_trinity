@@ -321,7 +321,7 @@ func DrawGame_mall_after(screen *ebiten.Image) {
 				menuRect.Min.Y <= y && y <= menuRect.Max.Y {
 				SetState("menu") // retour au menu principal
 				if score_toi > score_enemie {
-					mall = true
+					place = true
 				}
 				score_toi = 0
 				score_enemie = 0
