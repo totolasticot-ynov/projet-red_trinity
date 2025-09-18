@@ -137,20 +137,21 @@ func DrawGame_dojo_after(screen *ebiten.Image) {
 
 	if pressed && !mouseDown && !gameFinished {
 		x, y := ebiten.CursorPosition()
-
+		print(x, " ", y, "\n")
 		// Utilisation de la pilule rouge (+1 pour le joueur)
-		if pilredOwned && 50 <= x && x <= 90 &&
-			200 <= y && y <= 240 {
+		if pilredOwned && 70 <= x && x <= 120 &&
+			220 <= y && y <= 270 {
 			if score_toi < 5 {
 				score_toi++
+				print("pilred")
 				pilredUsed = true   // Marque comme utilisée
 				pilredOwned = false // Retire de l'inventaire, il faudra la racheter
 			}
 		}
 
 		// Utilisation de la pilule bleue (-1 pour l'ennemi)
-		if pilblueOwned && 50 <= x && x <= 90 &&
-			100 <= y && y <= 140 {
+		if pilblueOwned && 70 <= x && x <= 120 &&
+			100 <= y && y <= 180 {
 			if score_enemie > 0 {
 				score_enemie--
 				pilblueUsed = true   // Marque comme utilisée
@@ -177,13 +178,13 @@ func DrawGame_dojo_after(screen *ebiten.Image) {
 			} else if 180 <= x && x <= 260 &&
 				380 <= y && y <= 440 {
 				resultImg = karateBtn
-				if !karate {
+				if karate {
 					lancerCombat("Karate")
 				}
 			} else if 180 <= x && x <= 260 &&
 				470 <= y && y <= 530 {
 				resultImg = lutteBtn
-				if !lutte {
+				if lutte {
 					lancerCombat("Lutte")
 				}
 			}

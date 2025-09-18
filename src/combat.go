@@ -33,7 +33,7 @@ var (
 	mall               bool = false
 	place              bool = false
 	maison             bool = false
-	argent             int
+	argent             int  = 100
 	karate             bool = false
 	lutte              bool = false
 	pilred             bool
