@@ -2,7 +2,6 @@ package main
 
 import (
 	"image/color"
-
 	"strconv"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -10,7 +9,7 @@ import (
 	"golang.org/x/image/font/basicfont"
 )
 
-func UpdateGame_maison() {
+func UpdateGame_building() {
 	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
 		x, y := ebiten.CursorPosition()
 
@@ -21,19 +20,27 @@ func UpdateGame_maison() {
 
 		if fightRect.Min.X <= x && x <= fightRect.Max.X &&
 			fightRect.Min.Y <= y && y <= fightRect.Max.Y {
-			SetState("boutique_maison")
+			SetState("boutique_building")
+		}
+		if pilredRect.Min.X <= x && x <= pilredRect.Max.X &&
+			pilredRect.Min.Y <= y && y <= pilredRect.Max.Y {
+			pilred = true
+		}
+		if pilblueRect.Min.X <= x && x <= pilblueRect.Max.X &&
+			pilblueRect.Min.Y <= y && y <= pilblueRect.Max.Y {
+			pilblue = true
 		}
 	}
 }
 
-func DrawGame_maison_before(screen *ebiten.Image) {
-	playlevel4Music()
+func DrawGame_building_before(screen *ebiten.Image) {
+	playlevel5Music()
 
 	op := &ebiten.DrawImageOptions{}
-	scaleX := 800 / float64(bgGame_maison.Bounds().Dx())
-	scaleY := 600 / float64(bgGame_maison.Bounds().Dy())
+	scaleX := 800 / float64(bgGame_building.Bounds().Dx())
+	scaleY := 600 / float64(bgGame_building.Bounds().Dy())
 	op.GeoM.Scale(scaleX, scaleY)
-	screen.DrawImage(bgGame_maison, op)
+	screen.DrawImage(bgGame_building, op)
 
 	if backBtn != nil {
 		optback := &ebiten.DrawImageOptions{}
@@ -55,6 +62,8 @@ func DrawGame_maison_before(screen *ebiten.Image) {
 	}
 
 	drawRoundedRect(screen, 400, 300, 300, 200, 20, color.RGBA{0, 0, 0, 255}, "boutique combat")
+	text.Draw(screen, "x   +1 win", basicfont.Face7x13, 450, 450, color.White)
+	text.Draw(screen, "x   -1 loose", basicfont.Face7x13, 550, 450, color.White)
 
 	if dollarBtn != nil {
 		optdollar := &ebiten.DrawImageOptions{}
@@ -78,15 +87,32 @@ func DrawGame_maison_before(screen *ebiten.Image) {
 	}
 
 	text.Draw(screen, "argent: "+strconv.Itoa(argent), basicfont.Face7x13, 590, 327, color.White)
+
 }
 
-func DrawGame_maison_after(screen *ebiten.Image) {
-	playlevel4Music()
+func DrawGame_building_after(screen *ebiten.Image) {
+	playlevel5Music()
 
 	pressed := ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft)
 
 	if pressed && !mouseDown && !gameFinished {
 		x, y := ebiten.CursorPosition()
+		print(x, " ", y, "\n")
+
+		if pilredRect.Min.X <= x && x <= pilredRect.Max.X &&
+			pilredRect.Min.Y <= y && y <= pilredRect.Max.Y {
+			if score_toi < 5 {
+				score_toi++
+			}
+		}
+
+		// -1 pour l’ennemi si clic sur pilblue
+		if pilblueRect.Min.X <= x && x <= pilblueRect.Max.X &&
+			pilblueRect.Min.Y <= y && y <= pilblueRect.Max.Y {
+			if score_enemie > 0 {
+				score_enemie--
+			}
+		}
 
 		if inventaireOffRect.Min.X <= x && x <= inventaireOffRect.Max.X &&
 			inventaireOffRect.Min.Y <= y && y <= inventaireOffRect.Max.Y {
@@ -107,27 +133,30 @@ func DrawGame_maison_after(screen *ebiten.Image) {
 			} else if 180 <= x && x <= 260 &&
 				380 <= y && y <= 440 {
 				resultImg = karateBtn
-				lancerCombat("Karate")
+				if !karate {
+					lancerCombat("Karate")
+				}
 			} else if 180 <= x && x <= 260 &&
 				470 <= y && y <= 530 {
 				resultImg = lutteBtn
-				lancerCombat("Lutte")
+				if !lutte {
+					lancerCombat("Lutte")
+				}
 			} else {
 				lancerCombat("miss")
 			}
 		}
-
 		mouseDown = true
 	} else if !pressed {
 		mouseDown = false
 	}
 
-	if bgGame_maison != nil {
+	if bgGame_building != nil {
 		op := &ebiten.DrawImageOptions{}
-		scaleX := 800 / float64(bgGame_maison.Bounds().Dx())
-		scaleY := 600 / float64(bgGame_maison.Bounds().Dy())
+		scaleX := 800 / float64(bgGame_building.Bounds().Dx())
+		scaleY := 600 / float64(bgGame_building.Bounds().Dy())
 		op.GeoM.Scale(scaleX, scaleY)
-		screen.DrawImage(bgGame_maison, op)
+		screen.DrawImage(bgGame_building, op)
 	}
 
 	if neoplayer != nil {
@@ -138,10 +167,10 @@ func DrawGame_maison_after(screen *ebiten.Image) {
 	}
 
 	if morpheusplayer != nil {
-		agentOpt := &ebiten.DrawImageOptions{}
-		agentOpt.GeoM.Scale(0.5, 0.5)
-		agentOpt.GeoM.Translate(float64(agentRect.Min.X), float64(agentRect.Min.Y))
-		screen.DrawImage(agentplayer, agentOpt)
+		optmor := &ebiten.DrawImageOptions{}
+		optmor.GeoM.Scale(0.5, 0.5)
+		optmor.GeoM.Translate(float64(morpheusRect.Min.X), float64(morpheusRect.Min.Y))
+		screen.DrawImage(morpheusplayer, optmor)
 	}
 
 	DrawInventaire(screen)
@@ -167,6 +196,24 @@ func DrawGame_maison_after(screen *ebiten.Image) {
 	optscore_toi.GeoM.Translate(200, 40)
 	drawRoundedRect(screen, 200, 40, 50, 50, 10, color.RGBA{255, 255, 255, 255}, "")
 	screen.DrawImage(local_score_toi, optscore_toi)
+
+	if pilred {
+		if pilredBtn != nil {
+			optpilred := &ebiten.DrawImageOptions{}
+			optpilred.GeoM.Scale(0.2, 0.2)
+			optpilred.GeoM.Translate(50, 200)
+			screen.DrawImage(pilredBtn, optpilred)
+		}
+	}
+
+	if pilblue {
+		if pilblueBtn != nil {
+			optpilblue := &ebiten.DrawImageOptions{}
+			optpilblue.GeoM.Scale(0.2, 0.2)
+			optpilblue.GeoM.Translate(50, 100)
+			screen.DrawImage(pilblueBtn, optpilblue)
+		}
+	}
 
 	switch score_enemie {
 	case 0:
@@ -231,6 +278,9 @@ func DrawGame_maison_after(screen *ebiten.Image) {
 			if menuRect.Min.X <= x && x <= menuRect.Max.X &&
 				menuRect.Min.Y <= y && y <= menuRect.Max.Y {
 				SetState("menu") // retour au menu principal
+				if score_toi > score_enemie {
+					mall = true
+				}
 				score_toi = 0
 				score_enemie = 0
 				currentRound = 0

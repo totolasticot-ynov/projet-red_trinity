@@ -109,6 +109,18 @@ func DrawMenu(screen *ebiten.Image) {
 		cadenasOpts.GeoM.Translate(float64(bgRect_maison.Min.X-30), float64(bgRect_maison.Min.Y+70))
 		screen.DrawImage(cadena, cadenasOpts)
 	}
+
+	//building
+	opts_icon.GeoM.Translate(float64(bgRect_building.Min.X-550), float64(bgRect_building.Min.Y))
+	screen.DrawImage(bgGame_building, opts_icon)
+	if !maison {
+		// dessine un cadenas si le niveau n'est pas débloqué
+		cadenasOpts := &ebiten.DrawImageOptions{}
+		cadenasOpts.GeoM.Scale(0.5, 0.5)
+		cadenasOpts.GeoM.Translate(390, 250)
+		print()
+		screen.DrawImage(cadena, cadenasOpts)
+	}
 	// affiche l'arène choisie
 	if selectedArena != "" {
 		text.Draw(screen, "Arena: "+selectedArena, basicfont.Face7x13, 375, 470, color.White)
