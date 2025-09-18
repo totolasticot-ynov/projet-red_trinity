@@ -32,7 +32,12 @@ var (
 	score_enemie       int
 	mall               bool = false
 	place              bool = false
+	maison             bool = false
 	argent             int
+	karate             bool = false
+	lutte              bool = false
+	pilred             bool
+	pilblue            bool
 )
 
 func choixAdversaire() string {
@@ -149,10 +154,24 @@ func DrawInventaire(screen *ebiten.Image) {
 		if karateBtn != nil {
 			opts.GeoM.Translate(float64(karateRect.Min.X), float64(karateRect.Min.Y))
 			screen.DrawImage(karateBtn, opts)
+			if !karate {
+				// dessine un cadenas si le niveau n'est pas débloqué
+				cadenasOpts := &ebiten.DrawImageOptions{}
+				cadenasOpts.GeoM.Scale(0.2, 0.2)
+				cadenasOpts.GeoM.Translate(float64(bgRect_mall.Min.X+90), float64(bgRect_mall.Min.Y+175))
+				screen.DrawImage(cadena, cadenasOpts)
+			}
 		}
 		if lutteBtn != nil {
 			opts.GeoM.Translate(float64(lutteRect.Min.X), float64(lutteRect.Min.Y))
 			screen.DrawImage(lutteBtn, opts)
+			if !lutte {
+				// dessine un cadenas si le niveau n'est pas débloqué
+				cadenasOpts := &ebiten.DrawImageOptions{}
+				cadenasOpts.GeoM.Scale(0.2, 0.2)
+				cadenasOpts.GeoM.Translate(float64(bgRect_mall.Min.X+90), float64(bgRect_mall.Min.Y+250))
+				screen.DrawImage(cadena, cadenasOpts)
+			}
 		}
 	}
 }
