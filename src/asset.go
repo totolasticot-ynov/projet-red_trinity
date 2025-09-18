@@ -13,9 +13,9 @@ import (
 
 var (
 	// Backgrounds
-	bgMenu, bgGame_dojo, bgGame_mall, bgGame_place, bgGame_maison *ebiten.Image
-	round1, round2, round3, round4, round5                        *ebiten.Image
-	bgRect_dojo, bgRect_mall, bgRect_place, bgRect_maison         image.Rectangle
+	bgMenu, bgGame_dojo, bgGame_mall, bgGame_place, bgGame_maison, bgGame_building *ebiten.Image
+	round1, round2, round3, round4, round5                                         *ebiten.Image
+	bgRect_dojo, bgRect_mall, bgRect_place, bgRect_maison, bgRect_building         image.Rectangle
 
 	// Personnages
 	neoplayer, morpheusplayer, oracleplayer, agentplayer, trinityplayer *ebiten.Image
@@ -37,8 +37,8 @@ var (
 	num0, num1, num2, num3, num4, num5 *ebiten.Image
 
 	// Audio
-	audioCtx                                             *audio.Context
-	menuPlayer, level1Player, level2Player, level3Player *audio.Player
+	audioCtx                                                                         *audio.Context
+	menuPlayer, level1Player, level2Player, level3Player, level4Player, level5Player *audio.Player
 )
 
 func init() {
@@ -48,6 +48,7 @@ func init() {
 	bgGame_mall, _, _ = ebitenutil.NewImageFromFile("../images/background/level2.png")
 	bgGame_place, _, _ = ebitenutil.NewImageFromFile("../images/background/level3.png")
 	bgGame_maison, _, _ = ebitenutil.NewImageFromFile("../images/background/level4.png")
+	bgGame_building, _, _ = ebitenutil.NewImageFromFile("../images/background/level5.png")
 	round1, _, _ = ebitenutil.NewImageFromFile("../images/round/ROUND1.png")
 	round2, _, _ = ebitenutil.NewImageFromFile("../images/round/ROUND2.png")
 	round3, _, _ = ebitenutil.NewImageFromFile("../images/round/ROUND3.png")
@@ -57,6 +58,7 @@ func init() {
 	bgRect_mall = image.Rect(50, 200, 50+bgGame_mall.Bounds().Dx(), 200+bgGame_mall.Bounds().Dy())    //position du bouton mall
 	bgRect_place = image.Rect(50, 200, 50+bgGame_place.Bounds().Dx(), 200+bgGame_place.Bounds().Dy()) //position du bouton place
 	bgRect_maison = image.Rect(170, 175, 170+bgGame_place.Bounds().Dx(), 175+bgGame_place.Bounds().Dy())
+	bgRect_building = image.Rect(800, 0, 800+bgGame_place.Bounds().Dx(), 0+bgGame_place.Bounds().Dy())
 
 	// Personnages
 	neoplayer, _, _ = ebitenutil.NewImageFromFile("../images/personnages/neo.png")
@@ -164,12 +166,6 @@ func playlevel1Music() {
 	if menuPlayer != nil && menuPlayer.IsPlaying() {
 		menuPlayer.Pause() // Arrêter la musique du menu si elle est en cours de lecture
 	}
-	if level2Player != nil && level2Player.IsPlaying() {
-		level2Player.Pause() // Arrêter la musique du niveau 2 si elle est en cours de lecture
-	}
-	if level3Player != nil && level3Player.IsPlaying() {
-		level3Player.Pause() // Arrêter la musique du niveau 3 si elle est en cours de lecture
-	}
 	f, _ := os.Open("../musiques/musiquelevel1.mp3") // ton fichier mp3
 	stream, _ := mp3.Decode(audioCtx, f)
 	loop := audio.NewInfiniteLoop(stream, stream.Length())
@@ -180,12 +176,6 @@ func playlevel1Music() {
 func playlevel2Music() {
 	if level2Player != nil && level2Player.IsPlaying() {
 		return // La musique est déjà en cours de lecture
-	}
-	if level1Player != nil && level1Player.IsPlaying() {
-		level1Player.Pause() // Arrêter la musique du niveau 1 si elle est en cours de lecture
-	}
-	if level3Player != nil && level3Player.IsPlaying() {
-		level3Player.Pause() // Arrêter la musique du niveau 3 si elle est en cours de lecture
 	}
 	if menuPlayer != nil && menuPlayer.IsPlaying() {
 		menuPlayer.Pause() // Arrêter la musique du menu si elle est en cours de lecture
@@ -201,33 +191,40 @@ func playlevel3Music() {
 	if level3Player != nil && level3Player.IsPlaying() {
 		return // La musique est déjà en cours de lecture
 	}
-	if level1Player != nil && level1Player.IsPlaying() {
-		level1Player.Pause() // Arrêter la musique du niveau 1 si elle est en cours de lecture
-	}
-	if level2Player != nil && level2Player.IsPlaying() {
-		level2Player.Pause() // Arrêter la musique du niveau 2 si elle est en cours de lecture
-	}
 	if menuPlayer != nil && menuPlayer.IsPlaying() {
 		menuPlayer.Pause() // Arrêter la musique du menu si elle est en cours de lecture
 	}
-	f, _ := os.Open("../musiques/musiquelevel3.mp3") // ton fichier mp3
+	f, _ := os.Open("../musiques/musique/level3.mp3") // ton fichier mp3
 	stream, _ := mp3.Decode(audioCtx, f)
 	loop := audio.NewInfiniteLoop(stream, stream.Length())
 	level2Player, _ = audio.NewPlayer(audioCtx, loop)
 	level2Player.Play()
 }
 
-func stopAllMusic() {
+func playlevel4Music() {
+	if level4Player != nil && level4Player.IsPlaying() {
+		return // La musique est déjà en cours de lecture
+	}
 	if menuPlayer != nil && menuPlayer.IsPlaying() {
-		menuPlayer.Pause()
+		menuPlayer.Pause() // Arrêter la musique du menu si elle est en cours de lecture
 	}
-	if level1Player != nil && level1Player.IsPlaying() {
-		level1Player.Pause()
+	f, _ := os.Open("../musiques/musiquelevel4.mp3") // ton fichier mp3
+	stream, _ := mp3.Decode(audioCtx, f)
+	loop := audio.NewInfiniteLoop(stream, stream.Length())
+	level2Player, _ = audio.NewPlayer(audioCtx, loop)
+	level2Player.Play()
+}
+
+func playlevel5Music() {
+	if level5Player != nil && level5Player.IsPlaying() {
+		return // La musique est déjà en cours de lecture
 	}
-	if level2Player != nil && level2Player.IsPlaying() {
-		level2Player.Pause()
+	if menuPlayer != nil && menuPlayer.IsPlaying() {
+		menuPlayer.Pause() // Arrêter la musique du menu si elle est en cours de lecture
 	}
-	if level3Player != nil && level3Player.IsPlaying() {
-		level3Player.Pause()
-	}
+	f, _ := os.Open("../musiques/musiquelevel4.mp3") // ton fichier mp3
+	stream, _ := mp3.Decode(audioCtx, f)
+	loop := audio.NewInfiniteLoop(stream, stream.Length())
+	level2Player, _ = audio.NewPlayer(audioCtx, loop)
+	level2Player.Play()
 }

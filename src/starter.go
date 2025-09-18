@@ -18,6 +18,8 @@ func (g *Game) Update() error {
 		UpdateGame_place()
 	case "maison":
 		UpdateGame_maison()
+	case "building":
+		UpdateGame_building()
 	}
 	return nil
 }
@@ -32,12 +34,20 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		DrawGame_mall_before(screen)
 	case "place":
 		DrawGame_place_before(screen)
+	case "maison":
+		DrawGame_maison_before(screen)
+	case "building":
+		DrawGame_building_before(screen)
 	case "boutique_dojo":
 		DrawGame_dojo_after(screen)
 	case "boutique_mall":
 		DrawGame_mall_after(screen)
 	case "boutique_place":
 		DrawGame_place_after(screen)
+	case "boutique_maison":
+		DrawGame_maison_after(screen)
+	case "boutique_building":
+		DrawGame_building_after(screen)
 	}
 }
 
