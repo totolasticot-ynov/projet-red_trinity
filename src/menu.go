@@ -27,6 +27,13 @@ func UpdateMenu() {
 
 			SetState(selectedArena)
 		}
+		if 0 <= x && x <= 10 && 550 <= y && y <= 600 {
+			mall = true
+			place = true
+			maison = true
+			building = true
+			maison = true
+		}
 
 		if exitRect.Min.X <= x && x <= exitRect.Max.X &&
 			exitRect.Min.Y <= y && y <= exitRect.Max.Y {
@@ -44,6 +51,9 @@ func UpdateMenu() {
 		}
 		if 200 <= x && x <= 430 && 250 <= y && y <= 400 && place {
 			selectedArena = "maison"
+		}
+		if 400 <= x && x <= 630 && 250 <= y && y <= 400 && building {
+			selectedArena = "building"
 		}
 	}
 }

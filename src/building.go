@@ -100,7 +100,6 @@ func DrawGame_building_before(screen *ebiten.Image) {
 		screen.DrawImage(pilredBtn, optpilred)
 
 		if pilredOwned {
-			playringMusic()
 			text.Draw(screen, "POSSEDEE", basicfont.Face7x13, pilredRect.Min.X+20, pilredRect.Min.Y+50, vert)
 		}
 	}
@@ -117,7 +116,6 @@ func DrawGame_building_before(screen *ebiten.Image) {
 		screen.DrawImage(pilblueBtn, optpilblue)
 
 		if pilblueOwned {
-			playringMusic()
 			text.Draw(screen, "POSSEDEE", basicfont.Face7x13, pilblueRect.Min.X+20, pilblueRect.Min.Y+50, vert)
 		}
 	}

@@ -152,6 +152,12 @@ func playMenuMusic() {
 	if level3Player != nil && level3Player.IsPlaying() {
 		level3Player.Pause() // Arrêter la musique du niveau 3 si elle est en cours de lecture
 	}
+	if level4Player != nil && level4Player.IsPlaying() {
+		level4Player.Pause() // Arrêter la musique du niveau 4 si elle est en cours de lecture
+	}
+	if level5Player != nil && level5Player.IsPlaying() {
+		level5Player.Pause() // Arrêter la musique du niveau 5 si elle est en cours de lecture
+	}
 	f, _ := os.Open("../asset/musiques/musique du menu.mp3") // ton fichier mp3
 	stream, _ := mp3.Decode(audioCtx, f)
 	loop := audio.NewInfiniteLoop(stream, stream.Length())
@@ -194,7 +200,7 @@ func playlevel3Music() {
 	if menuPlayer != nil && menuPlayer.IsPlaying() {
 		menuPlayer.Pause() // Arrêter la musique du menu si elle est en cours de lecture
 	}
-	f, _ := os.Open("../asset/musiques/musique/level3.mp3") // ton fichier mp3
+	f, _ := os.Open("../asset/musiques/musiquelevel3.mp3") // ton fichier mp3
 	stream, _ := mp3.Decode(audioCtx, f)
 	loop := audio.NewInfiniteLoop(stream, stream.Length())
 	level3Player, _ = audio.NewPlayer(audioCtx, loop)
@@ -230,31 +236,11 @@ func playlevel5Music() {
 }
 
 func playringMusic() {
-	if ringplayer != nil && ringplayer.IsPlaying() {
+	if ringplayer != nil {
 		ringplayer.Close()
 	}
-	f, _ := os.Open("../asset/musiques/ding.mp3") // ton fichier mp3
+	f, _ := os.Open("../asset/musiques/ding.mp3")
 	stream, _ := mp3.Decode(audioCtx, f)
-	loop := audio.NewInfiniteLoop(stream, stream.Length())
-	ringplayer, _ = audio.NewPlayer(audioCtx, loop)
+	ringplayer, _ = audio.NewPlayer(audioCtx, stream)
 	ringplayer.Play()
-}
-
-func loadRing() {
-	f, err := os.Open("../asset/musiques/ding.mp3")
-	if err != nil {
-		panic(err)
-	}
-	s, err := mp3.Decode(audioCtx, f)
-	if err != nil {
-		panic(err)
-	}
-	ringStream, _ = audio.NewPlayer(audioCtx, s)
-}
-
-func playRingOnce() {
-	if ringStream != nil && !ringStream.IsPlaying() {
-		ringStream.Rewind()
-		ringStream.Play()
-	}
 }
