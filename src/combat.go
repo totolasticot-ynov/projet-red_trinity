@@ -33,11 +33,14 @@ var (
 	mall               bool = false
 	place              bool = false
 	maison             bool = false
+	building           bool = false
 	argent             int  = 100
 	karate             bool = false
 	lutte              bool = false
-	pilred             bool
-	pilblue            bool
+	pilredOwned             = false // Possède la pilule rouge
+	pilblueOwned            = false // Possède la pilule bleue
+	pilredUsed              = false // Pilule rouge utilisée
+	pilblueUsed             = false // Pilule bleue utilisée
 )
 
 func choixAdversaire() string {

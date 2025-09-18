@@ -230,7 +230,7 @@ func playlevel5Music() {
 }
 
 func playringMusic() {
-	f, _ := os.Open("../musiques/asset.mp3") // ton fichier mp3
+	f, _ := os.Open("../musiques/ding.mp3") // ton fichier mp3
 	stream, _ := mp3.Decode(audioCtx, f)
 	loop := audio.NewInfiniteLoop(stream, stream.Length())
 	level2Player, _ = audio.NewPlayer(audioCtx, loop)

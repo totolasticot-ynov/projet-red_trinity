@@ -2,7 +2,6 @@ package main
 
 import (
 	"image/color"
-
 	"strconv"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -22,6 +21,27 @@ func UpdateGame_mall() {
 		if fightRect.Min.X <= x && x <= fightRect.Max.X &&
 			fightRect.Min.Y <= y && y <= fightRect.Max.Y {
 			SetState("boutique_mall")
+		}
+
+		// Achat des pilules dans la boutique (avant le combat)
+		if pilredRect.Min.X <= x && x <= pilredRect.Max.X &&
+			pilredRect.Min.Y <= y && y <= pilredRect.Max.Y {
+			// Achat pilule rouge si pas encore possédée et assez d'argent
+			if !pilredOwned && argent >= 30 {
+				argent -= 30
+				pilredOwned = true
+				pilredUsed = false // Réinitialise pour utilisation
+			}
+		}
+
+		if pilblueRect.Min.X <= x && x <= pilblueRect.Max.X &&
+			pilblueRect.Min.Y <= y && y <= pilblueRect.Max.Y {
+			// Achat pilule bleue si pas encore possédée et assez d'argent
+			if !pilblueOwned && argent >= 30 {
+				argent -= 30
+				pilblueOwned = true
+				pilblueUsed = false // Réinitialise pour utilisation
+			}
 		}
 	}
 }
@@ -55,6 +75,9 @@ func DrawGame_mall_before(screen *ebiten.Image) {
 	}
 
 	drawRoundedRect(screen, 400, 300, 300, 200, 20, color.RGBA{0, 0, 0, 255}, "boutique combat")
+	text.Draw(screen, "Pilule rouge: +1 win", basicfont.Face7x13, 450, 380, color.White)
+	text.Draw(screen, "Pilule bleue: -1 ennemi", basicfont.Face7x13, 450, 400, color.White)
+	text.Draw(screen, "Prix: 30 pieces chaque", basicfont.Face7x13, 450, 420, color.White)
 
 	if dollarBtn != nil {
 		optdollar := &ebiten.DrawImageOptions{}
@@ -63,22 +86,42 @@ func DrawGame_mall_before(screen *ebiten.Image) {
 		screen.DrawImage(dollarBtn, optdollar)
 	}
 
+	// Affichage des pilules avec indication si déjà possédées
 	if pilredBtn != nil {
 		optpilred := &ebiten.DrawImageOptions{}
 		optpilred.GeoM.Scale(0.2, 0.2)
 		optpilred.GeoM.Translate(float64(pilredRect.Min.X), float64(pilredRect.Min.Y))
+
+		// Assombrir si déjà possédée
+		if pilredOwned {
+			optpilred.ColorM.Scale(0.5, 0.5, 0.5, 1.0)
+		}
 		screen.DrawImage(pilredBtn, optpilred)
+
+		if pilredOwned {
+			playringMusic()
+			text.Draw(screen, "POSSEDEE", basicfont.Face7x13, pilredRect.Min.X+20, pilredRect.Min.Y+50, vert)
+		}
 	}
 
 	if pilblueBtn != nil {
 		optpilblue := &ebiten.DrawImageOptions{}
 		optpilblue.GeoM.Scale(0.2, 0.2)
 		optpilblue.GeoM.Translate(float64(pilblueRect.Min.X), float64(pilblueRect.Min.Y))
+
+		// Assombrir si déjà possédée
+		if pilblueOwned {
+			optpilblue.ColorM.Scale(0.5, 0.5, 0.5, 1.0)
+		}
 		screen.DrawImage(pilblueBtn, optpilblue)
+
+		if pilblueOwned {
+			playringMusic()
+			text.Draw(screen, "POSSEDEE", basicfont.Face7x13, pilblueRect.Min.X+20, pilblueRect.Min.Y+50, vert)
+		}
 	}
 
 	text.Draw(screen, "argent: "+strconv.Itoa(argent), basicfont.Face7x13, 590, 327, color.White)
-
 }
 
 func DrawGame_mall_after(screen *ebiten.Image) {
@@ -88,6 +131,27 @@ func DrawGame_mall_after(screen *ebiten.Image) {
 
 	if pressed && !mouseDown && !gameFinished {
 		x, y := ebiten.CursorPosition()
+		// Utilisation de la pilule rouge (+1 pour le joueur)
+		if pilredOwned && 70 <= x && x <= 120 &&
+			220 <= y && y <= 270 {
+			if score_toi < 5 {
+				playringMusic()
+				score_toi++
+				pilredUsed = true   // Marque comme utilisée
+				pilredOwned = false // Retire de l'inventaire, il faudra la racheter
+			}
+		}
+
+		// Utilisation de la pilule bleue (-1 pour l'ennemi)
+		if pilblueOwned && 70 <= x && x <= 120 &&
+			100 <= y && y <= 180 {
+			if score_enemie > 0 {
+				playringMusic()
+				score_enemie--
+				pilblueUsed = true   // Marque comme utilisée
+				pilblueOwned = false // Retire de l'inventaire, il faudra la racheter
+			}
+		}
 
 		if inventaireOffRect.Min.X <= x && x <= inventaireOffRect.Max.X &&
 			inventaireOffRect.Min.Y <= y && y <= inventaireOffRect.Max.Y {
@@ -108,16 +172,17 @@ func DrawGame_mall_after(screen *ebiten.Image) {
 			} else if 180 <= x && x <= 260 &&
 				380 <= y && y <= 440 {
 				resultImg = karateBtn
-				lancerCombat("Karate")
+				if karate {
+					lancerCombat("Karate")
+				}
 			} else if 180 <= x && x <= 260 &&
 				470 <= y && y <= 530 {
 				resultImg = lutteBtn
-				lancerCombat("Lutte")
-			} else {
-				lancerCombat("miss")
+				if lutte {
+					lancerCombat("Lutte")
+				}
 			}
 		}
-
 		mouseDown = true
 	} else if !pressed {
 		mouseDown = false
@@ -138,11 +203,11 @@ func DrawGame_mall_after(screen *ebiten.Image) {
 		screen.DrawImage(neoplayer, optneo)
 	}
 
-	if trinityplayer != nil {
-		trinityOpt := &ebiten.DrawImageOptions{}
-		trinityOpt.GeoM.Scale(0.5, 0.5)
-		trinityOpt.GeoM.Translate(float64(trinityRect.Min.X), float64(trinityRect.Min.Y))
-		screen.DrawImage(trinityplayer, trinityOpt)
+	if morpheusplayer != nil {
+		optmor := &ebiten.DrawImageOptions{}
+		optmor.GeoM.Scale(0.5, 0.5)
+		optmor.GeoM.Translate(float64(morpheusRect.Min.X), float64(morpheusRect.Min.Y))
+		screen.DrawImage(morpheusplayer, optmor)
 	}
 
 	DrawInventaire(screen)
@@ -169,6 +234,26 @@ func DrawGame_mall_after(screen *ebiten.Image) {
 	drawRoundedRect(screen, 200, 40, 50, 50, 10, color.RGBA{255, 255, 255, 255}, "")
 	screen.DrawImage(local_score_toi, optscore_toi)
 
+	// Affichage de la pilule rouge si possédée et pas encore utilisée
+	if pilredOwned && !pilredUsed {
+		if pilredBtn != nil {
+			optpilred := &ebiten.DrawImageOptions{}
+			optpilred.GeoM.Scale(0.2, 0.2)
+			optpilred.GeoM.Translate(50, 200)
+			screen.DrawImage(pilredBtn, optpilred)
+		}
+	}
+
+	// Affichage de la pilule bleue si possédée et pas encore utilisée
+	if pilblueOwned && !pilblueUsed {
+		if pilblueBtn != nil {
+			optpilblue := &ebiten.DrawImageOptions{}
+			optpilblue.GeoM.Scale(0.2, 0.2)
+			optpilblue.GeoM.Translate(50, 100)
+			screen.DrawImage(pilblueBtn, optpilblue)
+		}
+	}
+
 	switch score_enemie {
 	case 0:
 		local_score_enemie = num0
@@ -190,14 +275,17 @@ func DrawGame_mall_after(screen *ebiten.Image) {
 	screen.DrawImage(local_score_enemie, optscore_enemie)
 
 	if combatResult != "" {
-		if toi {
+		if score_toi > score_enemie {
+			// Le joueur gagne
 			couleur_toi = vert
 			couleur_enemie = rouge
-		} else if enemie {
+		} else if score_enemie > score_toi {
+			// L'ennemi gagne
 			couleur_toi = rouge
 			couleur_enemie = vert
 		} else {
-			couleur_toi = color.RGBA{255, 255, 0, 255} // égalité jaune
+			// Égalité
+			couleur_toi = color.RGBA{255, 255, 0, 255}
 			couleur_enemie = color.RGBA{255, 255, 0, 255}
 		}
 
@@ -233,7 +321,7 @@ func DrawGame_mall_after(screen *ebiten.Image) {
 				menuRect.Min.Y <= y && y <= menuRect.Max.Y {
 				SetState("menu") // retour au menu principal
 				if score_toi > score_enemie {
-					place = true
+					mall = true
 				}
 				score_toi = 0
 				score_enemie = 0
@@ -242,6 +330,9 @@ func DrawGame_mall_after(screen *ebiten.Image) {
 				combatResult = ""
 				toi = false
 				enemie = false
+				// Réinitialiser les pilules pour le prochain combat
+				pilredUsed = false
+				pilblueUsed = false
 			}
 		}
 	}

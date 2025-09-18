@@ -9,14 +9,6 @@ import (
 	"golang.org/x/image/font/basicfont"
 )
 
-// Variables globales pour les pilules
-var (
-	pilredOwned  = false // Possède la pilule rouge
-	pilblueOwned = false // Possède la pilule bleue
-	pilredUsed   = false // Pilule rouge utilisée
-	pilblueUsed  = false // Pilule bleue utilisée
-)
-
 func UpdateGame_dojo() {
 	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
 		x, y := ebiten.CursorPosition()
