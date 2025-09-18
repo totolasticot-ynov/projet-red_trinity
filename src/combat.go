@@ -41,6 +41,10 @@ var (
 	pilblueOwned            = false // Possède la pilule bleue
 	pilredUsed              = false // Pilule rouge utilisée
 	pilblueUsed             = false // Pilule bleue utilisée
+	kimono             bool = false
+	tenuelutte         bool = false
+	casque             bool = false
+	pant               bool = false
 )
 
 func choixAdversaire() string {

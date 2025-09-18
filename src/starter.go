@@ -20,6 +20,8 @@ func (g *Game) Update() error {
 		UpdateGame_maison()
 	case "building":
 		UpdateGame_building()
+	case "forge":
+		UpdateGame_forge()
 	}
 	return nil
 }
@@ -28,6 +30,8 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	switch GetState() {
 	case "menu":
 		DrawMenu(screen)
+	case "forge":
+		DrawGame_forge(screen)
 	case "dojo":
 		DrawGame_dojo_before(screen)
 	case "mall":

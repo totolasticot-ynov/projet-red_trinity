@@ -68,23 +68,16 @@ func DrawGame_place_before(screen *ebiten.Image) {
 	}
 
 	if oracleplayer != nil {
-		optoracle := &ebiten.DrawImageOptions{}
-		optoracle.GeoM.Scale(0.5, 0.5)
-		optoracle.GeoM.Translate(float64(oracleRect.Min.X), float64(oracleRect.Min.Y))
-		screen.DrawImage(oracleplayer, optoracle)
+		optagent := &ebiten.DrawImageOptions{}
+		optagent.GeoM.Scale(0.5, 0.5)
+		optagent.GeoM.Translate(float64(oracleRect.Min.X), float64(oracleRect.Min.Y))
+		screen.DrawImage(oracleplayer, optagent)
 	}
 
 	drawRoundedRect(screen, 400, 300, 300, 200, 20, color.RGBA{0, 0, 0, 255}, "boutique combat")
 	text.Draw(screen, "Pilule rouge: +1 win", basicfont.Face7x13, 450, 380, color.White)
 	text.Draw(screen, "Pilule bleue: -1 ennemi", basicfont.Face7x13, 450, 400, color.White)
 	text.Draw(screen, "Prix: 30 pieces chaque", basicfont.Face7x13, 450, 420, color.White)
-
-	if dollarBtn != nil {
-		optdollar := &ebiten.DrawImageOptions{}
-		optdollar.GeoM.Scale(0.2, 0.2)
-		optdollar.GeoM.Translate(float64(dollarRect.Min.X), float64(dollarRect.Min.Y))
-		screen.DrawImage(dollarBtn, optdollar)
-	}
 
 	// Affichage des pilules avec indication si déjà possédées
 	if pilredBtn != nil {
@@ -201,11 +194,11 @@ func DrawGame_place_after(screen *ebiten.Image) {
 		screen.DrawImage(neoplayer, optneo)
 	}
 
-	if morpheusplayer != nil {
+	if agentplayer != nil {
 		optmor := &ebiten.DrawImageOptions{}
 		optmor.GeoM.Scale(0.5, 0.5)
-		optmor.GeoM.Translate(float64(morpheusRect.Min.X), float64(morpheusRect.Min.Y))
-		screen.DrawImage(morpheusplayer, optmor)
+		optmor.GeoM.Translate(float64(agentRect.Min.X), float64(agentRect.Min.Y))
+		screen.DrawImage(agentplayer, optmor)
 	}
 
 	DrawInventaire(screen)
@@ -331,6 +324,7 @@ func DrawGame_place_after(screen *ebiten.Image) {
 				// Réinitialiser les pilules pour le prochain combat
 				pilredUsed = false
 				pilblueUsed = false
+				pant = true
 			}
 		}
 	}

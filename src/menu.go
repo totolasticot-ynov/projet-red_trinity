@@ -33,11 +33,21 @@ func UpdateMenu() {
 			maison = true
 			building = true
 			maison = true
+			argent += 1000
+			tenuelutte = true
+			pant = true
+			casque = true
+			kimono = true
 		}
 
 		if exitRect.Min.X <= x && x <= exitRect.Max.X &&
 			exitRect.Min.Y <= y && y <= exitRect.Max.Y {
 			os.Exit(0)
+		}
+
+		if forgeRect.Min.X <= x && x <= forgeRect.Max.X &&
+			forgeRect.Min.Y <= y && y <= forgeRect.Max.Y {
+			SetState("forge")
 		}
 
 		if 50 <= x && x <= 280 && 100 <= y && y <= 250 {
@@ -79,6 +89,13 @@ func DrawMenu(screen *ebiten.Image) {
 	opts2.GeoM.Translate(float64(exitRect.Min.X), float64(exitRect.Min.Y))
 	screen.DrawImage(exitBtn, opts2)
 
+	// bouton forge
+	opts3 := &ebiten.DrawImageOptions{}
+	opts3.GeoM.Scale(0.35, 0.35)
+	opts3.GeoM.Translate(float64(forgeRect.Min.X), float64(forgeRect.Min.Y))
+	screen.DrawImage(forgeBtn, opts3)
+
+	// icônes des arènes
 	opts_icon := &ebiten.DrawImageOptions{}
 	opts_icon.GeoM.Scale(0.15, 0.15)
 
@@ -132,6 +149,6 @@ func DrawMenu(screen *ebiten.Image) {
 	}
 	// affiche l'arène choisie
 	if selectedArena != "" {
-		text.Draw(screen, "Arena: "+selectedArena, basicfont.Face7x13, 375, 470, color.White)
+		text.Draw(screen, "Arena: "+selectedArena, basicfont.Face7x13, 375, 530, color.White)
 	}
 }

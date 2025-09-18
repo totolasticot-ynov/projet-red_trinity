@@ -79,13 +79,6 @@ func DrawGame_dojo_before(screen *ebiten.Image) {
 	text.Draw(screen, "Pilule bleue: -1 ennemi", basicfont.Face7x13, 450, 400, color.White)
 	text.Draw(screen, "Prix: 30 pieces chaque", basicfont.Face7x13, 450, 420, color.White)
 
-	if dollarBtn != nil {
-		optdollar := &ebiten.DrawImageOptions{}
-		optdollar.GeoM.Scale(0.2, 0.2)
-		optdollar.GeoM.Translate(float64(dollarRect.Min.X), float64(dollarRect.Min.Y))
-		screen.DrawImage(dollarBtn, optdollar)
-	}
-
 	// Affichage des pilules avec indication si déjà possédées
 	if pilredBtn != nil {
 		optpilred := &ebiten.DrawImageOptions{}
@@ -331,6 +324,7 @@ func DrawGame_dojo_after(screen *ebiten.Image) {
 				// Réinitialiser les pilules pour le prochain combat
 				pilredUsed = false
 				pilblueUsed = false
+				kimono = true
 			}
 		}
 	}
