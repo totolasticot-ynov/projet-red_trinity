@@ -13,9 +13,9 @@ import (
 
 var (
 	// Backgrounds
-	bgMenu, bgGame_dojo, bgGame_mall, bgGame_place *ebiten.Image
-	round1, round2, round3, round4, round5         *ebiten.Image
-	bgRect_dojo, bgRect_mall, bgRect_place         image.Rectangle
+	bgMenu, bgGame_dojo, bgGame_mall, bgGame_place, bgGame_maison *ebiten.Image
+	round1, round2, round3, round4, round5                        *ebiten.Image
+	bgRect_dojo, bgRect_mall, bgRect_place, bgRect_maison         image.Rectangle
 
 	// Personnages
 	neoplayer, morpheusplayer, oracleplayer, agentplayer, trinityplayer *ebiten.Image
@@ -47,14 +47,16 @@ func init() {
 	bgGame_dojo, _, _ = ebitenutil.NewImageFromFile("../images/background/level1.png")
 	bgGame_mall, _, _ = ebitenutil.NewImageFromFile("../images/background/level2.png")
 	bgGame_place, _, _ = ebitenutil.NewImageFromFile("../images/background/level3.png")
+	bgGame_maison, _, _ = ebitenutil.NewImageFromFile("../images/background/level4.png")
 	round1, _, _ = ebitenutil.NewImageFromFile("../images/round/ROUND1.png")
 	round2, _, _ = ebitenutil.NewImageFromFile("../images/round/ROUND2.png")
 	round3, _, _ = ebitenutil.NewImageFromFile("../images/round/ROUND3.png")
 	round4, _, _ = ebitenutil.NewImageFromFile("../images/round/ROUND4.png")
 	round5, _, _ = ebitenutil.NewImageFromFile("../images/round/ROUND5.png")
-	bgRect_dojo = image.Rect(50, 200, 50+bgGame_dojo.Bounds().Dx(), 200+bgGame_dojo.Bounds().Dy())    //position du bouton dojo
+	bgRect_dojo = image.Rect(50, 100, 50+bgGame_dojo.Bounds().Dx(), 100+bgGame_dojo.Bounds().Dy())    //position du bouton dojo
 	bgRect_mall = image.Rect(50, 200, 50+bgGame_mall.Bounds().Dx(), 200+bgGame_mall.Bounds().Dy())    //position du bouton mall
 	bgRect_place = image.Rect(50, 200, 50+bgGame_place.Bounds().Dx(), 200+bgGame_place.Bounds().Dy()) //position du bouton place
+	bgRect_maison = image.Rect(170, 175, 170+bgGame_place.Bounds().Dx(), 175+bgGame_place.Bounds().Dy())
 
 	// Personnages
 	neoplayer, _, _ = ebitenutil.NewImageFromFile("../images/personnages/neo.png")
@@ -74,10 +76,10 @@ func init() {
 
 	// Boutons principaux
 	playBtn, _, _ = ebitenutil.NewImageFromFile("../images/asset/play.png")
-	playRect = image.Rect(250, 400, 250+playBtn.Bounds().Dx(), 400+playBtn.Bounds().Dy())
+	playRect = image.Rect(250, 450, 250+playBtn.Bounds().Dx(), 450+playBtn.Bounds().Dy())
 
 	exitBtn, _, _ = ebitenutil.NewImageFromFile("../images/asset/exit.png")
-	exitRect = image.Rect(500, 400, 500+exitBtn.Bounds().Dx(), 400+exitBtn.Bounds().Dy())
+	exitRect = image.Rect(500, 450, 500+exitBtn.Bounds().Dx(), 450+exitBtn.Bounds().Dy())
 
 	backBtn, _, _ = ebitenutil.NewImageFromFile("../images/asset/back.png")
 	backRect = image.Rect(50, 50, 50+backBtn.Bounds().Dx(), 50+backBtn.Bounds().Dy())

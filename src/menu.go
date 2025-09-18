@@ -17,6 +17,7 @@ func UpdateMenu() {
 
 	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
 		x, y := ebiten.CursorPosition()
+		print(x, " ", y, "\n")
 
 		if playRect.Min.X <= x && x <= playRect.Max.X &&
 			playRect.Min.Y <= y && y <= playRect.Max.Y && selectedArena != "" {
@@ -33,14 +34,17 @@ func UpdateMenu() {
 			os.Exit(0)
 		}
 
-		if 50 <= x && x <= 280 && 200 <= y && y <= 350 {
+		if 50 <= x && x <= 280 && 100 <= y && y <= 250 {
 			selectedArena = "dojo"
 		}
-		if 300 <= x && x <= 530 && 200 <= y && y <= 350 && mall {
+		if 300 <= x && x <= 530 && 100 <= y && y <= 250 && mall {
 			selectedArena = "mall"
 		}
-		if 550 <= x && x <= 775 && 200 <= y && y <= 350 && place {
+		if 550 <= x && x <= 775 && 100 <= y && y <= 250 && place {
 			selectedArena = "place"
+		}
+		if 200 <= x && x <= 430 && 250 <= y && y <= 400 && place {
+			selectedArena = "maison"
 		}
 	}
 }
@@ -54,7 +58,7 @@ func DrawMenu(screen *ebiten.Image) {
 	screen.DrawImage(bgMenu, op)
 
 	// titre
-	text.Draw(screen, "MATRIX", basicfont.Face7x13, 400, 100, color.RGBA{108, 196, 12, 255})
+	text.Draw(screen, "MATRIX", basicfont.Face7x13, 400, 50, color.RGBA{108, 196, 12, 255})
 
 	// bouton play
 	opts1 := &ebiten.DrawImageOptions{}
@@ -80,7 +84,7 @@ func DrawMenu(screen *ebiten.Image) {
 		// dessine un cadenas si le niveau n'est pas débloqué
 		cadenasOpts := &ebiten.DrawImageOptions{}
 		cadenasOpts.GeoM.Scale(0.5, 0.5)
-		cadenasOpts.GeoM.Translate(float64(bgRect_mall.Min.X+212), float64(bgRect_mall.Min.Y-25))
+		cadenasOpts.GeoM.Translate(float64(bgRect_mall.Min.X+212), float64(bgRect_mall.Min.Y-130))
 		screen.DrawImage(cadena, cadenasOpts)
 	}
 
@@ -91,12 +95,22 @@ func DrawMenu(screen *ebiten.Image) {
 		// dessine un cadenas si le niveau n'est pas débloqué
 		cadenasOpts := &ebiten.DrawImageOptions{}
 		cadenasOpts.GeoM.Scale(0.5, 0.5)
-		cadenasOpts.GeoM.Translate(float64(bgRect_place.Min.X+450), float64(bgRect_place.Min.Y-25))
+		cadenasOpts.GeoM.Translate(float64(bgRect_place.Min.X+450), float64(bgRect_place.Min.Y-130))
 		screen.DrawImage(cadena, cadenasOpts)
 	}
 
+	//maison
+	opts_icon.GeoM.Translate(float64(bgRect_maison.Min.X-550), float64(bgRect_maison.Min.Y))
+	screen.DrawImage(bgGame_maison, opts_icon)
+	if !maison {
+		// dessine un cadenas si le niveau n'est pas débloqué
+		cadenasOpts := &ebiten.DrawImageOptions{}
+		cadenasOpts.GeoM.Scale(0.5, 0.5)
+		cadenasOpts.GeoM.Translate(float64(bgRect_maison.Min.X-30), float64(bgRect_maison.Min.Y+70))
+		screen.DrawImage(cadena, cadenasOpts)
+	}
 	// affiche l'arène choisie
 	if selectedArena != "" {
-		text.Draw(screen, "Arena: "+selectedArena, basicfont.Face7x13, 375, 430, color.White)
+		text.Draw(screen, "Arena: "+selectedArena, basicfont.Face7x13, 375, 470, color.White)
 	}
 }

@@ -16,6 +16,8 @@ func (g *Game) Update() error {
 		UpdateGame_mall()
 	case "place":
 		UpdateGame_place()
+	case "maison":
+		UpdateGame_maison()
 	}
 	return nil
 }
