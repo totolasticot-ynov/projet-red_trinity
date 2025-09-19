@@ -14,8 +14,6 @@ Le joueur incarne **Néo**, le personnage principal, et affronte différents adv
 - Boutons interactifs : **PLAY**, **FORGE**, **EXIT**, **NOTICE**  
 - Arrière-plan : cascade de code vert rappelant l’univers de Matrix
 
-![Menu Matrix](asset\images\presentation du readme\menu matrix.png)
-
 ### Marchand
 - Achat de pilules **Rouge** et **Bleue**  
 - Description et prix des pilules  
@@ -45,8 +43,6 @@ Le joueur incarne **Néo**, le personnage principal, et affronte différents adv
 ### Forge
 - Fabrication et déblocage d’arts martiaux  
 - Gestion des améliorations et objets spéciaux  
-
-![Forge Matrix](asset\images\presentation du readme\forge matrix.png)
 
 
 ### Interface
