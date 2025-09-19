@@ -67,11 +67,11 @@ func DrawGame_mall_before(screen *ebiten.Image) {
 		screen.DrawImage(fightplay, optfight)
 	}
 
-	if trinityplayer != nil {
+	if oracleplayer != nil {
 		opttrinity := &ebiten.DrawImageOptions{}
 		opttrinity.GeoM.Scale(0.5, 0.5)
-		opttrinity.GeoM.Translate(float64(trinityRect.Min.X), float64(trinityRect.Min.Y))
-		screen.DrawImage(trinityplayer, opttrinity)
+		opttrinity.GeoM.Translate(float64(oracleRect.Min.X), float64(oracleRect.Min.Y))
+		screen.DrawImage(oracleplayer, opttrinity)
 	}
 
 	drawRoundedRect(screen, 400, 300, 300, 200, 20, color.RGBA{0, 0, 0, 255}, "boutique combat")
@@ -194,11 +194,11 @@ func DrawGame_mall_after(screen *ebiten.Image) {
 		screen.DrawImage(neoplayer, optneo)
 	}
 
-	if morpheusplayer != nil {
+	if trinityplayer != nil {
 		optmor := &ebiten.DrawImageOptions{}
 		optmor.GeoM.Scale(0.5, 0.5)
-		optmor.GeoM.Translate(float64(morpheusRect.Min.X), float64(morpheusRect.Min.Y))
-		screen.DrawImage(morpheusplayer, optmor)
+		optmor.GeoM.Translate(float64(trinityRect.Min.X), float64(trinityRect.Min.Y))
+		screen.DrawImage(trinityplayer, optmor)
 	}
 
 	DrawInventaire(screen)

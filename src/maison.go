@@ -194,11 +194,11 @@ func DrawGame_maison_after(screen *ebiten.Image) {
 		screen.DrawImage(neoplayer, optneo)
 	}
 
-	if cypherplayer != nil {
+	if archplayer != nil {
 		optcypher := &ebiten.DrawImageOptions{}
 		optcypher.GeoM.Scale(0.5, 0.5)
-		optcypher.GeoM.Translate(float64(cypherRect.Min.X), float64(cypherRect.Min.Y))
-		screen.DrawImage(cypherplayer, optcypher)
+		optcypher.GeoM.Translate(float64(archRect.Min.X), float64(archRect.Min.Y))
+		screen.DrawImage(archplayer, optcypher)
 	}
 
 	DrawInventaire(screen)

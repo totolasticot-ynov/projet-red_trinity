@@ -89,7 +89,12 @@ func DrawMenu(screen *ebiten.Image) {
 	screen.DrawImage(bgMenu, op)
 
 	// titre
-	text.Draw(screen, "MATRIX", basicfont.Face7x13, 400, 50, color.RGBA{108, 196, 12, 255})
+	txtImg := ebiten.NewImage(200, 50) // taille de l'image contenant le texte
+	text.Draw(txtImg, "MATRIX", basicfont.Face7x13, 85, 20, color.RGBA{108, 196, 12, 255})
+
+	optitre := &ebiten.DrawImageOptions{}
+	optitre.GeoM.Scale(4, 4) // double la taille
+	screen.DrawImage(txtImg, optitre)
 
 	// bouton play
 	opts1 := &ebiten.DrawImageOptions{}
@@ -164,7 +169,15 @@ func DrawMenu(screen *ebiten.Image) {
 
 	// affiche l'arène choisie
 	if selectedArena != "" {
-		text.Draw(screen, "Arena: "+selectedArena, basicfont.Face7x13, 375, 530, color.RGBA{108, 196, 12, 255})
+		// Crée une image temporaire pour le texte
+		txtImg := ebiten.NewImage(300, 50)
+		text.Draw(txtImg, "Arena: "+selectedArena, basicfont.Face7x13, 0, 20, color.RGBA{108, 196, 12, 255})
+
+		// Options de dessin avec scale
+		opt := &ebiten.DrawImageOptions{}
+		opt.GeoM.Scale(2, 2)         // double la taille
+		opt.GeoM.Translate(340, 530) // position finale
+		screen.DrawImage(txtImg, opt)
 	}
 
 	// notice activée

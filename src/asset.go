@@ -18,8 +18,8 @@ var (
 	bgRect_dojo, bgRect_mall, bgRect_place, bgRect_maison, bgRect_building                       image.Rectangle
 
 	// Personnages
-	neoplayer, morpheusplayer, oracleplayer, agentplayer, trinityplayer, cypherplayer, meufplayer *ebiten.Image
-	neo_playerRect, morpheusRect, oracleRect, agentRect, trinityRect, cypherRect, meufRect        image.Rectangle
+	neoplayer, morpheusplayer, oracleplayer, agentplayer, trinityplayer, cypherplayer, meufplayer, archplayer *ebiten.Image
+	neo_playerRect, morpheusRect, oracleRect, agentRect, trinityRect, cypherRect, meufRect, archRect          image.Rectangle
 
 	// Boutons principaux
 	playBtn, exitBtn, backBtn, fightplay, menuBtn, noticeBtn      *ebiten.Image
@@ -78,7 +78,10 @@ func init() {
 	trinityRect = image.Rect(650, 300, 650+trinityplayer.Bounds().Dx(), 300+trinityplayer.Bounds().Dy())
 
 	cypherplayer, _, _ = ebitenutil.NewImageFromFile("../asset/images/personnages/cypher.png")
-	cypherRect = image.Rect(600, 300, 600+cypherplayer.Bounds().Dx(), 300+cypherplayer.Bounds().Dy())
+	cypherRect = image.Rect(600, 300, 650+cypherplayer.Bounds().Dx(), 300+cypherplayer.Bounds().Dy())
+
+	archplayer, _, _ = ebitenutil.NewImageFromFile("../asset/images/personnages/artchitecte.png")
+	archRect = image.Rect(600, 300, 600+archplayer.Bounds().Dx(), 300+archplayer.Bounds().Dy())
 
 	meufplayer, _, _ = ebitenutil.NewImageFromFile("../asset/images/personnages/lafemmeenrouge.png")
 	meufRect = image.Rect(600, 300, 600+meufplayer.Bounds().Dx(), 300+meufplayer.Bounds().Dy())
