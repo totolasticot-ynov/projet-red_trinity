@@ -12,7 +12,9 @@ Le joueur incarne **Néo**, le personnage principal, et affronte différents adv
 - Titre du jeu  
 - Sélection des arènes / niveaux  
 - Boutons interactifs : **PLAY**, **FORGE**, **EXIT**, **NOTICE**  
-- Arrière-plan : cascade de code vert rappelant l’univers de Matrix  
+- Arrière-plan : cascade de code vert rappelant l’univers de Matrix
+
+![Menu Matrix](asset\images\presentation du readme\menu matrix.png)
 
 ### Marchand
 - Achat de pilules **Rouge** et **Bleue**  
@@ -44,6 +46,9 @@ Le joueur incarne **Néo**, le personnage principal, et affronte différents adv
 - Fabrication et déblocage d’arts martiaux  
 - Gestion des améliorations et objets spéciaux  
 
+![Forge Matrix](asset\images\presentation du readme\forge matrix.png)
+
+
 ### Interface
 - Boutons interactifs avec détection des clics pour éviter les répétitions  
 - Notice avec **contour vert fluo** pour afficher les règles de victoire  
@@ -63,5 +68,6 @@ Le joueur incarne **Néo**, le personnage principal, et affronte différents adv
 ## Instructions d’installation et lancement
 1. Cloner le dépôt :  
    ```bash
-   git clone <url-du-depot>
-   cd projet-red
+   git clone https://github.com/totolasticot-ynov/projet-red_trinity.git
+   cd projet-red_trinity
+   go run main.go
