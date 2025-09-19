@@ -200,30 +200,21 @@ func DrawGame_place_after(screen *ebiten.Image) {
 		optmor.GeoM.Translate(float64(agentRect.Min.X), float64(agentRect.Min.Y))
 		screen.DrawImage(agentplayer, optmor)
 	}
-
-	DrawInventaire(screen)
-	DrawRounds(screen)
-
-	switch score_toi {
-	case 0:
-		local_score_toi = num0
-	case 1:
-		local_score_toi = num1
-	case 2:
-		local_score_toi = num2
-	case 3:
-		local_score_toi = num3
-	case 4:
-		local_score_toi = num4
-	case 5:
-		local_score_toi = num5
-	}
-
-	optscore_toi := &ebiten.DrawImageOptions{}
-	optscore_toi.GeoM.Scale(0.1, 0.1)
-	optscore_toi.GeoM.Translate(200, 40)
 	drawRoundedRect(screen, 200, 40, 50, 50, 10, color.RGBA{255, 255, 255, 255}, "")
-	screen.DrawImage(local_score_toi, optscore_toi)
+	txtImg_toi := ebiten.NewImage(50, 50)
+	text.Draw(txtImg_toi, strconv.Itoa(score_toi), basicfont.Face7x13, 5, 30, color.Black)
+	optitre := &ebiten.DrawImageOptions{}
+	optitre.GeoM.Scale(4, 4)
+	optitre.GeoM.Translate(195, -35)
+	screen.DrawImage(txtImg_toi, optitre)
+
+	drawRoundedRect(screen, 550, 40, 50, 50, 10, color.RGBA{255, 255, 255, 255}, "")
+	txtImg_enemie := ebiten.NewImage(50, 50)
+	text.Draw(txtImg_enemie, strconv.Itoa(score_enemie), basicfont.Face7x13, 5, 30, color.Black)
+	optitre_enemie := &ebiten.DrawImageOptions{}
+	optitre_enemie.GeoM.Scale(4, 4)
+	optitre_enemie.GeoM.Translate(545, -35)
+	screen.DrawImage(txtImg_enemie, optitre_enemie)
 
 	// Affichage de la pilule rouge si possédée et pas encore utilisée
 	if pilredOwned && !pilredUsed {
@@ -244,26 +235,6 @@ func DrawGame_place_after(screen *ebiten.Image) {
 			screen.DrawImage(pilblueBtn, optpilblue)
 		}
 	}
-
-	switch score_enemie {
-	case 0:
-		local_score_enemie = num0
-	case 1:
-		local_score_enemie = num1
-	case 2:
-		local_score_enemie = num2
-	case 3:
-		local_score_enemie = num3
-	case 4:
-		local_score_enemie = num4
-	case 5:
-		local_score_enemie = num5
-	}
-	optscore_enemie := &ebiten.DrawImageOptions{}
-	optscore_enemie.GeoM.Scale(0.1, 0.1)
-	optscore_enemie.GeoM.Translate(550, 40)
-	drawRoundedRect(screen, 550, 40, 50, 50, 10, color.RGBA{255, 255, 255, 255}, "")
-	screen.DrawImage(local_score_enemie, optscore_enemie)
 
 	if combatResult != "" {
 		if score_toi > score_enemie {

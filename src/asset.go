@@ -33,9 +33,6 @@ var (
 	boxeBtn, judoBtn, jujutsuBtn, karateBtn, lutteBtn, casqueAC, lutteAC, kimonoAC, pantAC *ebiten.Image
 	boxeRect, judoRect, jujutsuRect, karateRect, lutteRect                                 image.Rectangle
 
-	// Chiffres
-	num0, num1, num2, num3, num4, num5 *ebiten.Image
-
 	// Audio
 	audioCtx                                                                                     *audio.Context
 	menuPlayer, level1Player, level2Player, level3Player, level4Player, level5Player, ringplayer *audio.Player
@@ -143,14 +140,6 @@ func init() {
 	lutteAC, _, _ = ebitenutil.NewImageFromFile("../asset/images/armes/lutte.png")
 	kimonoAC, _, _ = ebitenutil.NewImageFromFile("../asset/images/armes/kimono.png")
 	pantAC, _, _ = ebitenutil.NewImageFromFile("../asset/images/armes/pantalon.png")
-
-	// Chiffres
-	num0, _, _ = ebitenutil.NewImageFromFile("../asset/images/chiffres/0.png")
-	num1, _, _ = ebitenutil.NewImageFromFile("../asset/images/chiffres/1.png")
-	num2, _, _ = ebitenutil.NewImageFromFile("../asset/images/chiffres/2.png")
-	num3, _, _ = ebitenutil.NewImageFromFile("../asset/images/chiffres/3.png")
-	num4, _, _ = ebitenutil.NewImageFromFile("../asset/images/chiffres/4.png")
-	num5, _, _ = ebitenutil.NewImageFromFile("../asset/images/chiffres/5.png")
 
 	// Audio
 	audioCtx = audio.NewContext(44100)

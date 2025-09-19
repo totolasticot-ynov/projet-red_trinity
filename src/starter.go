@@ -4,9 +4,18 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
-type Game struct{}
+type Game struct {
+	lastF11 bool
+}
 
 func (g *Game) Update() error {
+	// Toggle plein écran si on appuie sur F11
+	f11 := ebiten.IsKeyPressed(ebiten.KeyF11)
+	if f11 && !g.lastF11 {
+		ebiten.SetFullscreen(!ebiten.IsFullscreen())
+	}
+	g.lastF11 = f11
+
 	switch GetState() {
 	case "menu":
 		UpdateMenu()
