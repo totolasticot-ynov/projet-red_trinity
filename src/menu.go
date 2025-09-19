@@ -5,17 +5,21 @@ import (
 	"os"
 
 	"github.com/hajimehoshi/ebiten/v2"
-
 	"github.com/hajimehoshi/ebiten/v2/text"
 	"golang.org/x/image/font/basicfont"
 )
 
-var selectedArena string = ""
+var (
+	selectedArena string = ""
+	notice        bool   = false
+	menuMouseDown bool   = false // edge detector
+)
 
 func UpdateMenu() {
 	playMenuMusic()
 
-	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
+	pressed := ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft)
+	if pressed && !menuMouseDown {
 		x, y := ebiten.CursorPosition()
 
 		if playRect.Min.X <= x && x <= playRect.Max.X &&
@@ -24,15 +28,14 @@ func UpdateMenu() {
 			if menuPlayer != nil && menuPlayer.IsPlaying() {
 				menuPlayer.Pause()
 			}
-
 			SetState(selectedArena)
 		}
+
 		if 0 <= x && x <= 10 && 550 <= y && y <= 600 {
 			mall = true
 			place = true
 			maison = true
 			building = true
-			maison = true
 			argent += 1000
 			tenuelutte = true
 			pant = true
@@ -50,6 +53,11 @@ func UpdateMenu() {
 			SetState("forge")
 		}
 
+		if noticeRect.Min.X <= x && x <= noticeRect.Max.X &&
+			noticeRect.Min.Y <= y && y <= noticeRect.Max.Y {
+			notice = !notice // toggle propre
+		}
+
 		if 50 <= x && x <= 280 && 100 <= y && y <= 250 {
 			selectedArena = "dojo"
 		}
@@ -65,6 +73,10 @@ func UpdateMenu() {
 		if 400 <= x && x <= 630 && 250 <= y && y <= 400 && building {
 			selectedArena = "building"
 		}
+
+		menuMouseDown = true
+	} else if !pressed {
+		menuMouseDown = false
 	}
 }
 
@@ -95,6 +107,13 @@ func DrawMenu(screen *ebiten.Image) {
 	opts3.GeoM.Translate(float64(forgeRect.Min.X), float64(forgeRect.Min.Y))
 	screen.DrawImage(forgeBtn, opts3)
 
+	// bouton notice
+	drawRoundedRect(screen, noticeRect.Min.X-5, noticeRect.Min.Y-5, 80, 80, 20, color.RGBA{0, 255, 0, 255}, "")
+	opts4 := &ebiten.DrawImageOptions{}
+	opts4.GeoM.Scale(0.3, 0.3)
+	opts4.GeoM.Translate(float64(noticeRect.Min.X), float64(noticeRect.Min.Y))
+	screen.DrawImage(noticeBtn, opts4)
+
 	// icônes des arènes
 	opts_icon := &ebiten.DrawImageOptions{}
 	opts_icon.GeoM.Scale(0.15, 0.15)
@@ -107,7 +126,6 @@ func DrawMenu(screen *ebiten.Image) {
 	opts_icon.GeoM.Translate(float64(bgRect_mall.Min.X+200), float64(bgRect_mall.Min.Y-200))
 	screen.DrawImage(bgGame_mall, opts_icon)
 	if !mall {
-		// dessine un cadenas si le niveau n'est pas débloqué
 		cadenasOpts := &ebiten.DrawImageOptions{}
 		cadenasOpts.GeoM.Scale(0.5, 0.5)
 		cadenasOpts.GeoM.Translate(float64(bgRect_mall.Min.X+212), float64(bgRect_mall.Min.Y-130))
@@ -118,37 +136,45 @@ func DrawMenu(screen *ebiten.Image) {
 	opts_icon.GeoM.Translate(float64(bgRect_place.Min.X+200), float64(bgRect_place.Min.Y-200))
 	screen.DrawImage(bgGame_place, opts_icon)
 	if !place {
-		// dessine un cadenas si le niveau n'est pas débloqué
 		cadenasOpts := &ebiten.DrawImageOptions{}
 		cadenasOpts.GeoM.Scale(0.5, 0.5)
 		cadenasOpts.GeoM.Translate(float64(bgRect_place.Min.X+450), float64(bgRect_place.Min.Y-130))
 		screen.DrawImage(cadena, cadenasOpts)
 	}
 
-	//maison
+	// maison
 	opts_icon.GeoM.Translate(float64(bgRect_maison.Min.X-550), float64(bgRect_maison.Min.Y))
 	screen.DrawImage(bgGame_maison, opts_icon)
 	if !maison {
-		// dessine un cadenas si le niveau n'est pas débloqué
 		cadenasOpts := &ebiten.DrawImageOptions{}
 		cadenasOpts.GeoM.Scale(0.5, 0.5)
 		cadenasOpts.GeoM.Translate(float64(bgRect_maison.Min.X-30), float64(bgRect_maison.Min.Y+70))
 		screen.DrawImage(cadena, cadenasOpts)
 	}
 
-	//building
+	// building
 	opts_icon.GeoM.Translate(float64(bgRect_building.Min.X-550), float64(bgRect_building.Min.Y))
 	screen.DrawImage(bgGame_building, opts_icon)
 	if !maison {
-		// dessine un cadenas si le niveau n'est pas débloqué
 		cadenasOpts := &ebiten.DrawImageOptions{}
 		cadenasOpts.GeoM.Scale(0.5, 0.5)
 		cadenasOpts.GeoM.Translate(390, 250)
-		print()
 		screen.DrawImage(cadena, cadenasOpts)
 	}
+
 	// affiche l'arène choisie
 	if selectedArena != "" {
-		text.Draw(screen, "Arena: "+selectedArena, basicfont.Face7x13, 375, 530, color.White)
+		text.Draw(screen, "Arena: "+selectedArena, basicfont.Face7x13, 375, 530, color.RGBA{108, 196, 12, 255})
+	}
+
+	// notice activée
+	if notice {
+		drawRoundedRect(screen, 100, 200, 600, 200, 20, color.RGBA{0, 0, 0, 255}, "")
+		text.Draw(screen, "Regles de victoire :", basicfont.Face7x13, 120, 130, color.Black)
+		text.Draw(screen, "Boxe     => Victoires: Judo, Jujutsu | Defaites: Karate, Lutte", basicfont.Face7x13, 120, 260, color.RGBA{108, 196, 12, 255})
+		text.Draw(screen, "Judo     => Victoires: Jujutsu, Karate | Defaites: Lutte, Boxe", basicfont.Face7x13, 120, 280, color.RGBA{108, 196, 12, 255})
+		text.Draw(screen, "Jujutsu  => Victoires: Karate, Lutte | Defaites: Boxe, Judo", basicfont.Face7x13, 120, 300, color.RGBA{108, 196, 12, 255})
+		text.Draw(screen, "Karate   => Victoires: Lutte, Boxe | Defaites: Judo, Jujutsu", basicfont.Face7x13, 120, 320, color.RGBA{108, 196, 12, 255})
+		text.Draw(screen, "Lutte    => Victoires: Boxe, Judo | Defaites: Jujutsu, Karate", basicfont.Face7x13, 120, 340, color.RGBA{108, 196, 12, 255})
 	}
 }

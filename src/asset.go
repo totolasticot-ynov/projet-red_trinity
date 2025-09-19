@@ -22,8 +22,8 @@ var (
 	neo_playerRect, morpheusRect, oracleRect, agentRect, trinityRect, cypherRect, meufRect        image.Rectangle
 
 	// Boutons principaux
-	playBtn, exitBtn, backBtn, fightplay, menuBtn     *ebiten.Image
-	playRect, exitRect, backRect, fightRect, menuRect image.Rectangle
+	playBtn, exitBtn, backBtn, fightplay, menuBtn, noticeBtn      *ebiten.Image
+	playRect, exitRect, backRect, fightRect, menuRect, noticeRect image.Rectangle
 
 	// Boutons inventaire / items
 	inventaireOffBtn, inventaireOnBtn, pilredBtn, pilblueBtn, cadena, forgeBtn *ebiten.Image
@@ -101,6 +101,9 @@ func init() {
 
 	forgeBtn, _, _ = ebitenutil.NewImageFromFile("../asset/images/asset/forge.png")
 	forgeRect = image.Rect(375, 450, 375+forgeBtn.Bounds().Dx(), 450+forgeBtn.Bounds().Dy())
+
+	noticeBtn, _, _ = ebitenutil.NewImageFromFile("../asset/images/asset/notice.png")
+	noticeRect = image.Rect(50, 450, 50+noticeBtn.Bounds().Dx(), 450+noticeBtn.Bounds().Dy())
 
 	// Boutons inventaire / items
 	inventaireOffBtn, _, _ = ebitenutil.NewImageFromFile("../asset/images/asset/inventaire_off.png")
