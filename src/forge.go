@@ -19,13 +19,18 @@ func UpdateGame_forge() {
 		}
 		// Achat des techniques de combat
 		if !lutte && 500 <= x && x <= 550 && 300 <= y && y <= 350 && argent >= 50 {
-			argent -= 50
-			lutte = true
+			if casque && tenuelutte {
+				argent -= 50
+				lutte = true
+			}
+
 		}
 
 		if !karate && 500 <= x && x <= 550 && 460 <= y && y <= 510 && argent >= 50 {
-			argent -= 50
-			karate = true
+			if kimono && pant {
+				argent -= 50
+				karate = true
+			}
 		}
 	}
 }
