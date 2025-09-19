@@ -240,15 +240,15 @@ func DrawGame_maison_after(screen *ebiten.Image) {
 	}
 
 	if combatResult != "" {
-		if score_toi > score_enemie {
+		if win && !egal {
 			// Le joueur gagne
 			couleur_toi = vert
 			couleur_enemie = rouge
-		} else if score_enemie > score_toi {
+		} else if !win && !egal {
 			// L'ennemi gagne
 			couleur_toi = rouge
 			couleur_enemie = vert
-		} else {
+		} else if !win && egal {
 			// Égalité
 			couleur_toi = color.RGBA{255, 255, 0, 255}
 			couleur_enemie = color.RGBA{255, 255, 0, 255}

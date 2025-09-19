@@ -43,6 +43,8 @@ var (
 	tenuelutte         bool = false
 	casque             bool = false
 	pant               bool = false
+	win                bool
+	egal               bool
 )
 
 func choixAdversaire() string {
@@ -58,10 +60,6 @@ func lancerCombat(choix string) {
 	// reset couleurs à chaque round
 	couleur_toi = color.RGBA{0, 0, 0, 0}
 	couleur_enemie = color.RGBA{0, 0, 0, 0}
-
-	if choix == "miss" {
-		combatResult = fmt.Sprintf("Round %d - Vous avez manqué votre attaque !", currentRound)
-	}
 
 	playerChoice = choix
 	adversaireChoice = choixAdversaire()
@@ -90,6 +88,8 @@ func lancerCombat(choix string) {
 
 func resoudreCombat(joueur string, adversaire string) string {
 	if joueur == adversaire {
+		win = false
+		egal = true
 		return fmt.Sprintf("Round %d - Égalité ! Vous avez tous les deux choisi %s.", currentRound, joueur)
 	}
 
@@ -106,15 +106,24 @@ func resoudreCombat(joueur string, adversaire string) string {
 	}
 
 	if joueurIndex == -1 || adversaireIndex == -1 {
+		win = false
+		egal = false
 		return fmt.Sprintf("Round %d - Erreur dans le choix.", currentRound)
 	}
 
-	if (adversaireIndex == (joueurIndex+1)%5) || (adversaireIndex == (joueurIndex+2)%5) {
+	// Vérifie si le joueur gagne
+	if adversaireIndex == (joueurIndex+1)%5 || adversaireIndex == (joueurIndex+2)%5 {
 		score_toi++
 		argent += 10
+		win = true
+		egal = false
 		return fmt.Sprintf("Round %d - Vous gagnez ! %s bat %s.", currentRound, joueur, adversaire)
 	}
+
+	// Sinon le joueur perd
 	score_enemie++
+	win = false
+	egal = false
 	return fmt.Sprintf("Round %d - Vous perdez... %s bat %s.", currentRound, adversaire, joueur)
 }
 
