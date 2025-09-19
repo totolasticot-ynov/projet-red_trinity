@@ -1,41 +1,67 @@
 # Projet Red - Jeu tour par tour en Go
 
-# Description:
+## Description
+*Projet Red* est un jeu tour par tour inspiré de *Matrix*, développé en **Go**.  
+Le joueur incarne **Néo**, le personnage principal, et affronte différents adversaires dans des combats d’arts martiaux.
 
-Notre projet red est un jeu tour par tour en référence a matrix développer en go .Notre joueur incarne Néo
+---
 
-# Fonction
+## Fonctionnalités
 
--Titre
--Sélection des niveaux(map)
--Boutons de menu: PLAY,FORG,EXIT
--Arrière-plan : une cascade de code vert rappelant l’univers de Matrix
+### Menu
+- Titre du jeu  
+- Sélection des arènes / niveaux  
+- Boutons interactifs : **PLAY**, **FORGE**, **EXIT**, **NOTICE**  
+- Arrière-plan : cascade de code vert rappelant l’univers de Matrix  
 
-# Marchant
--possibilité d'acheter 2 sortes de pilules Rouge u bleu 
--description des pilules + les prix 
+### Marchand
+- Achat de pilules **Rouge** et **Bleue**  
+- Description et prix des pilules  
+- Effets sur le combat :  
+  - **Pilule Rouge** : +1 point dans la manche  
+  - **Pilule Bleue** : enlève 1 point à l’adversaire  
 
-# Inventaire
+### Inventaire
+- Affichage et gestion des pilules achetées  
+- Arts martiaux disponibles :  
+  - Boxe  
+  - Judo  
+  - Brazilian Jiu-Jutsu  
+  - Karate  
+  - Wrestling  
 
--suite a l'achat de(s) possibilité d'utiliser une pilule rouge et/ou une pilule bleu 
--Boxe
--Judo
--Brazilian jiu jutsu 
--Karate
--Wrestling
+### Équipement
+- Équipement de Néo : tenue Wrestling, tenue Karate  
 
-# Équipement
+### Combat
+- Tour par tour basé sur un système “pierre-feuille-ciseaux” adapté aux arts martiaux  
+- Système de manches et points  
+- Utilisation des pilules pour modifier les scores  
+- Affichage des **rounds** et du résultat du combat  
+- Affichage des règles via le bouton **NOTICE**  
 
--Équipement de Néo : tenu wrestling , tenu karaté 
+### Forge
+- Fabrication et déblocage d’arts martiaux  
+- Gestion des améliorations et objets spéciaux  
 
-# Combat
+### Interface
+- Boutons interactifs avec détection des clics pour éviter les répétitions  
+- Notice avec **contour vert fluo** pour afficher les règles de victoire  
+- Transition fluide entre les arènes et le menu  
 
--Tour par tour sous forme de pierre feuille ciseau mélangeant les  arts martiaux 
--Système de point sous manche 
--La pilule rouge rajoute 1 point ( 1 manche )
--La pilule bleu enlevé 1 point a l'adversaire 
--Arts martiaux : Boxe, Judo, Brazilian jiu jutsu, Karate, Wrestling
+---
 
-# Forg
+## Combat : règles de victoire
+- **Boxe** → Victoire : Judo, Jujutsu | Défaite : Karate, Lutte  
+- **Judo** → Victoire : Jujutsu, Karate | Défaite : Lutte, Boxe  
+- **Jujutsu** → Victoire : Karate, Lutte | Défaite : Boxe, Judo  
+- **Karate** → Victoire : Lutte, Boxe | Défaite : Judo, Jujutsu  
+- **Lutte** → Victoire : Boxe, Judo | Défaite : Jujutsu, Karate  
 
-Fabrication et débloquassions d'arts martiaux 
+---
+
+## Instructions d’installation et lancement
+1. Cloner le dépôt :  
+   ```bash
+   git clone <url-du-depot>
+   cd projet-red
